@@ -2,16 +2,13 @@
 
 namespace App\Repositories\Api\V1\Auth;
 
-use App\Helpers\Helper;
 use App\Interfaces\Api\V1\Auth\UserRepositoryInterface;
-use App\Models\Business;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
-class UserRepository implements UserRepositoryInterface
-{
+class UserRepository implements UserRepositoryInterface {
 
     /**
      * Summary of createUser
@@ -19,21 +16,26 @@ class UserRepository implements UserRepositoryInterface
      * @param int $role
      * @return User
      */
-    public function createUser(array $credentials, int $role = 2): User
-    {
+    public function createUser(array $credentials, int $role): User {
         try {
-            // creating user
             $user = User::create([
                 'first_name' => $credentials['first_name'],
                 'last_name'  => $credentials['last_name'],
-                'handle'     => Helper::generateUniqueSlug($credentials['first_name'], 'users', 'handle'),
+                'handle'     => $credentials['handle'],
                 'email'      => $credentials['email'],
                 'password'   => Hash::make($credentials['password']),
-                'role_id'       => $role,
+                'role_id'    => $role,
             ]);
 
-            // creating user profile
-            $user->profile()->create([]);
+            $user->profile()->create([
+                'phone_number'            => $credentials['phone_number'],
+                'linkedin_profile_url'    => $credentials['linkedin_profile_url'] ?? null,
+                'revenue_generated_year'  => $credentials['revenue_generated_year'] ?? null,
+                'revenue_generated'       => $credentials['revenue_generated'] ?? null,
+                'industry_experience'     => $credentials['industry_experience'] ?? null,
+                'present_club_experience' => $credentials['present_club_experience'] ?? null,
+                'lead_close_ratio'        => $credentials['lead_close_ratio'] ?? null,
+            ]);
 
             return $user;
         } catch (Exception $e) {
@@ -41,8 +43,6 @@ class UserRepository implements UserRepositoryInterface
             throw $e;
         }
     }
-
-
 
     /**
      * Attempts to retrieve a user by their email address.
@@ -55,8 +55,7 @@ class UserRepository implements UserRepositoryInterface
      *
      * @throws Exception If there is an error during the query.
      */
-    public function login(array $credentials): User|null
-    {
+    public function login(array $credentials): User | null {
         try {
             return User::where('email', $credentials['email'])->first();
         } catch (Exception $e) {

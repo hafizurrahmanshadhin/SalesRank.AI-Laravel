@@ -4,9 +4,8 @@ namespace App\Traits\V1;
 
 use Illuminate\Http\JsonResponse;
 
-trait ApiResponse
-{
-   /**
+trait ApiResponse {
+    /**
      * Returns a standardized success response with the provided data, message, and HTTP status code.
      *
      * This method formats the response to indicate a successful operation. It includes a success
@@ -17,21 +16,17 @@ trait ApiResponse
      * @param string|null $message An optional message providing additional context about the success.
      * @param int $code The HTTP status code for the response (default is 200).
      *
-     * @return \Illuminate\Http\JsonResponse A JSON response containing the success status, message, data, and code.
+     * @return JsonResponse A JSON response containing the success status, message, data, and code.
      */
-    public function success($code = 200, $message = null, $data = []): JsonResponse
-    {
+    public function success($code = 200, $message = null, $data = []): JsonResponse {
         return response()->json([
-            'success' => (bool) true,
-            'code' => (int) $code,
-            'message' => $message,
-            'data' => $data,
+            'success'   => (bool) true,
+            'code'      => (int) $code,
+            'message'   => $message,
+            'data'      => $data,
             'timestamp' => now()->toIso8601String() . ' GMT' . now()->format('P'),
         ], $code);
     }
-
-
-
 
     /**
      * Returns a standardized error response with the provided data, message, and HTTP status code.
@@ -45,15 +40,14 @@ trait ApiResponse
      * @param string|null $message An optional message providing additional context about the error.
      * @param int $code The HTTP status code for the response (default is 500).
      *
-     * @return \Illuminate\Http\JsonResponse A JSON response containing the error status, message, data, and code.
+     * @return JsonResponse A JSON response containing the error status, message, data, and code.
      */
-    public function error($code = 500, $message = null, $error = []): JsonResponse
-    {
+    public function error($code = 500, $message = null, $error = []): JsonResponse {
         return response()->json([
-            'status' => (bool) false,
-            'code' => (int) $code,
-            'message' => $message,
-            'error' => $error,
+            'status'    => (bool) false,
+            'code'      => (int) $code,
+            'message'   => $message,
+            'error'     => $error,
             'timestamp' => now()->toIso8601String() . ' GMT' . now()->format('P'),
         ], $code);
     }

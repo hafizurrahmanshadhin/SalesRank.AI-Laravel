@@ -5,28 +5,41 @@ namespace App\Http\Resources\Api\V1\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegisterUserResource extends JsonResource
-{
+class RegisterUserResource extends JsonResource {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
-    {
+    public function toArray(Request $request): array {
         $data = parent::toArray($request);
-        $user = [
-            'id' => $data['user']['id'],
-            'first_name' => $data['user']['first_name'],
-            'last_name' => $data['user']['last_name'],
-            'handle' => $data['user']['handle'],
-            'email' => $data['user']['email'],
-            'role' => $data['user']['role']['name'],
-        ];
+
+        // Extract user
+        $userData = $data['user'] ?? [];
+
+        // Extract profile if it exists
+        $profile = $userData['profile'] ?? [];
+
         return [
-            'token' => $data['token'],
-            'verify' => $data['verify'],
-            'user' => $user,
+            'token'  => $data['token'] ?? null,
+            'verify' => $data['verify'] ?? false,
+            'user'   => [
+                'id'                      => $userData['id'] ?? null,
+                'first_name'              => $userData['first_name'] ?? null,
+                'last_name'               => $userData['last_name'] ?? null,
+                'handle'                  => $userData['handle'] ?? null,
+                'email'                   => $userData['email'] ?? null,
+                'role'                    => $userData['role']['name'] ?? null,
+
+                // Profile fields
+                'phone_number'            => $profile['phone_number'] ?? null,
+                'linkedin_profile_url'    => $profile['linkedin_profile_url'] ?? null,
+                'revenue_generated_year'  => $profile['revenue_generated_year'] ?? null,
+                'revenue_generated'       => $profile['revenue_generated'] ?? null,
+                'industry_experience'     => $profile['industry_experience'] ?? null,
+                'present_club_experience' => $profile['present_club_experience'] ?? null,
+                'lead_close_ratio'        => $profile['lead_close_ratio'] ?? null,
+            ],
         ];
     }
 }

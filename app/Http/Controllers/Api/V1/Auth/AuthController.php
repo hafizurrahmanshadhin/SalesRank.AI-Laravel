@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
-use App\Http\Resources\Api\V1\Auth\LoginResponce;
-use App\Http\Resources\Api\V1\Auth\RegisterUserResource;
-use App\Services\Api\V1\Auth\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
-use App\Traits\V1\ApiResponse;
+use App\Http\Resources\Api\V1\Auth\LoginResponce;
+use App\Http\Resources\Api\V1\Auth\RegisterUserResource;
+use App\Services\Api\V1\Auth\AuthService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller {
     protected AuthService $authService;
 
     /**
@@ -23,12 +21,9 @@ class AuthController extends Controller
      *
      * @param AuthService $authService The authentication service instance used for handling authentication-related operations.
      */
-    public function __construct(AuthService $authService)
-    {
+    public function __construct(AuthService $authService) {
         $this->authService = $authService;
     }
-
-
 
     /**
      * Handles the user registration process by validating the request and delegating
@@ -45,14 +40,13 @@ class AuthController extends Controller
      *                                 - 'email' (string): The user's email address.
      *                                 - 'password' (string): The user's password.
      *
-     * @return \Illuminate\Http\JsonResponse A JSON response with the registration result:
+     * @return JsonResponse A JSON response with the registration result:
      *                                      - On success: Returns the JWT token and a success message.
      *                                      - On failure: Returns the error message.
      *
      * @throws Exception If any error occurs during user registration.
      */
-    public function register(RegisterRequest $request): JsonResponse
-    {
+    public function register(RegisterRequest $request): JsonResponse {
         try {
             $validatedData = $request->validated();
 
@@ -65,8 +59,6 @@ class AuthController extends Controller
         }
     }
 
-
-
     /**
      * Handles the user registration process.
      *
@@ -77,8 +69,7 @@ class AuthController extends Controller
      *
      * @return JsonResponse The JSON response indicating the success or failure of the registration.
      */
-    public function login(LoginRequest $request): JsonResponse
-    {
+    public function login(LoginRequest $request): JsonResponse {
         try {
             $validatedData = $request->validated();
 
@@ -91,9 +82,6 @@ class AuthController extends Controller
         }
     }
 
-
-
-
     /**
      * Handles user logout by terminating the user's session.
      *
@@ -102,8 +90,7 @@ class AuthController extends Controller
      *
      * @return JsonResponse The JSON response indicating the success or failure of the logout.
      */
-    public function logout(): JsonResponse
-    {
+    public function logout(): JsonResponse {
         try {
             $this->authService->logout();
             return $this->success(200, 'Logout Successfully');
@@ -113,9 +100,6 @@ class AuthController extends Controller
         }
     }
 
-
-
-
     /**
      * Refreshes the authentication token for the user.
      *
@@ -124,8 +108,7 @@ class AuthController extends Controller
      *
      * @return JsonResponse The JSON response containing the updated token or an error message.
      */
-    public function refresh(): JsonResponse
-    {
+    public function refresh(): JsonResponse {
         try {
             $token = JWTAuth::refresh(JWTAuth::getToken());
             return $this->success(200, 'Token Updated', ['token' => $token]);

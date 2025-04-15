@@ -9,12 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-
-class AuthService
-{
+class AuthService {
     protected UserRepositoryInterface $userRepository;
     protected OTPRepositoryInterface $otpRepository;
-
 
     /**
      * Constructor for initializing the class with UserRepository and OTPRepository dependencies.
@@ -22,10 +19,9 @@ class AuthService
      * @param UserRepositoryInterface $userRepository The repository used for user-related data operations.
      * @param OTPRepositoryInterface $otpRepository The repository used for OTP-related data operations.
      */
-    public function __construct(UserRepositoryInterface $userRepository, OTPRepositoryInterface $otpRepository)
-    {
+    public function __construct(UserRepositoryInterface $userRepository, OTPRepositoryInterface $otpRepository) {
         $this->userRepository = $userRepository;
-        $this->otpRepository = $otpRepository;
+        $this->otpRepository  = $otpRepository;
     }
 
     /**
@@ -39,13 +35,12 @@ class AuthService
      *
      * @return array The registration result, including the generated token, user's role, OTP status, and verification status.
      */
-    public function register(array $credentials): array
-    {
+    public function register(array $credentials): array {
         try {
-
             DB::beginTransaction();
-            $user = $this->userRepository->createUser($credentials);
-            $otp = $this->otpRepository->sendOtp($user, 'email');
+
+            $user = $this->userRepository->createUser($credentials, $credentials['role']);
+            $otp  = $this->otpRepository->sendOtp($user, 'email');
 
             $token = $token = JWTAuth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']]);
 
@@ -53,9 +48,9 @@ class AuthService
                 throw new Exception('Token generation failed.', 500);
             }
             DB::commit();
-            $user->load(['profile' => function ($query) {
-                $query->select('id', 'user_id');
-            }, 'role']);
+
+            $user->load(['profile', 'role']);
+
             return ['token' => $token, 'user' => $user, 'verify' => false];
         } catch (Exception $e) {
             DB::rollBack();
@@ -63,8 +58,6 @@ class AuthService
             throw $e;
         }
     }
-
-
 
     /**
      * Authenticates a user and generates a JWT token.
@@ -76,8 +69,7 @@ class AuthService
      *
      * @return array The authentication result, including the generated token, user's role, and email verification status.
      */
-    public function login(array $credentials): array
-    {
+    public function login(array $credentials): array {
         try {
             $user = $this->userRepository->login($credentials);
 
@@ -103,8 +95,6 @@ class AuthService
         }
     }
 
-
-
     /**
      * Logs out the user by invalidating the current JWT token.
      *
@@ -113,8 +103,7 @@ class AuthService
      *
      * @return void
      */
-    public function logout(): void
-    {
+    public function logout(): void {
         try {
             $token = JWTAuth::getToken();
             JWTAuth::invalidate($token);

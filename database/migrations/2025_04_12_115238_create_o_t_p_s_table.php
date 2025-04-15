@@ -11,12 +11,14 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('o_t_p_s', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
 
-            $table->enum('operation', ['email', 'password', 'profile']); // operation the otp will use for.
-            $table->integer('number'); // otp number
-            $table->boolean('status')->default(true); // true if otp is used
+            // operation the otp will use for.
+            $table->enum('operation', ['email', 'password', 'profile']);
+            // otp number
+            $table->integer('number');
+            // true if otp is used
+            $table->boolean('status')->default(true);
 
             $table->timestamps();
         });

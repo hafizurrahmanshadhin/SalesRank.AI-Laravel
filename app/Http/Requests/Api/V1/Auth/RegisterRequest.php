@@ -3,35 +3,41 @@
 namespace App\Http\Requests\Api\V1\Auth;
 
 use App\Traits\V1\ApiResponse;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class RegisterRequest extends FormRequest
-{
-
+class RegisterRequest extends FormRequest {
     use ApiResponse;
 
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
+    public function authorize(): bool {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
-            'email'      => "required|email|unique:users",
-            'first_name' => "required|string",
-            'last_name'  => "required|string",
-            'password'   => "required|confirmed",
+            'role'                    => 'required|integer|exists:roles,id',
+            'handle'                  => 'required|string|unique:users,handle',
+            'email'                   => 'required|string|email|max:255|unique:users,email',
+            'password'                => 'required|confirmed',
+            'first_name'              => 'required|string',
+            'last_name'               => 'required|string',
+            'phone_number'            => 'required|unique:profiles,phone_number',
+            'linkedin_profile_url'    => 'nullable|string',
+            'revenue_generated_year'  => 'nullable|integer',
+            'revenue_generated'       => 'nullable|numeric',
+            'industry_experience'     => 'nullable|numeric',
+            'present_club_experience' => 'nullable|numeric',
+            'lead_close_ratio'        => 'nullable|numeric',
         ];
     }
 
@@ -40,47 +46,51 @@ class RegisterRequest extends FormRequest
      *
      * @return array The custom error messages for validation rules.
      */
-    public function messages(): array
-    {
+    public function messages(): array {
         return [
-            'first_name.required' => 'First name is required.',
-            'first_name.string'   => 'First name must be a string.',
+            'first_name.required'   => 'First name is required.',
+            'first_name.string'     => 'First name must be a string.',
 
-            'last_name.required' => 'Last name is required.',
-            'last_name.string'   => 'Last name must be a string.',
+            'last_name.required'    => 'Last name is required.',
+            'last_name.string'      => 'Last name must be a string.',
 
-            'email.required' => 'Email address is required.',
-            'email.email'    => 'Email address must be a valid email format.',
-            'email.unique'   => 'This email is already taken.',
+            'email.required'        => 'Email address is required.',
+            'email.email'           => 'Email address must be a valid email format.',
+            'email.unique'          => 'This email is already taken.',
 
-            'password.required'  => 'Password is required.',
-            'password.confirmed' => 'Passwords do not match.',
+            'password.required'     => 'Password is required.',
+            'password.confirmed'    => 'Passwords do not match.',
+
+            'role.required'         => 'Role is required.',
+            'role.integer'          => 'Role must be a valid integer.',
+            'role.exists'           => 'Role does not exist in the system.',
+            'handle.required'       => 'Handle is required.',
+            'handle.unique'         => 'This handle is already taken.',
+            'phone_number.required' => 'Phone number is required.',
+            'phone_number.unique'   => 'This phone number is already taken.',
         ];
     }
-
-
 
     /**
      * Handles failed validation by formatting the validation errors and throwing a ValidationException.
      *
      * This method is called when validation fails in a form request. It uses the `error` method
-     * from the `ApiResponse` trait to generate a standardized Errorsresponse with the validation
-     * Errorsmessages and a 422 HTTP status code. It then throws a `ValidationException` with the
+     * from the `ApiResponse` trait to generate a standardized Error response with the validation
+     * Error messages and a 422 HTTP status code. It then throws a `ValidationException` with the
      * formatted response.
      *
      * @param Validator $validator The validator instance containing the validation errors.
      *
-     * @return void Throws a ValidationException with a formatted Errorsresponse.
+     * @return void Throws a ValidationException with a formatted Error response.
      *
      * @throws ValidationException The exception is thrown to halt further processing and return validation errors.
      */
-    protected function failedValidation(Validator $validator):never
-    {
+    protected function failedValidation(Validator $validator): never {
 
         $firstNameErrors = $validator->errors()->get('first_name') ?? null;
-        $lastNameErrors = $validator->errors()->get('last_name') ?? null;
-        $emailErrors = $validator->errors()->get('email') ?? null;
-        $passwordErrors = $validator->errors()->get('password') ?? null;
+        $lastNameErrors  = $validator->errors()->get('last_name') ?? null;
+        $emailErrors     = $validator->errors()->get('email') ?? null;
+        $passwordErrors  = $validator->errors()->get('password') ?? null;
 
         if ($firstNameErrors) {
             $message = $firstNameErrors[0];

@@ -9,11 +9,11 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('portfolios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
 
-            $table->string('name')->unique()->nullable(false);
-            $table->string('slug')->unique()->nullable(false);
+            $table->string('project_path')->nullable(false);
 
             $table->boolean('status')->default(true);
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('portfolios');
     }
 };

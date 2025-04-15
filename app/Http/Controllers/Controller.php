@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Traits\V1\ApiResponse;
 
-abstract class Controller
-{
+abstract class Controller {
     use ApiResponse;
 }

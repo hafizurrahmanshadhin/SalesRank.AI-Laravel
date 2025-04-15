@@ -11,25 +11,26 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->foreignId('role_id')->nullable(false)->constrained('roles')->cascadeOnDelete();
 
-            $table->string('handle')->unique();
+            $table->string('first_name')->nullable(false);
+            $table->string('last_name')->nullable(false);
 
-            $table->string('email', 255)->unique();
+            $table->string('handle')->unique()->nullable(false)->comment('username');
+
+            $table->string('email')->unique()->nullable(false);
             $table->timestamp('email_verified_at')->nullable();
 
-            $table->string('password');
+            $table->string('password')->nullable(false);
 
             $table->string('avatar')->nullable();
 
-            $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
+            $table->string('google_id')->nullable()->unique();
 
             $table->boolean('status')->default(true);
-
             $table->rememberToken();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

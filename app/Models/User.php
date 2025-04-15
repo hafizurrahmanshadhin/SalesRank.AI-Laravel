@@ -2,68 +2,72 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\OTP;
+use App\Models\Portfolio;
+use App\Models\Profile;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $guarded = [];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    // protected $fillable = [
+    //     'first_name',
+    //     'last_name',
+    //     'handle',
+    //     'email',
+    //     'email_verified_at',
+    //     'password',
+    //     'avatar',
+    //     'role_id',
+    //     'status',
+    //     'remember_token',
+    // ];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array {
         return [
+            'id'                => 'integer',
+            'role_id'           => 'integer',
+            'first_name'        => 'string',
+            'last_name'         => 'string',
+            'handle'            => 'string',
+            'email'             => 'string',
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
+            'password'          => 'string',
+            'avatar'            => 'string',
+            'google_id'         => 'string',
+            'status'            => 'boolean',
+            'remember_token'    => 'string',
+            'created_at'        => 'datetime',
+            'updated_at'        => 'datetime',
+            'deleted_at'        => 'datetime',
         ];
     }
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
     public function getJWTIdentifier() {
         return $this->getKey();
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
     public function getJWTCustomClaims() {
         return [];
     }
 
     /**
-     * sccessor for avater attribute
+     * successor for avatar attribute
      * @param mixed $url
      * @return string
      */
@@ -79,28 +83,19 @@ class User extends Authenticatable implements JWTSubject {
         }
     }
 
-    /**
-     * profile
-     * @return HasOne<Profile, User>
-     */
     public function profile(): HasOne {
         return $this->hasOne(Profile::class);
     }
 
-    /**
-     * otps
-     * @return HasMany<OTP, User>
-     */
     public function otps(): HasMany {
         return $this->hasMany(OTP::class);
     }
 
-    /**
-     * Getting the role of the user
-     *
-     * @return BelongsTo<Role, User>
-     */
     public function role(): BelongsTo {
         return $this->belongsTo(Role::class);
+    }
+
+    public function portfolios(): HasMany {
+        return $this->hasMany(Portfolio::class);
     }
 }

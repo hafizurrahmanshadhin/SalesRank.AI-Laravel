@@ -2,43 +2,45 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Profile extends Model {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    use HasFactory, Notifiable, SoftDeletes;
+
     protected $guarded = [];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'created_at',
         'updated_at',
+        'deleted_at',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array {
         return [
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
+            'id'                      => 'integer',
+            'user_id'                 => 'integer',
+            'phone_number'            => 'string',
+            'linkedin_profile_url'    => 'string',
+            'revenue_generated_year'  => 'integer',
+            'revenue_generated'       => 'decimal:8',
+            'industry_experience'     => 'float',
+            'present_club_experience' => 'float',
+            'lead_close_ratio'        => 'decimal:8',
+            'role'                    => 'string',
+            'country'                 => 'string',
+            'bio'                     => 'string',
+            'status'                  => 'boolean',
+            'created_at'              => 'datetime',
+            'updated_at'              => 'datetime',
+            'deleted_at'              => 'datetime',
         ];
     }
 
-    /**
-     * user
-     * @return BelongsTo<User, Profile>
-     */
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
