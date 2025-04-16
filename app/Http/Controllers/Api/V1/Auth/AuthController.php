@@ -11,7 +11,6 @@ use App\Services\Api\V1\Auth\AuthService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller {
     protected AuthService $authService;
@@ -97,24 +96,6 @@ class AuthController extends Controller {
         } catch (Exception $e) {
             Log::error('AuthController::logout', ['error' => $e->getMessage()]);
             return $this->error(500, 'Server Error', $e->getMessage());
-        }
-    }
-
-    /**
-     * Refreshes the authentication token for the user.
-     *
-     * Retrieves the current token, refreshes it, and returns a new token in the response.
-     * If the refresh operation fails, an error message is logged and a failure response is returned.
-     *
-     * @return JsonResponse The JSON response containing the updated token or an error message.
-     */
-    public function refresh(): JsonResponse {
-        try {
-            $token = JWTAuth::refresh(JWTAuth::getToken());
-            return $this->success(200, 'Token Updated', ['token' => $token]);
-        } catch (Exception $e) {
-            Log::error('AuthController::refresh', ['error' => $e->getMessage()]);
-            return $this->error(500, 'server Error', $e->getMessage());
         }
     }
 }

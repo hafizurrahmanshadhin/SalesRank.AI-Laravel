@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class UserRepository implements UserRepositoryInterface {
-
     /**
      * Summary of createUser
      * @param array $credentials
