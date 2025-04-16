@@ -5,20 +5,16 @@ namespace App\Http\Resources\Api\V1\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegisterUserResource extends JsonResource {
+class LoginResource extends JsonResource {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array {
-        $data = parent::toArray($request);
-
-        // Extract user
+        $data     = parent::toArray($request);
         $userData = $data['user'] ?? [];
-
-        // Extract profile if it exists
-        $profile = $userData['profile'] ?? [];
+        $profile  = $userData['profile'] ?? [];
 
         return [
             'token'  => $data['token'] ?? null,

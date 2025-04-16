@@ -2,7 +2,6 @@
 
 namespace App\Services\Api\V1\Auth;
 
-use App\Interfaces\Api\V1\Auth\OTPRepositoryInterface;
 use App\Interfaces\Api\V1\Auth\UserRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,17 +10,14 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService {
     protected UserRepositoryInterface $userRepository;
-    protected OTPRepositoryInterface $otpRepository;
 
     /**
      * Constructor for initializing the class with UserRepository and OTPRepository dependencies.
      *
      * @param UserRepositoryInterface $userRepository The repository used for user-related data operations.
-     * @param OTPRepositoryInterface $otpRepository The repository used for OTP-related data operations.
      */
-    public function __construct(UserRepositoryInterface $userRepository, OTPRepositoryInterface $otpRepository) {
+    public function __construct(UserRepositoryInterface $userRepository) {
         $this->userRepository = $userRepository;
-        $this->otpRepository  = $otpRepository;
     }
 
     /**
@@ -40,7 +36,6 @@ class AuthService {
             DB::beginTransaction();
 
             $user = $this->userRepository->createUser($credentials, $credentials['role']);
-            $otp  = $this->otpRepository->sendOtp($user, 'email');
 
             $token = $token = JWTAuth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']]);
 
@@ -84,9 +79,7 @@ class AuthService {
                 $verify = true;
             }
 
-            $user->load(['profile' => function ($query) {
-                $query->select('id', 'user_id');
-            }, 'role']);
+            $user->load(['profile', 'role']);
 
             return ['token' => $token, 'user' => $user, 'verify' => $verify];
         } catch (Exception $e) {

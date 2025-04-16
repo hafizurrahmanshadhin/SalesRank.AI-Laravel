@@ -22,7 +22,7 @@ Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
         });
 
         // OTP-related routes
-        Route::prefix('/forget-password')->name('forgetpassword.')->controller(OTPController::class)->group(function () {
+        Route::prefix('/forget-password')->name('forget.password.')->controller(OTPController::class)->group(function () {
             Route::post('/otp-send', 'otpSend')->name('otp.send');
             Route::post('/otp-match', 'otpMatch')->name('otp.match');
         });
@@ -45,6 +45,7 @@ Route::prefix('/v1/auth')->name('api.auth.')->group(function () {
             Route::post('/logout', 'logout')->name('logout');
             Route::post('/refresh', 'refresh')->name('refresh.token');
         });
+
         // OTP-related routes
         Route::controller(OTPController::class)->group(function () {
             Route::post('/otp-send', 'otpSend')->name('otp.send');

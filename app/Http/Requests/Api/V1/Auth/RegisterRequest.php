@@ -18,6 +18,15 @@ class RegisterRequest extends FormRequest {
         return true;
     }
 
+    protected function prepareForValidation(): void {
+        // If client sent 'username', use that; otherwise if they still send 'handle', use that.
+        if ($this->filled('username') || $this->filled('handle')) {
+            $this->merge([
+                'handle' => $this->input('username') ?? $this->input('handle'),
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -64,8 +73,8 @@ class RegisterRequest extends FormRequest {
             'role.required'         => 'Role is required.',
             'role.integer'          => 'Role must be a valid integer.',
             'role.exists'           => 'Role does not exist in the system.',
-            'handle.required'       => 'Handle is required.',
-            'handle.unique'         => 'This handle is already taken.',
+            'handle.required'       => 'Username is required.',
+            'handle.unique'         => 'This username is already taken.',
             'phone_number.required' => 'Phone number is required.',
             'phone_number.unique'   => 'This phone number is already taken.',
         ];
@@ -86,12 +95,22 @@ class RegisterRequest extends FormRequest {
      * @throws ValidationException The exception is thrown to halt further processing and return validation errors.
      */
     protected function failedValidation(Validator $validator): never {
+        $errors = $validator->errors()->toArray();
 
-        $firstNameErrors = $validator->errors()->get('first_name') ?? null;
-        $lastNameErrors  = $validator->errors()->get('last_name') ?? null;
-        $emailErrors     = $validator->errors()->get('email') ?? null;
-        $passwordErrors  = $validator->errors()->get('password') ?? null;
+        // Remap 'handle' to 'username' if it exists
+        if (isset($errors['handle'])) {
+            $errors['username'] = $errors['handle'];
+            unset($errors['handle']);
+        }
 
+        // Extract individual error arrays if they exist
+        $firstNameErrors = $errors['first_name'] ?? null;
+        $lastNameErrors  = $errors['last_name'] ?? null;
+        $emailErrors     = $errors['email'] ?? null;
+        $passwordErrors  = $errors['password'] ?? null;
+        $usernameErrors  = $errors['username'] ?? null;
+
+        // Choose a top-level error message
         if ($firstNameErrors) {
             $message = $firstNameErrors[0];
         } else if ($lastNameErrors) {
@@ -100,13 +119,19 @@ class RegisterRequest extends FormRequest {
             $message = $emailErrors[0];
         } else if ($passwordErrors) {
             $message = $passwordErrors[0];
+        } else if ($usernameErrors) {
+            $message = $usernameErrors[0];
+        } else {
+            $message = 'Validation error';
         }
 
+        // Build the API response
         $response = $this->error(
             422,
             $message,
-            $validator->errors(),
+            $errors,
         );
+
         throw new ValidationException($validator, $response);
     }
 }

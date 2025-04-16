@@ -19,12 +19,13 @@ class UserRepository implements UserRepositoryInterface {
     public function createUser(array $credentials, int $role): User {
         try {
             $user = User::create([
-                'first_name' => $credentials['first_name'],
-                'last_name'  => $credentials['last_name'],
-                'handle'     => $credentials['handle'],
-                'email'      => $credentials['email'],
-                'password'   => Hash::make($credentials['password']),
-                'role_id'    => $role,
+                'first_name'        => $credentials['first_name'],
+                'last_name'         => $credentials['last_name'],
+                'handle'            => $credentials['handle'],
+                'email'             => $credentials['email'],
+                'password'          => Hash::make($credentials['password']),
+                'email_verified_at' => now(),
+                'role_id'           => $role,
             ]);
 
             $user->profile()->create([
