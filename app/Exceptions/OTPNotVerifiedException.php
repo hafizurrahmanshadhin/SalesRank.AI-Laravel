@@ -4,8 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class OTPNotVerifiedException extends Exception
-{
+class OTPNotVerifiedException extends Exception {
     protected $message = 'OTP Not Verified';
-    protected $code = 404;
+    protected $code    = 404;
 }

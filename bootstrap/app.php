@@ -14,8 +14,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -39,28 +37,19 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__ . '/../routes/web.php',
         api: __DIR__ . '/../routes/api/api.php',
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
-
-        // then: function () {
-        //     // api
-        //     Route::middleware([])
-        //         ->prefix('api/v1/auth')
-        //         ->name('api.auth.')
-        //         ->group(base_path('routes/api/v1/auth.php'));
-        // }
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'guest.api' => EnsureGuestJwt::class, // only for guest users
-            'verified' => IsVerifyed::class, // is user verified
+            'guest.api'   => EnsureGuestJwt::class, // only for guest users
+            'verified'    => IsVerifyed::class, // is user verified
             'super_admin' => SuperAdmin::class, // only super admin
-            'admin' => Admin::class, // only admin
+            'admin'       => Admin::class, // only admin
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

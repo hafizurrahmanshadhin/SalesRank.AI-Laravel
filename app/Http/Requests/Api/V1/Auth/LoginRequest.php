@@ -4,51 +4,45 @@ namespace App\Http\Requests\Api\V1\Auth;
 
 use App\Rules\Api\V1\Auth\Validatepassword;
 use App\Traits\V1\ApiResponse;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class LoginRequest extends FormRequest
-{
+class LoginRequest extends FormRequest {
     use ApiResponse;
 
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
+    public function authorize(): bool {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
             "email"    => "required|email|exists:users,email",
-            "password" => ["required", new Validatepassword($this->input('email'))]
+            "password" => ["required", new Validatepassword($this->input('email'))],
         ];
     }
-
 
     /**
      * Define custom validation messages for the email and password fields.
      *
      * @return array The custom error messages for the validation rules.
      */
-    public function messages(): array
-    {
+    public function messages(): array {
         return [
             'email.required' => 'Email field is required.',
             'email.email'    => 'Please provide a valid email address.',
             'email.exists'   => 'This email address is not registered in our system.',
         ];
     }
-
-
 
     /**
      * Handles failed validation by formatting the validation errors and throwing a ValidationException.
@@ -64,9 +58,8 @@ class LoginRequest extends FormRequest
      *
      * @throws ValidationException The exception is thrown to halt further processing and return validation errors.
      */
-    protected function failedValidation(Validator $validator):never
-    {
-        $emailErrors = $validator->errors()->get('email') ?? null;
+    protected function failedValidation(Validator $validator): never {
+        $emailErrors    = $validator->errors()->get('email') ?? null;
         $passwordErrors = $validator->errors()->get('password') ?? null;
 
         if ($emailErrors) {

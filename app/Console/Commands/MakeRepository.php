@@ -5,8 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
-class MakeRepository extends Command
-{
+class MakeRepository extends Command {
     /**
      * The name and signature of the console command.
      *
@@ -23,8 +22,7 @@ class MakeRepository extends Command
 
     protected $filesystem;
 
-    public function __construct(Filesystem $filesystem)
-    {
+    public function __construct(Filesystem $filesystem) {
         parent::__construct();
         $this->filesystem = $filesystem;
     }
@@ -32,25 +30,24 @@ class MakeRepository extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
-    {
-        $name = $this->argument('name');
-        $namespace = str_replace('/', '\\', dirname($name));  // Get the namespace without the class name
-        $className = basename($name);
+    public function handle() {
+        $name            = $this->argument('name');
+        $namespace       = str_replace('/', '\\', dirname($name)); // Get the namespace without the class name
+        $className       = basename($name);
         $RepositoryClass = $this->generateRepositoryClass($name);
 
         // Define the full path to the Repositorys directory
-        $directory = app_path("Repositories/{$namespace}");
+        $directory          = app_path("Repositories/{$namespace}");
         $interfaceDirectory = app_path("Interfaces/{$namespace}");
 
         // Ensure the directory exists (create it if it doesn't)
         if (!$this->filesystem->exists($directory)) {
-            $this->filesystem->makeDirectory($directory, 0755, true);  // Create any missing directories
+            $this->filesystem->makeDirectory($directory, 0755, true); // Create any missing directories
         }
 
         // Modify the interface directory creation logic to ensure proper path separator
         if (!$this->filesystem->exists($interfaceDirectory)) {
-            $this->filesystem->makeDirectory($interfaceDirectory, 0755, true);  // Create any missing directories
+            $this->filesystem->makeDirectory($interfaceDirectory, 0755, true); // Create any missing directories
         }
 
         // Define the path for the new Repository class file
@@ -70,7 +67,7 @@ class MakeRepository extends Command
         // If the --interface option is passed, create an interface
         if ($this->option('interface')) {
             $InterfaceClass = $this->generateInterfaceClass($name);
-            $interfacePath = $interfaceDirectory . DIRECTORY_SEPARATOR . "{$className}Interface.php";
+            $interfacePath  = $interfaceDirectory . DIRECTORY_SEPARATOR . "{$className}Interface.php";
 
             // Check if the Interface class already exists
             if ($this->filesystem->exists($interfacePath)) {
@@ -88,12 +85,11 @@ class MakeRepository extends Command
     /**
      * Generate the PHP code for a Repository class based on the given name.
      */
-    private function generateRepositoryClass($name)
-    {
-        $parts = explode('/', $name);
+    private function generateRepositoryClass($name) {
+        $parts          = explode('/', $name);
         $namespaceParts = array_slice($parts, 0, -1); // Get all parts except the last for the namespace
-        $className = end($parts); // Get the last part as the class name
-        $namespace = !empty($namespaceParts) ? '\\' . implode('\\', $namespaceParts) : '';
+        $className      = end($parts); // Get the last part as the class name
+        $namespace      = !empty($namespaceParts) ? '\\' . implode('\\', $namespaceParts) : '';
 
         // Check if the --interface option was passed
         $implements = $this->option('interface') ? " implements {$className}Interface" : '';
@@ -114,12 +110,11 @@ class {$className}{$implements}
     /**
      * Generate the PHP code for an Interface class based on the given name.
      */
-    private function generateInterfaceClass($name)
-    {
-        $parts = explode('/', $name);
+    private function generateInterfaceClass($name) {
+        $parts          = explode('/', $name);
         $namespaceParts = array_slice($parts, 0, -1); // Get all parts except the last for the namespace
-        $className = end($parts); // Get the last part as the class name
-        $namespace = !empty($namespaceParts) ? '\\' . implode('\\', $namespaceParts) : '';
+        $className      = end($parts); // Get the last part as the class name
+        $namespace      = !empty($namespaceParts) ? '\\' . implode('\\', $namespaceParts) : '';
 
         return "<?php
 

@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class EnsureGuestJwt
-{
+class EnsureGuestJwt {
     use ApiResponse;
     /**
      * Handle an incoming request.
@@ -20,8 +19,7 @@ class EnsureGuestJwt
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next): Response
-    {
+    public function handle(Request $request, Closure $next): Response {
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {

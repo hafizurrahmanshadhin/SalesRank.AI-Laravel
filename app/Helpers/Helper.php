@@ -3,11 +3,11 @@ namespace App\Helpers;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-class Helper
-{
+use Illuminate\Support\Str;
+
+class Helper {
     /**
      * Upload an image and return its URL.
      *
@@ -15,8 +15,7 @@ class Helper
      * @param  string  $directory
      * @return string
      */
-    public static function uploadFile($file, $directory)
-    {
+    public static function uploadFile($file, $directory) {
         try {
             $imageFileName = uniqid('image_') . '.' . $file->getClientOriginalExtension();
             $file->storeAs($directory, $imageFileName, 'public');
@@ -26,20 +25,18 @@ class Helper
         }
     }
 
-
     /**
      * Delete an image and return a boolean.
      *
      * @param  string  $imageUrl
      * @return bool
      */
-    public static function deleteFile($imageUrl)
-    {
+    public static function deleteFile($imageUrl) {
         try {
             // Check if $imageUrl is a valid string
             if (is_string($imageUrl) && !empty($imageUrl)) {
                 // Extract the relative path from the URL
-                $parsedUrl = parse_url($imageUrl);
+                $parsedUrl    = parse_url($imageUrl);
                 $relativePath = $parsedUrl['path'] ?? '';
 
                 // Remove the leading '/storage/' from the path
@@ -64,8 +61,6 @@ class Helper
         }
     }
 
-
-
     /**
      * Generate a unique slug for the given model and title.
      *
@@ -74,8 +69,7 @@ class Helper
      * @param string $slugColumn
      * @return string
      */
-    public static function generateUniqueSlug($title, $table, $slugColumn = 'slug')
-    {
+    public static function generateUniqueSlug($title, $table, $slugColumn = 'slug') {
         // Generate initial slug
         $slug = str::slug($title);
 
@@ -86,7 +80,6 @@ class Helper
         return $count ? "{$slug}-{$count}" : $slug;
     }
 
-
     /**
      * Generate a unique 10-character SKU for a user based on timestamp and random string,
      * ensuring it does not already exist in the specified table.
@@ -95,9 +88,8 @@ class Helper
      * @param string $tableName The name of the table in which to check for SKU uniqueness.
      * @return string The generated SKU.
      */
-    public static function generateUniqueId($table, $column, $length = 10)
-    {
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    public static function generateUniqueId($table, $column, $length = 10) {
+        $characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $charactersLength = strlen($characters);
 
         do {
@@ -112,8 +104,6 @@ class Helper
         return $randomString;
     }
 
-
-
     /**
      * Returns a standardized success response with the provided data, message, and HTTP status code.
      *
@@ -127,19 +117,15 @@ class Helper
      *
      * @return \Illuminate\Http\JsonResponse A JSON response containing the success status, message, data, and code.
      */
-    public static function success($code = 200, $message = null, $data = []): JsonResponse
-    {
+    public static function success($code = 200, $message = null, $data = []): JsonResponse {
         return response()->json([
-            'success' => (bool) true,
-            'code' => (int) $code,
-            'message' => $message,
-            'data' => $data,
+            'success'   => (bool) true,
+            'code'      => (int) $code,
+            'message'   => $message,
+            'data'      => $data,
             'timestamp' => now()->toIso8601String() . ' GMT' . now()->format('P'),
         ], $code);
     }
-
-
-
 
     /**
      * Returns a standardized error response with the provided data, message, and HTTP status code.
@@ -155,24 +141,22 @@ class Helper
      *
      * @return \Illuminate\Http\JsonResponse A JSON response containing the error status, message, data, and code.
      */
-    public static function error($code = 500, $message = null, $error = []): JsonResponse
-    {
+    public static function error($code = 500, $message = null, $error = []): JsonResponse {
         return response()->json([
-            'status' => (bool) false,
-            'code' => (int) $code,
-            'message' => $message,
-            'error' => $error,
+            'status'    => (bool) false,
+            'code'      => (int) $code,
+            'message'   => $message,
+            'error'     => $error,
             'timestamp' => now()->toIso8601String() . ' GMT' . now()->format('P'),
         ], $code);
     }
 
     //! Generate Slug
-    public static function makeSlug(string $title, $table): string
-    {
+    public static function makeSlug(string $title, $table): string {
         $slug = Str::slug($title);
         while (DB::table($table)->where('slug', $slug)->exists()) {
             $randomString = Str::random(5);
-            $slug = Str::slug($title) . '-' . $randomString;
+            $slug         = Str::slug($title) . '-' . $randomString;
         }
         return $slug;
     }

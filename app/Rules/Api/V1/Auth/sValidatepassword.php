@@ -2,13 +2,14 @@
 
 namespace App\Rules\Api\V1\Auth;
 
-use Closure;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Hash;
 
 class ValidatePassword implements ValidationRule
 {
+
     protected $email;
 
     public function __construct(string $email)
