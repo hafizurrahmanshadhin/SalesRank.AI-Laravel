@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api\V1\Auth;
 
-use App\Rules\Api\V1\Auth\Validatepassword;
+use App\Rules\Api\V1\Auth\ValidatePassword;
 use App\Traits\V1\ApiResponse;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest {
     public function rules(): array {
         return [
             "email"    => "required|email|exists:users,email",
-            "password" => ["required", new Validatepassword($this->input('email'))],
+            "password" => ["required", new ValidatePassword($this->input('email'))],
         ];
     }
 

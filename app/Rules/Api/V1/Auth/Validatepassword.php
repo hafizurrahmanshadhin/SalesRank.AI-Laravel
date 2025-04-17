@@ -2,27 +2,25 @@
 
 namespace App\Rules\Api\V1\Auth;
 
-use Closure;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
-class ValidatePassword implements ValidationRule
-{
+class ValidatePassword implements ValidationRule {
     protected $email;
 
-    public function __construct(string $email)
-    {
+    public function __construct(string $email) {
         $this->email = $email;
     }
 
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
      */
-    public function validate(string $attribute, mixed $value, Closure $fail): void
-    {
+    public function validate(string $attribute, mixed $value, Closure $fail): void {
         // Retrieve the user by email
         $user = User::where('email', $this->email)->first();
 

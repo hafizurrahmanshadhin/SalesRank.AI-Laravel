@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\OTP;
 use App\Models\Portfolio;
 use App\Models\Profile;
 use App\Models\Role;
@@ -19,19 +18,6 @@ class User extends Authenticatable implements JWTSubject {
     use HasFactory, Notifiable, SoftDeletes;
 
     protected $guarded = [];
-
-    // protected $fillable = [
-    //     'first_name',
-    //     'last_name',
-    //     'handle',
-    //     'email',
-    //     'email_verified_at',
-    //     'password',
-    //     'avatar',
-    //     'role_id',
-    //     'status',
-    //     'remember_token',
-    // ];
 
     protected $hidden = [
         'password',
@@ -85,10 +71,6 @@ class User extends Authenticatable implements JWTSubject {
 
     public function profile(): HasOne {
         return $this->hasOne(Profile::class);
-    }
-
-    public function otps(): HasMany {
-        return $this->hasMany(OTP::class);
     }
 
     public function role(): BelongsTo {
