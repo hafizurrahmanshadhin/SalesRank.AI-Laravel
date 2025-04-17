@@ -1,38 +1,37 @@
 <?php
 
 return [
-
-    'defaults' => [
-        'guard' => 'web', // Set 'web' as the default guard for web-based (admin) authentication
+    'defaults'         => [
+        'guard'     => 'web', // Set 'web' as the default guard for web-based (admin) authentication
         'passwords' => 'users',
     ],
 
-    'guards' => [
+    'guards'           => [
         'web' => [
-            'driver' => 'session',
+            'driver'   => 'session',
             'provider' => 'users',
         ],
 
         // JWT-based API guard for API authentication
         'api' => [
-            'driver' => 'jwt',
+            'driver'   => 'jwt',
             'provider' => 'users',
-            'hash' => false,
+            'hash'     => false,
         ],
     ],
 
-    'providers' => [
+    'providers'        => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model'  => App\Models\User::class,
         ],
     ],
 
-    'passwords' => [
+    'passwords'        => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_reset_tokens',
-            'expire' => 60,
+            'table'    => 'password_reset_tokens',
+            'expire'   => env('PASSWORD_RESET_EXPIRE', 60),
             'throttle' => 60,
         ],
     ],

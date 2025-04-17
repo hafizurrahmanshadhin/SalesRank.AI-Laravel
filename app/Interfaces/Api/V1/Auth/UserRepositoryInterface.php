@@ -21,4 +21,12 @@ interface UserRepositoryInterface {
      * @return User|null The user object if found, null otherwise.
      */
     public function login(array $credentials): User | null;
+
+    /**
+     * Find a user by their email address.
+     *
+     * @param  string     $email
+     * @return User|null
+     */
+    public function findByEmail(string $email): ?User;
 }

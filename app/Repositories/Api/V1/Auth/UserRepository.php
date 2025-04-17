@@ -63,4 +63,19 @@ class UserRepository implements UserRepositoryInterface {
             throw $e;
         }
     }
+
+    /**
+     * Find a user by their email address.
+     *
+     * @param  string     $email
+     * @return User|null
+     */
+    public function findByEmail(string $email): ?User {
+        try {
+            return User::where('email', $email)->first();
+        } catch (Exception $e) {
+            Log::error('UserRepository::findByEmail', ['error' => $e->getMessage()]);
+            throw $e;
+        }
+    }
 }
