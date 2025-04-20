@@ -13,8 +13,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('role_id')->nullable(false)->constrained('roles')->cascadeOnDelete();
 
-            $table->string('first_name')->nullable(false);
-            $table->string('last_name')->nullable(false);
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
 
             $table->string('handle')->unique()->nullable(false)->comment('username');
 

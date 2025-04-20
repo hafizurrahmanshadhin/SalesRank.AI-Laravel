@@ -1,4 +1,4 @@
-# Laravel-12 JWT API
+# Isaiahboyd612
 
 ## Installation
 
@@ -7,13 +7,13 @@ To Install & Run This Project, Follow These Steps:
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/mdiktushar/Laravel-12-JWT-Auth-Template-Repository-Pattern.git
+    https://github.com/Webgenius0/isaiahboyd612_backend.git
     ```
 
 2. Navigate to the project directory:
 
     ```sh
-    cd christianmoo658-backend
+    cd isaiahboyd612_backend
     ```
 
 3. Install project dependencies:
