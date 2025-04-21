@@ -16,10 +16,10 @@ return new class extends Migration {
             $table->string('phone_number')->unique()->nullable(false);
             $table->string('linkedin_profile_url')->nullable();
             $table->integer('revenue_generated_year')->nullable();
-            $table->decimal('revenue_generated', 10, 8)->nullable();
+            $table->decimal('revenue_generated', 15, 2)->nullable();
             $table->float('industry_experience')->nullable();
             $table->float('present_club_experience')->nullable();
-            $table->decimal('lead_close_ratio', 10, 8)->nullable();
+            $table->decimal('lead_close_ratio', 10, 2)->nullable();
 
             $table->string('role')->nullable();
             $table->string('country')->nullable();
