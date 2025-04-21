@@ -24,8 +24,6 @@ class ValidatePassword implements ValidationRule {
         // Retrieve the user by email
         $user = User::where('email', $this->email)->first();
 
-
-
         // Check if user exists and if the password matches
         if (!$user || !Hash::check($value, $user->password)) {
             // If password doesn't match, trigger validation failure
