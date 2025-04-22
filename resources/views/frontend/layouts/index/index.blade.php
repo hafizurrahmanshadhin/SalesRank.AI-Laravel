@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="left-side">
-        <img src="{{ asset('assets/img/logo2.png') }}" alt="Logo" class="logo" />
+        <img src="{{ asset('frontend/logo2.png') }}" alt="Logo" class="logo" />
         <div class="form-container">
             <h1>Log In</h1>
             <p class="description">Welcome back! Please enter your details.</p>
@@ -33,6 +33,6 @@
     </div>
 
     <div class="right-side">
-        <img src="{{ asset('assets/img/signin.png') }}" alt="Sign In" class="signin-img" />
+        <img src="{{ asset('frontend/signin.png') }}" alt="Sign In" class="signin-img" />
     </div>
 @endsection

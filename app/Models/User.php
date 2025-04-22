@@ -66,7 +66,7 @@ class User extends Authenticatable implements JWTSubject {
                 return asset('storage/' . $url);
             }
         } else {
-            return asset('assets/img/user_placeholder.png');
+            return asset('frontend/user_placeholder.png');
         }
     }
 
