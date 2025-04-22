@@ -8,23 +8,25 @@
         <div class="form-container">
             <h1>Log In</h1>
             <p class="description">Welcome back! Please enter your details.</p>
-            <form>
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Email Address" />
+                    <input type="email" id="email" name="email" placeholder="Email Address"
+                        value="{{ old('email') }}" />
+                    @error('email')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Password" />
+                    <input type="password" id="password" name="password" placeholder="Password" />
+                    @error('password')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-                <div class="remember-forgot">
-                    <div style="display: flex; align-items: center;">
-                        <label for="remember"></label>
-                    </div>
-                    <div>
-                        <a href="#" style="color: #0070f3;">Forgot password</a>
-                    </div>
-                </div>
+
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </form>
         </div>

@@ -8,7 +8,8 @@
                     </button>
                 </li>
                 <li class="d-none d-lg-block">
-                    <h5 class="mb-0">Good Morning, Alex</h5>
+                    <h5 class="mb-0">Good Morning,
+                        {{ ucfirst(Auth::user()->first_name) ?? '' }}</h5>
                 </li>
             </ul>
 
@@ -34,9 +35,11 @@
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="{{ asset('assets/images/users/user-13.jpg') }}" alt="user-image"
-                            class="rounded-circle" />
-                        <span class="pro-user-name ms-1">Alex <i class="mdi mdi-chevron-down"></i></span>
+                        <img class="rounded-circle"
+                            src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('assets/img/user_placeholder.png') }}"
+                            alt="Profile Picture">
+                        <span class="pro-user-name ms-1">{{ ucfirst(Auth::user()->first_name) ?? '' }}
+                            <i class="mdi mdi-chevron-down"></i></span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end profile-dropdown">
@@ -51,10 +54,14 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <a href="auth-logout.html" class="dropdown-item notify-item">
+                        <a href="javascript:void(0);" class="dropdown-item notify-item"
+                            onclick="event.preventDefault(); document.getElementById('logoutForm').submit()">
                             <i class="mdi mdi-location-exit fs-16 align-middle"></i>
                             <span>Logout</span>
                         </a>
+                        <form action="{{ route('logout') }}" method="post" id="logoutForm">
+                            @csrf
+                        </form>
                     </div>
                 </li>
                 {{-- User Dropdown End --}}
