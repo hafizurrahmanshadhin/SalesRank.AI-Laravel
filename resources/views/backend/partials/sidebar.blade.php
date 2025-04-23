@@ -7,22 +7,22 @@
     <div class="navbar-brand-box">
         <a href="{{ route('dashboard') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
+                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
                     style="width: 190px; height: 50px;">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
+                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
                     style="width: 190px; height: 50px;">
             </span>
         </a>
 
         <a href="{{ route('dashboard') }}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
+                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
                     style="width: 190px; height: 50px;">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
+                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
                     style="width: 190px; height: 50px;">
             </span>
         </a>
@@ -57,14 +57,24 @@
                     </a>
                 </li>
 
-                {{-- Frequently Asked Questions --}}
+                {{-- Frequently Asked Questions for Collaboration Q&A --}}
                 <li class="nav-item">
                     <a href="{{ route('faq.index') }}"
                         class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
                         <i class="ri-question-line"></i>
-                        <span data-key="t-faq">FAQ</span>
+                        <span data-key="t-faq">Collaboration Q&A</span>
                     </a>
                 </li>
+
+                {{-- Frequently Asked Questions for SalesRank.AI FAQ --}}
+                <li class="nav-item">
+                    <a href="{{ route('faq.index') }}"
+                        class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
+                        <i class="ri-question-line"></i>
+                        <span data-key="t-faq">SalesRank.AI FAQ</span>
+                    </a>
+                </li>
+
 
                 <hr>
                 {{-- Settings --}}
