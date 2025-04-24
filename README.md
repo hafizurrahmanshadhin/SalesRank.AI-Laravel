@@ -12,4 +12,4 @@
 
 ## [Postman Collection](https://documenter.getpostman.com/view/32086283/2sB2ca6Kjp)
 
-## [Live Link Our Server](.)
+## [Live Link Our Server](https://isaiahboyd612.softvencefsd.xyz)
