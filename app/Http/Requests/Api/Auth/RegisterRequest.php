@@ -30,8 +30,8 @@ class RegisterRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'first_name'              => 'required|string|alpha|max:255',
-            'last_name'               => 'required|string|alpha|max:255',
+            'first_name'              => 'required|string|max:255',
+            'last_name'               => 'required|string|max:255',
             'user_name'               => 'required|string|unique:users,user_name',
             'email'                   => 'required|string|email|max:255|unique:users,email',
             'password'                => 'required|string|min:8|confirmed',

@@ -21,6 +21,12 @@ class PasswordResetService {
         $this->expires = config('auth.passwords.users.expire');
     }
 
+    /**
+     * Send a password reset link to the user's email.
+     *
+     * @param string $email
+     * @return string
+     */
     public function sendResetLink(string $email): string {
         $token = Str::random(60);
 
@@ -38,6 +44,14 @@ class PasswordResetService {
         return $link;
     }
 
+    /**
+     * Reset the user's password using the provided token.
+     *
+     * @param string $token
+     * @param string $newPassword
+     * @param string $email
+     * @throws Exception
+     */
     public function resetPassword(string $token, string $newPassword, string $email): void {
         $record = DB::table($this->table)
             ->where('email', $email)

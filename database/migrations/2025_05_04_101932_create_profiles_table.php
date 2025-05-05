@@ -17,7 +17,7 @@ return new class extends Migration {
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->string('phone_number')->unique()->nullable(false);
+            $table->string('phone_number')->unique()->nullable();
             $table->string('linkedin_profile_url')->nullable();
             $table->integer('revenue_generated_year')->nullable();
             $table->decimal('revenue_generated', 15, 2)->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->float('present_club_experience')->nullable();
             $table->decimal('lead_close_ratio', 10, 2)->nullable();
 
-            $table->string('role')->nullable();
+            $table->string('working_role')->nullable();
             $table->string('country')->nullable();
             $table->text('bio')->nullable();
 

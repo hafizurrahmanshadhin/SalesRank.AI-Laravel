@@ -8,7 +8,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LogoutService {
     /**
-     * Invalidate the JWT token (logout).
+     * Logout the user by invalidating the JWT token.
+     *
+     * @return bool
+     * @throws UnauthorizedHttpException
+     * @throws Exception
      */
     public function logout(): bool {
         try {

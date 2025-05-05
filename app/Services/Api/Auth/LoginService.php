@@ -8,7 +8,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginService {
     /**
-     * Handle the login process.
+     * Login the user and return the token and user data.
+     *
+     * @param array $data
+     * @return array
+     * @throws Exception
      */
     public function login(array $data): array {
         try {
@@ -22,6 +26,7 @@ class LoginService {
             }
 
             $user = auth()->user();
+            $user->load('profile');
 
             return [
                 'user'  => $user,

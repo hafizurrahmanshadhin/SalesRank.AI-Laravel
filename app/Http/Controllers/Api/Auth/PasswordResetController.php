@@ -15,6 +15,12 @@ class PasswordResetController extends Controller {
         protected PasswordResetService $service
     ) {}
 
+    /**
+     * Handle the forgot password request.
+     *
+     * @param ForgotPasswordRequest $request
+     * @return JsonResponse
+     */
     public function forgotPassword(ForgotPasswordRequest $request): JsonResponse {
         try {
             $link = $this->service->sendResetLink($request->validated('email'));
@@ -25,6 +31,12 @@ class PasswordResetController extends Controller {
         }
     }
 
+    /**
+     * Handle the reset password request.
+     *
+     * @param ResetPasswordRequest $request
+     * @return JsonResponse
+     */
     public function resetPassword(ResetPasswordRequest $request): JsonResponse {
         try {
             $email = $request->header('email');

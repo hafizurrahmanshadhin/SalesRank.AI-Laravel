@@ -9,7 +9,11 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterService {
     /**
-     * Handle the registration process.
+     * Register a new user and create a profile.
+     *
+     * @param array $data
+     * @return array
+     * @throws Exception
      */
     public function register(array $data): array {
         $existingUser = User::where('email', $data['email'])->exists();
@@ -20,12 +24,13 @@ class RegisterService {
         try {
             // Create user with role
             $user = User::create([
-                'first_name' => $data['first_name'],
-                'last_name'  => $data['last_name'],
-                'user_name'  => $data['user_name'],
-                'email'      => $data['email'],
-                'password'   => bcrypt($data['password']),
-                'role'       => $data['role'],
+                'first_name'        => $data['first_name'],
+                'last_name'         => $data['last_name'],
+                'user_name'         => $data['user_name'],
+                'email'             => $data['email'],
+                'email_verified_at' => now(),
+                'password'          => bcrypt($data['password']),
+                'role'              => $data['role'],
             ]);
 
             // Create profile

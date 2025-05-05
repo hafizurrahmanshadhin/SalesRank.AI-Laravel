@@ -19,7 +19,9 @@ class LogoutController extends Controller {
     }
 
     /**
-     * Handle user logout.
+     * Handle the logout request.
+     *
+     * @return JsonResponse
      */
     public function logout(): JsonResponse {
         try {
