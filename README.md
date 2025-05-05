@@ -1,15 +1,44 @@
-# Isaiahboyd612
+# API Dashboard Dosix
 
-``` markdown
-1. composer update
-2. npm update
-3. php artisan migrate:fresh --seed
-4. php artisan optimize:clear
-5. npm run build
-6. php artisan storage:link
-7. php artisan serve
+## Reverb Installed for Chatting and Realtime Events
+
+## Firebase Installed for Push Notifications
+
+```shell
+php artisan optimize:clear
+php artisan route:clear
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
 ```
 
-## [Postman Collection](https://documenter.getpostman.com/view/32086283/2sB2ca6Kjp)
+```test
+php artisan test --filter=RegisterServiceTest
+```
 
-## [Live Link Our Server](https://isaiahboyd612.softvencefsd.xyz)
+................................................................................................................................
+
+## [Postman Collection](https://documenter.getpostman.com/view/32086283/2sB2j68A9y)
+
+................................................................................................................................
+
+## [Live Link Our Server](.)
+
+................................................................................................................................
+
+## [Live Link Client Server](.)
+
+---
+
+> ---
+>
+> ## 🔑 Login Credentials
+>
+>
+> ## For Admin
+>
+> **Email:** <admin@admin.com>
+>
+> **Password:** 12345678
+>
+> ---

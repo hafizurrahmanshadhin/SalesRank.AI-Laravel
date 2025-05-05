@@ -4,9 +4,7 @@ namespace App\Models;
 
 use App\Models\Portfolio;
 use App\Models\Profile;
-use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,9 +14,22 @@ use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'user_name',
+        'email',
+        'email_verified_at',
+        'password',
+        'avatar',
+        'cover_photo',
+        'google_id',
+        'role',
+        'status',
+        'remember_token',
+    ];
 
     protected $hidden = [
         'password',
@@ -28,16 +39,17 @@ class User extends Authenticatable implements JWTSubject {
     protected function casts(): array {
         return [
             'id'                => 'integer',
-            'role_id'           => 'integer',
             'first_name'        => 'string',
             'last_name'         => 'string',
-            'handle'            => 'string',
+            'user_name'         => 'string',
             'email'             => 'string',
             'email_verified_at' => 'datetime',
-            'password'          => 'string',
+            'password'          => 'hashed',
             'avatar'            => 'string',
+            'cover_photo'       => 'string',
             'google_id'         => 'string',
-            'status'            => 'boolean',
+            'role'              => 'string',
+            'status'            => 'string',
             'remember_token'    => 'string',
             'created_at'        => 'datetime',
             'updated_at'        => 'datetime',
@@ -49,12 +61,27 @@ class User extends Authenticatable implements JWTSubject {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims(): array {
         return [];
     }
 
     /**
+     * When saving user_name, always lowercase
+     */
+    public function setUserNameAttribute($value) {
+        $this->attributes['user_name'] = strtolower($value);
+    }
+
+    /**
+     * When saving email, always lowercase
+     */
+    public function setEmailAttribute($value) {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
      * successor for avatar attribute
+     *
      * @param mixed $url
      * @return string
      */
@@ -66,16 +93,12 @@ class User extends Authenticatable implements JWTSubject {
                 return asset('storage/' . $url);
             }
         } else {
-            return asset('frontend/user_placeholder.png');
+            return asset('backend/images/users/user-dummy-img.jpg');
         }
     }
 
     public function profile(): HasOne {
         return $this->hasOne(Profile::class);
-    }
-
-    public function role(): BelongsTo {
-        return $this->belongsTo(Role::class);
     }
 
     public function portfolios(): HasMany {

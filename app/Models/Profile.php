@@ -12,12 +12,19 @@ use Illuminate\Notifications\Notifiable;
 class Profile extends Model {
     use HasFactory, Notifiable, SoftDeletes;
 
-    protected $guarded = [];
-
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    protected $fillable = [
+        'user_id',
+        'phone_number',
+        'linkedin_profile_url',
+        'revenue_generated_year',
+        'revenue_generated',
+        'industry_experience',
+        'present_club_experience',
+        'lead_close_ratio',
+        'role',
+        'country',
+        'bio',
+        'status',
     ];
 
     protected function casts(): array {
@@ -34,7 +41,7 @@ class Profile extends Model {
             'role'                    => 'string',
             'country'                 => 'string',
             'bio'                     => 'string',
-            'status'                  => 'boolean',
+            'status'                  => 'string',
             'created_at'              => 'datetime',
             'updated_at'              => 'datetime',
             'deleted_at'              => 'datetime',

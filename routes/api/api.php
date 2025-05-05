@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ContentController;
 use Illuminate\Support\Facades\Route;
 
-/**
- * V1 API Routes:
- */
-require 'v1/auth/auth.php';                        // All Auth routes
+// This route is for getting terms and conditions and privacy policy.
+Route::get('contents', [ContentController::class, 'index'])->middleware(['throttle:10,1']);

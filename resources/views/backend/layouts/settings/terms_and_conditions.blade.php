@@ -11,7 +11,8 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('terms-and-conditions.index') }}">Settings</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('terms-and-conditions.index') }}">Settings</a>
+                                </li>
                                 <li class="breadcrumb-item active">Terms & Conditions</li>
                             </ol>
                         </div>
@@ -43,7 +44,8 @@
                                     <div class="col-md-6">
                                         <div>
                                             <label for="disabledInput" class="form-label">Slug:</label>
-                                            <input type="text" class="form-control" id="disabledInput" value="{{ $terms_and_conditions->slug ?? '' }}" disabled="">
+                                            <input type="text" class="form-control" id="disabledInput"
+                                                value="{{ $terms_and_conditions->slug ?? '' }}" disabled="">
                                         </div>
                                     </div>
 

@@ -1,38 +1,98 @@
 @extends('frontend.app')
 
-@section('title', 'Sign In')
+@section('title', 'Admin Dashboard Dosix')
+
+@push('styles')
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-image: url('{{ asset('frontend/mockup_image.jpg') }}');
+            background-size: cover;
+            background-position: top center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .auth-buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .login-btn,
+        .register-btn,
+        .dashboard-btn {
+            padding: 0.8em 2em;
+            font-size: 1.2em;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            text-decoration: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-btn:hover,
+        .register-btn:hover,
+        .dashboard-btn:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+
+            .login-btn,
+            .register-btn,
+            .dashboard-btn {
+                padding: 0.6em 1.5em;
+                font-size: 1em;
+                bottom: 10px;
+                left: 10px;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+@endpush
 
 @section('content')
-    <div class="left-side">
-        <img src="{{ asset('frontend/logo2.png') }}" alt="Logo" class="logo" />
-        <div class="form-container">
-            <h1>Log In</h1>
-            <p class="description">Welcome back! Please enter your details.</p>
-            <form action="{{ route('login') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Email Address"
-                        value="{{ old('email') }}" />
-                    @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
+    @if (Route::has('login'))
+        @auth
+            <div class="auth-buttons">
+                <a href="{{ route('dashboard') }}" class="dashboard-btn">
+                    Dashboard
+                </a>
+            </div>
+        @else
+            <div class="auth-buttons">
+                <a href="{{ route('login') }}" class="login-btn">
+                    Log in
+                </a>
 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password" />
-                    @error('password')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit" class="btn btn-primary">Sign In</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="right-side">
-        <img src="{{ asset('frontend/signin.png') }}" alt="Sign In" class="signin-img" />
-    </div>
+                {{-- <a href="{{ route('register') }}" class="register-btn">
+                    Register
+                </a> --}}
+            </div>
+        @endauth
+    @endif
 @endsection

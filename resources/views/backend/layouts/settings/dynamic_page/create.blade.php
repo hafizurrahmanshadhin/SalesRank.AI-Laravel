@@ -44,7 +44,8 @@
 
                                     <div>
                                         <label for="page_content" class="form-label">Content:</label>
-                                        <textarea class="form-control @error('page_content') is-invalid @enderror" id="page_content" name="page_content" placeholder="Please Enter Content...">{{ old('page_content') }}</textarea>
+                                        <textarea class="form-control @error('page_content') is-invalid @enderror" id="page_content" name="page_content"
+                                            placeholder="Please Enter Content...">{{ old('page_content') }}</textarea>
                                         @error('page_content')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror

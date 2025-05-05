@@ -18,18 +18,12 @@ class Portfolio extends Model {
         'status',
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
     protected function casts(): array {
         return [
             'id'           => 'integer',
             'user_id'      => 'integer',
             'project_path' => 'string',
-            'status'       => 'boolean',
+            'status'       => 'string',
             'created_at'   => 'datetime',
             'updated_at'   => 'datetime',
             'deleted_at'   => 'datetime',

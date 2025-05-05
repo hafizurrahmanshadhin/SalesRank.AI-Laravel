@@ -7,23 +7,22 @@
     <div class="navbar-brand-box">
         <a href="{{ route('dashboard') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
-                    style="width: 190px; height: 50px;">
+                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}" alt="Logo" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
-                    style="width: 190px; height: 50px;">
+                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-light.png') }}" alt="Logo"
+                    height="22">
             </span>
         </a>
 
         <a href="{{ route('dashboard') }}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
-                    style="width: 190px; height: 50px;">
+                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}" alt="Logo"
+                    height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo2.png') }}" alt="Logo"
-                    style="width: 190px; height: 50px;">
+                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-light.png') }}" alt="Logo"
+                    height="22">
             </span>
         </a>
 
@@ -57,24 +56,23 @@
                     </a>
                 </li>
 
-                {{-- Frequently Asked Questions for Collaboration Q&A --}}
+                {{-- Service --}}
+                <li class="nav-item">
+                    <a href="{{ route('service.index') }}"
+                        class="nav-link menu-link {{ request()->routeIs('service.*') ? 'active' : '' }}">
+                        <i class="ri-tools-line"></i>
+                        <span data-key="t-faq">Service</span>
+                    </a>
+                </li>
+
+                {{-- Frequently Asked Questions --}}
                 <li class="nav-item">
                     <a href="{{ route('faq.index') }}"
                         class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
                         <i class="ri-question-line"></i>
-                        <span data-key="t-faq">Collaboration Q&A</span>
+                        <span data-key="t-faq">FAQ</span>
                     </a>
                 </li>
-
-                {{-- Frequently Asked Questions for SalesRank.AI FAQ --}}
-                <li class="nav-item">
-                    <a href="{{ route('faq.index') }}"
-                        class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
-                        <i class="ri-question-line"></i>
-                        <span data-key="t-faq">SalesRank.AI FAQ</span>
-                    </a>
-                </li>
-
 
                 <hr>
                 {{-- Settings --}}
@@ -103,6 +101,54 @@
                                     class="nav-link {{ request()->routeIs('system.index') ? 'active' : '' }}"
                                     data-key="t-system-settings">
                                     System Settings
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('mail.setting') }}"
+                                    class="nav-link {{ request()->routeIs('mail.setting') ? 'active' : '' }}"
+                                    data-key="t-system-settings">
+                                    SMTP Server
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('integration.setting') }}"
+                                    class="nav-link {{ request()->routeIs('integration.setting') ? 'active' : '' }}"
+                                    data-key="t-integration-settings">
+                                    Integration Settings
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('social.index') }}"
+                                    class="nav-link {{ request()->routeIs('social.index') ? 'active' : '' }}"
+                                    data-key="t-social-media-settings">
+                                    Social Media Settings
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('settings.dynamic_page.index') }}"
+                                    class="nav-link {{ request()->routeIs('settings.dynamic_page.*') ? 'active' : '' }}"
+                                    data-key="t-dynamic-page-settings">
+                                    Dynamic Page Settings
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('terms-and-conditions.index') }}"
+                                    class="nav-link {{ request()->routeIs('terms-and-conditions.index') ? 'active' : '' }}"
+                                    data-key="t-terms-and-conditions">
+                                    Terms & Conditions
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('privacy-policy.index') }}"
+                                    class="nav-link {{ request()->routeIs('privacy-policy.index') ? 'active' : '' }}"
+                                    data-key="t-terms-and-conditions">
+                                    Privacy Policy
                                 </a>
                             </li>
                         </ul>

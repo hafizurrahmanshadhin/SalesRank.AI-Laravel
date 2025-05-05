@@ -25,23 +25,23 @@
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="{{ route('dashboard') }}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
-                                    style="width: 125px; height: 30px;">
+                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
+                                    alt="Logo" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
-                                    style="width: 125px; height: 30px;">
+                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
+                                    alt="Logo" height="22">
                             </span>
                         </a>
 
                         <a href="{{ route('dashboard') }}" class="logo logo-light">
                             <span class="logo-sm">
-                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
-                                    style="width: 125px; height: 30px;">
+                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
+                                    alt="Logo" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo_black.png') }}" alt="Logo"
-                                    style="width: 125px; height: 30px;">
+                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
+                                    alt="Logo" height="22">
                             </span>
                         </a>
                     </div>
@@ -60,18 +60,40 @@
                 </div>
 
                 <div class="d-flex align-items-center">
+                    <div class="ms-1 header-item d-none d-sm-flex">
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle"
+                            data-toggle="fullscreen">
+                            <i class='bx bx-fullscreen fs-3xl'></i>
+                        </button>
+                    </div>
+
+                    <div class="dropdown topbar-head-dropdown ms-1 header-item">
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle mode-layout"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-sun align-middle fs-3xl"></i>
+                        </button>
+                        <div class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
+                            <a href="#!" class="dropdown-item" data-mode="light"><i
+                                    class="bx bx-sun align-middle me-2"></i> Default (light mode)</a>
+                            <a href="#!" class="dropdown-item" data-mode="dark"><i
+                                    class="bx bx-moon align-middle me-2"></i> Dark</a>
+                            <a href="#!" class="dropdown-item" data-mode="auto"><i
+                                    class="bx bx-desktop align-middle me-2"></i> Auto (system default)</a>
+                        </div>
+                    </div>
+
                     <div class="dropdown ms-sm-3 header-item">
                         <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-flex align-items-center">
                                 <img class="rounded-circle header-profile-user"
-                                    src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('frontend/user_placeholder.png') }}"
+                                    src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('backend/images/default_images/user_1.jpg') }}"
                                     alt="Header Avatar">
                                 <span class="text-start ms-xl-2">
                                     <span
                                         class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ ucfirst(Auth::user()->first_name) . ' ' . ucfirst(Auth::user()->last_name) ?? '' }}</span>
                                     <span
-                                        class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">{{ ucfirst(Auth::user()->role->name) ?? '' }}</span>
+                                        class="d-none d-xl-block ms-1 fs-sm user-name-sub-text">{{ ucfirst(Auth::user()->role) ?? '' }}</span>
                                 </span>
                             </span>
                         </button>

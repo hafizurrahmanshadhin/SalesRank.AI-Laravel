@@ -39,6 +39,7 @@
     </div>
     {{-- preloader --}}
 
+    @include('backend.partials.theme-settings')
     @include('backend.partials.scripts')
 </body>
 

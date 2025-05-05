@@ -43,7 +43,8 @@
                                     <div class="col-md-6">
                                         <div>
                                             <label for="disabledInput" class="form-label">Slug:</label>
-                                            <input type="text" class="form-control" id="disabledInput" value="{{ $privacy_policy->slug ?? '' }}" disabled="">
+                                            <input type="text" class="form-control" id="disabledInput"
+                                                value="{{ $privacy_policy->slug ?? '' }}" disabled="">
                                         </div>
                                     </div>
 

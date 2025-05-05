@@ -4,7 +4,7 @@
 
 {{-- App favicon --}}
 <link rel="shortcut icon" type="image/x-icon"
-    href="{{ isset($systemSetting->favicon) && !empty($systemSetting->favicon) ? asset($systemSetting->favicon) : asset('frontend/favicon.png') }}" />
+    href="{{ isset($systemSetting->favicon) && !empty($systemSetting->favicon) ? asset($systemSetting->favicon) : asset('backend/images/favicon.ico') }}" />
 
 {{-- Fonts css load --}}
 <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -28,9 +28,7 @@
 
 
 {{-- dropify css --}}
-{{-- <link rel="stylesheet" href="{{ asset('backend/css/dropify.min.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ asset('backend/custom_downloaded_file/dropify.css') }}"> --}}
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css">
+<link rel="stylesheet" href="{{ asset('backend/css/dropify.min.css') }}">
 
 {{-- Sweet Alert css --}}
 <link href="{{ asset('backend/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
@@ -293,9 +291,4 @@
 
 {{-- custom Css --}}
 <link href="{{ asset('backend/css/custom.min.css') }}" rel="stylesheet" type="text/css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
-<link rel="stylesheet" href="{{ asset('backend/custom_downloaded_file/responsive.bootstrap5.min.css') }}" />
-
 @stack('styles')

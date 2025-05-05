@@ -2,7 +2,7 @@
 
 return [
     'defaults'         => [
-        'guard'     => 'web', // Set 'web' as the default guard for web-based (admin) authentication
+        'guard'     => 'web',
         'passwords' => 'users',
     ],
 
@@ -11,12 +11,9 @@ return [
             'driver'   => 'session',
             'provider' => 'users',
         ],
-
-        // JWT-based API guard for API authentication
         'api' => [
             'driver'   => 'jwt',
             'provider' => 'users',
-            'hash'     => false,
         ],
     ],
 
@@ -31,7 +28,7 @@ return [
         'users' => [
             'provider' => 'users',
             'table'    => 'password_reset_tokens',
-            'expire'   => env('PASSWORD_RESET_EXPIRE', 60),
+            'expire'   => 60,
             'throttle' => 60,
         ],
     ],
