@@ -65,14 +65,23 @@
                     </a>
                 </li>
 
-                {{-- Frequently Asked Questions --}}
+                {{-- Frequently Asked Questions for SalesRank.AI FAQ --}}
                 <li class="nav-item">
                     <a href="{{ route('faq.index') }}"
                         class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
                         <i class="ri-question-line"></i>
-                        <span data-key="t-faq">FAQ</span>
+                        <span data-key="t-faq">SalesRank.AI FAQ</span>
                     </a>
                 </li>
+
+                {{-- Frequently Asked Questions for Collaboration Q&A --}}
+                {{-- <li class="nav-item">
+                    <a href="{{ route('faq.index') }}"
+                        class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
+                        <i class="ri-question-line"></i>
+                        <span data-key="t-faq">Collaboration Q&A</span>
+                    </a>
+                </li> --}}
 
                 <hr>
                 {{-- Settings --}}
