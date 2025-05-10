@@ -12,6 +12,7 @@ class FAQ extends Model {
     protected $fillable = [
         'question',
         'answer',
+        'type',
     ];
 
     protected $hidden = [
@@ -24,6 +25,7 @@ class FAQ extends Model {
         return [
             'question' => 'string',
             'answer'   => 'string',
+            'type'     => 'string',
         ];
     }
 }

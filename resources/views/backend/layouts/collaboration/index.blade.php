@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'FAQ')
+@section('title', 'Collaboration')
 
 @section('content')
     <div class="page-content">
@@ -11,8 +11,8 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('faq.index') }}">Table</a></li>
-                                <li class="breadcrumb-item active">FAQ</li>
+                                <li class="breadcrumb-item"><a href="{{ route('collaboration.index') }}">Table</a></li>
+                                <li class="breadcrumb-item active">Collaboration FAQ</li>
                             </ol>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">All Frequently Asked Questions</h5>
-                            <a href="{{ route('faq.create') }}" class="btn btn-primary btn-sm" id="addNewPage">Add FAQ</a>
+                            <a href="{{ route('collaboration.create') }}" class="btn btn-primary btn-sm" id="addNewPage">Add FAQ</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -95,7 +95,7 @@
                     serverSide: true,
                     pagingType: "full_numbers",
                     ajax: {
-                        url: "{{ route('faq.index') }}",
+                        url: "{{ route('collaboration.index') }}",
                         type: "GET",
                     },
                     dom: "<'row table-topbar'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>>" +
@@ -165,7 +165,7 @@
 
         // Fetch and display FAQ details in the modal
         async function showFAQDetails(id) {
-            let url = '{{ route('faq.show', ['id' => ':id']) }}';
+            let url = '{{ route('collaboration.show', ['id' => ':id']) }}';
             url = url.replace(':id', id);
 
             try {
@@ -206,7 +206,7 @@
 
         // Status Change
         function statusChange(id) {
-            let url = '{{ route('faq.status', ['id' => ':id']) }}'.replace(':id', id);
+            let url = '{{ route('collaboration.status', ['id' => ':id']) }}'.replace(':id', id);
             $.ajax({
                 type: "GET",
                 url: url.replace(':id', id),
@@ -247,7 +247,7 @@
 
         // Delete Button
         function deleteItem(id) {
-            let url = '{{ route('faq.destroy', ['id' => ':id']) }}'.replace(':id', id);
+            let url = '{{ route('collaboration.destroy', ['id' => ':id']) }}'.replace(':id', id);
             let csrfToken = '{{ csrf_token() }}';
             $.ajax({
                 type: "DELETE",

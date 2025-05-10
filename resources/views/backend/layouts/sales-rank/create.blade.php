@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'FAQ Create')
+@section('title', 'SalesRank.AI FAQ Create')
 
 @push('styles')
     <style>
@@ -43,7 +43,7 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('faq.index') }}">FAQ</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('sales-rank.index') }}">SalesRank.AI FAQ</a></li>
                                 <li class="breadcrumb-item active">Create</li>
                             </ol>
                         </div>
@@ -59,7 +59,7 @@
                             <div class="d-flex justify-content-end mb-3">
                                 <button type="button" class="btn btn-primary" onclick="addFaqField()">Add FAQ</button>
                             </div>
-                            <form action="{{ route('faq.store') }}" method="POST" id="faq_form">
+                            <form action="{{ route('sales-rank.store') }}" method="POST" id="faq_form">
                                 @csrf
                                 <div class="row gy-4" id="faq_fields_container">
                                     @foreach (old('questions', ['']) as $index => $oldQuestion)
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="mt-3">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <a href="{{ route('faq.index') }}" class="btn btn-danger">Cancel</a>
+                                    <a href="{{ route('sales-rank.index') }}" class="btn btn-danger">Cancel</a>
                                 </div>
                             </form>
                         </div>

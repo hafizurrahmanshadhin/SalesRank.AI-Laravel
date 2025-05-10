@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
-class FAQController extends Controller {
+class SalesRankController extends Controller {
     /**
      * Display the listing of faqs.
      *
@@ -24,7 +24,7 @@ class FAQController extends Controller {
     public function index(Request $request): View | JsonResponse {
         try {
             if ($request->ajax()) {
-                $data = FAQ::latest()->get();
+                $data = FAQ::where('type', 'SalesRank')->latest()->get();
                 return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('question', function ($data) {
@@ -47,7 +47,7 @@ class FAQController extends Controller {
                     ->addColumn('action', function ($data) {
                         return '
                                 <div class="hstack gap-3 fs-base">
-                                    <a href="' . route('faq.edit', ['id' => $data->id]) . '" class="link-primary text-decoration-none" title="Edit">
+                                    <a href="' . route('sales-rank.edit', ['id' => $data->id]) . '" class="link-primary text-decoration-none" title="Edit">
                                         <i class="ri-pencil-line" style="font-size: 24px;"></i>
                                     </a>
 
@@ -64,7 +64,7 @@ class FAQController extends Controller {
                     ->rawColumns(['question', 'answer', 'status', 'action'])
                     ->make();
             }
-            return view('backend.layouts.faq.index');
+            return view('backend.layouts.sales-rank.index');
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -96,7 +96,7 @@ class FAQController extends Controller {
      */
     public function create(): View | JsonResponse {
         try {
-            return view('backend.layouts.faq.create');
+            return view('backend.layouts.sales-rank.create');
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -125,9 +125,10 @@ class FAQController extends Controller {
                 $faq           = new FAQ();
                 $faq->question = $question;
                 $faq->answer   = $request->answers[$key];
+                $faq->type     = 'SalesRank';
                 $faq->save();
             }
-            return redirect()->route('faq.index')->with('t-success', 'Create successfully');
+            return redirect()->route('sales-rank.index')->with('t-success', 'Create successfully');
         } catch (Exception) {
             return redirect()->back()->with('t-error', 'Failed to create');
         }
@@ -142,7 +143,7 @@ class FAQController extends Controller {
     public function edit(int $id): View | JsonResponse {
         try {
             $faq = FAQ::findOrFail($id);
-            return view('backend.layouts.faq.edit', compact('faq'));
+            return view('backend.layouts.sales-rank.edit', compact('faq'));
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -171,8 +172,9 @@ class FAQController extends Controller {
             $faq           = FAQ::findOrFail($id);
             $faq->question = $request->question;
             $faq->answer   = $request->answer;
+            $faq->type     = 'SalesRank';
             $faq->save();
-            return redirect()->route('faq.index')->with('t-success', 'Update successfully');
+            return redirect()->route('sales-rank.index')->with('t-success', 'Update successfully');
         } catch (Exception) {
             return redirect()->back()->with('t-error', 'Failed to update');
         }

@@ -14,6 +14,7 @@ return new class extends Migration {
 
             $table->text('question')->nullable(false);
             $table->text('answer')->nullable(false);
+            $table->enum('type', ['SalesRank', 'Collaboration'])->nullable(false);
 
             $table->enum('status', ['active', 'inactive'])->default('active');
 

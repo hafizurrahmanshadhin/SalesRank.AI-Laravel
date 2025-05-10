@@ -1,20 +1,35 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\CollaborationController;
 use App\Http\Controllers\Web\Backend\DashboardController;
-use App\Http\Controllers\Web\Backend\FAQController;
+use App\Http\Controllers\Web\Backend\SalesRankController;
 use Illuminate\Support\Facades\Route;
 
 // Route for Admin Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Route for FAQ Page
-Route::controller(FAQController::class)->group(function () {
-    Route::get('/faq', 'index')->name('faq.index');
-    Route::get('/faq/show/{id}', 'show')->name('faq.show');
-    Route::get('/faq/create', 'create')->name('faq.create');
-    Route::post('/faq/store', 'store')->name('faq.store');
-    Route::get('/faq/edit/{id}', 'edit')->name('faq.edit');
-    Route::put('/faq/update/{id}', 'update')->name('faq.update');
-    Route::get('/faq/status/{id}', 'status')->name('faq.status');
-    Route::delete('/faq/destroy/{id}', 'destroy')->name('faq.destroy');
+Route::prefix('faq')->group(function () {
+    // SalesRank.AI FAQ
+    Route::controller(SalesRankController::class)->prefix('sales-rank')->name('sales-rank.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::put('/update/{id}', 'update')->name('update');
+        Route::get('/status/{id}', 'status')->name('status');
+        Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+    });
+
+    // Collaboration FAQ
+    Route::controller(CollaborationController::class)->prefix('collaboration')->name('collaboration.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::put('/update/{id}', 'update')->name('update');
+        Route::get('/status/{id}', 'status')->name('status');
+        Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+    });
 });

@@ -53,23 +53,37 @@
                     </a>
                 </li>
 
-                {{-- Frequently Asked Questions for SalesRank.AI FAQ --}}
+                {{-- FAQ --}}
                 <li class="nav-item">
-                    <a href="{{ route('faq.index') }}"
-                        class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
+                    <a class="nav-link menu-link {{ request()->is('admin/faq/*') ? 'active' : '' }}" href="#sidebarFaq"
+                        data-bs-toggle="collapse" role="button"
+                        aria-expanded="{{ request()->is('admin/faq/*') ? 'true' : 'false' }}"
+                        aria-controls="sidebarFaq">
                         <i class="ri-question-line"></i>
-                        <span data-key="t-faq">SalesRank.AI FAQ</span>
+                        <span data-key="t-faq">FAQ</span>
                     </a>
-                </li>
 
-                {{-- Frequently Asked Questions for Collaboration Q&A --}}
-                {{-- <li class="nav-item">
-                    <a href="{{ route('faq.index') }}"
-                        class="nav-link menu-link {{ request()->routeIs('faq.*') ? 'active' : '' }}">
-                        <i class="ri-question-line"></i>
-                        <span data-key="t-faq">Collaboration Q&A</span>
-                    </a>
-                </li> --}}
+                    <div class="collapse menu-dropdown {{ request()->is('admin/faq/*') ? 'show' : '' }}"
+                        id="sidebarFaq">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('sales-rank.index') }}"
+                                    class="nav-link {{ request()->is('admin/faq/sales-rank*') ? 'active' : '' }}"
+                                    data-key="t-sales-rank">
+                                    SalesRank.AI
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('collaboration.index') }}"
+                                    class="nav-link {{ request()->is('admin/faq/collaboration*') ? 'active' : '' }}"
+                                    data-key="t-collaboration">
+                                    Collaboration
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <hr>
                 {{-- Settings --}}

@@ -88,10 +88,6 @@
                 <a href="{{ route('login') }}" class="login-btn">
                     Log in
                 </a>
-
-                {{-- <a href="{{ route('register') }}" class="register-btn">
-                    Register
-                </a> --}}
             </div>
         @endauth
     @endif

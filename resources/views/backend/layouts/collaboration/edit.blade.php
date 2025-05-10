@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'FAQ Update')
+@section('title', 'Collaboration FAQ Update')
 
 @push('styles')
     <style>
@@ -43,7 +43,8 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('faq.index') }}">FAQ</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('collaboration.index') }}">Collaboration FAQ</a>
+                                </li>
                                 <li class="breadcrumb-item active">Edit</li>
                             </ol>
                         </div>
@@ -56,7 +57,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('faq.update', ['id' => $faq->id]) }}">
+                            <form method="POST" action="{{ route('collaboration.update', ['id' => $faq->id]) }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="row gy-4" id="faq_fields_container">
@@ -87,7 +88,7 @@
                                 </div>
                                 <div class="mt-3">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <a href="{{ route('faq.index') }}" class="btn btn-danger">Cancel</a>
+                                    <a href="{{ route('collaboration.index') }}" class="btn btn-danger">Cancel</a>
                                 </div>
                             </form>
                         </div>
