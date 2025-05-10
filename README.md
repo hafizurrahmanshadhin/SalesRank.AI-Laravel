@@ -4,18 +4,17 @@
 php artisan serve
 ```
 
-## [Postman Collection](.)
+## [Postman Collection](https://documenter.getpostman.com/view/32086283/2sB2j98V1k)
 
-## [Live Link Our Server](.)
+## [Softvence](https://isaiahboyd612.softvencefsd.xyz)
 
-## [Live Link Client Server](.)
+## [Isaiahboyd612](.)
 
 ---
 
 > ---
 >
 > ## 🔑 Login Credentials
->
 >
 > ## For Admin
 >

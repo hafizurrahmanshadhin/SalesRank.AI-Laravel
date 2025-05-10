@@ -2,15 +2,14 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\FAQSeeder;
-use Illuminate\Database\Seeder;
-use Database\Seeders\UserSeeder;
 use Database\Seeders\ContentSeeder;
-use Database\Seeders\ProfileSeeder;
-use Database\Seeders\ServiceSeeder;
 use Database\Seeders\DynamicPageSeeder;
+use Database\Seeders\FAQSeeder;
+use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SocialMediaSeeder;
 use Database\Seeders\SystemSettingSeeder;
+use Database\Seeders\UserSeeder;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
     public function run(): void {
@@ -22,7 +21,6 @@ class DatabaseSeeder extends Seeder {
             DynamicPageSeeder::class,
             SocialMediaSeeder::class,
             ContentSeeder::class,
-            ServiceSeeder::class,
         ]);
     }
 }

@@ -1,0 +1,907 @@
+{
+	"info": {
+		"_postman_id": "9d6d4634-0324-4594-871d-e6b603590b6a",
+		"name": "isaiahboyd612",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32086283",
+		"_collection_link": "https://www.postman.com/shadhinworkspace/workspace/isaiahboyd612/collection/32086283-9d6d4634-0324-4594-871d-e6b603590b6a?action=share&source=collection_link&creator=32086283"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData && jsonData.token) {\r",
+									"    pm.globals.set('token', jsonData.token);\r",
+									"    console.log('Token set globally: ' + jsonData.token);\r",
+									"} else {\r",
+									"    console.error('Token not found in the response');\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate random first and last names\r",
+									"const firstNames = [\"John\", \"Jane\", \"Michael\", \"Emily\", \"David\", \"Sarah\", \"Robert\", \"Jessica\", \"Daniel\", \"Laura\"];\r",
+									"const lastNames = [\"Smith\", \"Johnson\", \"Williams\", \"Brown\", \"Jones\", \"Miller\", \"Davis\", \"Garcia\", \"Rodriguez\", \"Martinez\"];\r",
+									"\r",
+									"const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];\r",
+									"const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];\r",
+									"\r",
+									"// Generate unique username (lowercase, no spaces)\r",
+									"const randomNum = Math.floor(Math.random() * 10000);\r",
+									"const userName = `${firstName}${lastName}${randomNum}`.toLowerCase();\r",
+									"\r",
+									"// Generate email using existing pattern\r",
+									"const domains = [\"example.com\", \"test.com\", \"email.com\", \"demo.com\", \"gmail.com\", \"yahoo.com\", \"hotmail.com\", \"outlook.com\"];\r",
+									"const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
+									"const email = `${firstName.toLowerCase()}${randomNum}@${randomDomain}`;\r",
+									"\r",
+									"// Generate phone number: 10-digit numeric string\r",
+									"const phoneNumber = `+8801${Math.floor(100000000 + Math.random() * 900000000)}`;\r",
+									"\r",
+									"// LinkedIn profile URL\r",
+									"const linkedinProfileUrl = `https://www.linkedin.com/in/${userName}`;\r",
+									"\r",
+									"// Revenue generated year: between 2000 and current year\r",
+									"const currentYear = new Date().getFullYear();\r",
+									"const revenueGeneratedYear = Math.floor(2000 + Math.random() * (currentYear - 2000 + 1));\r",
+									"\r",
+									"// Revenue generated: decimal with two places, between 0 and 100000\r",
+									"const revenueGenerated = parseFloat((Math.random() * 100000).toFixed(2));\r",
+									"\r",
+									"// Industry experience: float with one decimal, between 0 and 30 years\r",
+									"const industryExperience = parseFloat((Math.random() * 30).toFixed(1));\r",
+									"\r",
+									"// Present club experience: float with one decimal, between 0 and 10 years\r",
+									"const presentClubExperience = parseFloat((Math.random() * 10).toFixed(1));\r",
+									"\r",
+									"// Lead close ratio: decimal with two places, between 0 and 100 percent\r",
+									"const leadCloseRatio = parseFloat((Math.random() * 100).toFixed(2));\r",
+									"\r",
+									"// Set Postman globals\r",
+									"pm.globals.set(\"first_name\", firstName);\r",
+									"pm.globals.set(\"last_name\", lastName);\r",
+									"pm.globals.set(\"user_name\", userName);\r",
+									"pm.globals.set(\"email\", email);\r",
+									"pm.globals.set(\"phone_number\", phoneNumber);\r",
+									"pm.globals.set(\"linkedin_profile_url\", linkedinProfileUrl);\r",
+									"pm.globals.set(\"revenue_generated_year\", revenueGeneratedYear);\r",
+									"pm.globals.set(\"revenue_generated\", revenueGenerated);\r",
+									"pm.globals.set(\"industry_experience\", industryExperience);\r",
+									"pm.globals.set(\"present_club_experience\", presentClubExperience);\r",
+									"pm.globals.set(\"lead_close_ratio\", leadCloseRatio);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "role",
+									"value": "hiring_company",
+									"description": "Accept only 'sales_professional' or 'hiring_company'",
+									"type": "text"
+								},
+								{
+									"key": "user_name",
+									"value": "{{user_name}}",
+									"description": "user_name should be unique",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"description": "email also unique",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "{{first_name}}",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "{{last_name}}",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "{{phone_number}}",
+									"type": "text"
+								},
+								{
+									"key": "linkedin_profile_url",
+									"value": "{{linkedin_profile_url}}",
+									"description": "accept only url",
+									"type": "text"
+								},
+								{
+									"key": "revenue_generated_year",
+									"value": "{{revenue_generated_year}}",
+									"type": "text"
+								},
+								{
+									"key": "revenue_generated",
+									"value": "{{revenue_generated}}",
+									"type": "text"
+								},
+								{
+									"key": "industry_experience",
+									"value": "{{industry_experience}}",
+									"type": "text"
+								},
+								{
+									"key": "present_club_experience",
+									"value": "{{present_club_experience}}",
+									"type": "text"
+								},
+								{
+									"key": "lead_close_ratio",
+									"value": "{{lead_close_ratio}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"user registration successfull\",  \n\"data\": {  \n\"token\": \"{{vault:json-web-token}}\",  \n\"role\": \"user\",  \n\"verify\": false  \n},  \n\"timestamp\": \"2024-12-09T13:51:47+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData && jsonData.token) {\r",
+									"    pm.globals.set('token', jsonData.token);\r",
+									"    console.log('Token set globally: ' + jsonData.token);\r",
+									"} else {\r",
+									"    console.error('Token not found in the response');\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "sales@professional.com",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "hiring@company.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "shadhin666@gmail.com",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot-password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "shadhin666@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/forgot-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"user logged out successfully\",  \n\"data\": null,  \n\"timestamp\": \"2024-12-09T13:52:45+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset_Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "email",
+								"value": "shadhin666@gmail.com",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "nMXLLj3LBGFzlf61cuVbCdWqhWQQlMRVmhhgeHsh7ENP4XrbovKj4GU644Ao",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/reset-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"user logged out successfully\",  \n\"data\": null,  \n\"timestamp\": \"2024-12-09T13:52:45+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "socialite-login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData && jsonData.token) {\r",
+									"    pm.globals.set('token', jsonData.token);\r",
+									"    console.log('Token set globally: ' + jsonData.token);\r",
+									"} else {\r",
+									"    console.error('Token not found in the response');\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate random first and last names\r",
+									"const firstNames = [\"John\", \"Jane\", \"Michael\", \"Emily\", \"David\", \"Sarah\", \"Robert\", \"Jessica\", \"Daniel\", \"Laura\"];\r",
+									"const lastNames = [\"Smith\", \"Johnson\", \"Williams\", \"Brown\", \"Jones\", \"Miller\", \"Davis\", \"Garcia\", \"Rodriguez\", \"Martinez\"];\r",
+									"\r",
+									"const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];\r",
+									"const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];\r",
+									"\r",
+									"// Generate unique username (lowercase, no spaces)\r",
+									"const randomNum = Math.floor(Math.random() * 10000);\r",
+									"const userName = `${firstName}${lastName}${randomNum}`.toLowerCase();\r",
+									"\r",
+									"// Generate phone number: 10-digit numeric string\r",
+									"const phoneNumber = `+8801${Math.floor(100000000 + Math.random() * 900000000)}`;\r",
+									"\r",
+									"// LinkedIn profile URL\r",
+									"const linkedinProfileUrl = `https://www.linkedin.com/in/${userName}`;\r",
+									"\r",
+									"// Revenue generated year: between 2000 and current year\r",
+									"const currentYear = new Date().getFullYear();\r",
+									"const revenueGeneratedYear = Math.floor(2000 + Math.random() * (currentYear - 2000 + 1));\r",
+									"\r",
+									"// Revenue generated: decimal with two places, between 0 and 100000\r",
+									"const revenueGenerated = parseFloat((Math.random() * 100000).toFixed(2));\r",
+									"\r",
+									"// Industry experience: float with one decimal, between 0 and 30 years\r",
+									"const industryExperience = parseFloat((Math.random() * 30).toFixed(1));\r",
+									"\r",
+									"// Present club experience: float with one decimal, between 0 and 10 years\r",
+									"const presentClubExperience = parseFloat((Math.random() * 10).toFixed(1));\r",
+									"\r",
+									"// Lead close ratio: decimal with two places, between 0 and 100 percent\r",
+									"const leadCloseRatio = parseFloat((Math.random() * 100).toFixed(2));\r",
+									"\r",
+									"// Set Postman globals\r",
+									"pm.globals.set(\"phone_number\", phoneNumber);\r",
+									"pm.globals.set(\"linkedin_profile_url\", linkedinProfileUrl);\r",
+									"pm.globals.set(\"revenue_generated_year\", revenueGeneratedYear);\r",
+									"pm.globals.set(\"revenue_generated\", revenueGenerated);\r",
+									"pm.globals.set(\"industry_experience\", industryExperience);\r",
+									"pm.globals.set(\"present_club_experience\", presentClubExperience);\r",
+									"pm.globals.set(\"lead_close_ratio\", leadCloseRatio);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "ya29.a0AW4XtxhM1j0G87stGqzBa3yOSlHHVfmpHOePgNxj09-oMHfA40ig_6GAq1e4XrFYFhMnW3fZ_ulq_v5GSIRRagygBBTZwaVzdEc8QhLoNXzHXyEMf4EWxwJwMQAQRwCoJfn_vUDbfe7z3g3VtFcyXTufYMBRNiJL-BNIEYh5aCgYKAaASARISFQHGX2MimOYjlZMwlDwgz5-jTrO-4g0175",
+									"description": "Google Token Needed and it is Required",
+									"type": "text"
+								},
+								{
+									"key": "provider",
+									"value": "google",
+									"description": "Accept Only 'google'",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "sales_professional",
+									"description": "Accept Only 'sales_professional' or 'hiring_company'",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "{{phone_number}}",
+									"type": "text"
+								},
+								{
+									"key": "linkedin_profile_url",
+									"value": "{{linkedin_profile_url}}",
+									"description": "Accept only URL",
+									"type": "text"
+								},
+								{
+									"key": "revenue_generated_year",
+									"value": "{{revenue_generated_year}}",
+									"type": "text"
+								},
+								{
+									"key": "revenue_generated",
+									"value": "{{revenue_generated}}",
+									"type": "text"
+								},
+								{
+									"key": "industry_experience",
+									"value": "{{industry_experience}}",
+									"type": "text"
+								},
+								{
+									"key": "present_club_experience",
+									"value": "{{present_club_experience}}",
+									"type": "text"
+								},
+								{
+									"key": "lead_close_ratio",
+									"value": "{{lead_close_ratio}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/socialite-login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"socialite-login"
+							]
+						},
+						"description": "{  \n\"success\": true,  \n\"code\": 200,  \n\"message\": \"user logged out successfully\",  \n\"data\": null,  \n\"timestamp\": \"2024-12-09T13:52:45+00:00 GMT+00:00\"  \n}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "send_message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "message",
+									"value": "Hello! I am from user...",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/messages/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"messages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "receive_message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/messages/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"messages",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUsersWithLastMessage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users-with-last-message",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users-with-last-message"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "T&C_And_Privacy_Policy",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/contents?type=termsAndConditions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contents"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "termsAndConditions",
+									"description": "Accept only 'termsAndConditions' or 'privacyPolicy'"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "https://isaiahboyd612.softvencefsd.xyz/api",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}

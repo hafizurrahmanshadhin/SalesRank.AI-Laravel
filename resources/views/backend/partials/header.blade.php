@@ -25,23 +25,23 @@
                     <div class="navbar-brand-box horizontal-logo">
                         <a href="{{ route('dashboard') }}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
-                                    alt="Logo" height="22">
+                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo.png') }}" alt="Logo"
+                                    height="40">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
-                                    alt="Logo" height="22">
+                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo.png') }}" alt="Logo"
+                                    height="40">
                             </span>
                         </a>
 
                         <a href="{{ route('dashboard') }}" class="logo logo-light">
                             <span class="logo-sm">
-                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
-                                    alt="Logo" height="22">
+                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo.png') }}" alt="Logo"
+                                    height="40">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset($systemSetting->logo ?? 'backend/images/logo-sm.png') }}"
-                                    alt="Logo" height="22">
+                                <img src="{{ asset($systemSetting->logo ?? 'frontend/logo.png') }}" alt="Logo"
+                                    height="40">
                             </span>
                         </a>
                     </div>
@@ -86,9 +86,14 @@
                         <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-flex align-items-center">
+                                @php
+                                    $avatar = Auth::user()->getRawOriginal('avatar');
+                                @endphp
+
                                 <img class="rounded-circle header-profile-user"
-                                    src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('backend/images/default_images/user_1.jpg') }}"
+                                    src="{{ $avatar ? asset($avatar) : asset('backend/images/users/user-dummy-img.jpg') }}"
                                     alt="Header Avatar">
+
                                 <span class="text-start ms-xl-2">
                                     <span
                                         class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ ucfirst(Auth::user()->first_name) . ' ' . ucfirst(Auth::user()->last_name) ?? '' }}</span>

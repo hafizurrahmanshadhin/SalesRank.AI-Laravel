@@ -1,21 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\Backend\FAQController;
-use App\Http\Controllers\Web\Backend\ServiceController;
 use App\Http\Controllers\Web\Backend\DashboardController;
+use App\Http\Controllers\Web\Backend\FAQController;
+use Illuminate\Support\Facades\Route;
 
 // Route for Admin Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-// Route for Service Backend
-Route::controller(ServiceController::class)->group(function () {
-    Route::get('/service', 'index')->name('service.index');
-    Route::post('/service/store', 'store')->name('service.store');
-    Route::put('/service/update/{id}', 'update')->name('service.update');
-    Route::get('/service/status/{id}', 'status')->name('service.status');
-    Route::delete('/service/destroy/{id}', 'destroy')->name('service.destroy');
-});
 
 // Route for FAQ Page
 Route::controller(FAQController::class)->group(function () {

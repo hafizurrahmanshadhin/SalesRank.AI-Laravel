@@ -24,7 +24,11 @@
                 <div class="col-xxl-3">
                     <div class="card overflow-hidden">
                         <div class="cover-photo-wrapper">
-                            <img src="{{ Auth::user()->cover_photo ? asset(Auth::user()->cover_photo) : asset('backend/images/small/img-7.jpg') }}"
+                            @php
+                                $cover_photo = Auth::user()->getRawOriginal('cover_photo');
+                            @endphp
+
+                            <img src="{{ $cover_photo ? asset($cover_photo) : asset('backend/images/small/img-7.jpg') }}"
                                 alt="Cover Photo" class="card-img-top profile-wid-img object-fit-cover"
                                 style="height: 200px;">
                             <div>
@@ -38,11 +42,16 @@
                         <div class="card-body pt-0 mt-n5">
                             <div class="text-center">
                                 <div class="profile-user position-relative d-inline-block mx-auto">
+                                    @php
+                                        $avatar = Auth::user()->getRawOriginal('avatar');
+                                    @endphp
+
                                     <div class="profile-picture-wrapper">
-                                        <img src="{{ Auth::user()->avatar ? asset(Auth::user()->avatar) : asset('backend/images/default_images/user_1.jpg') }}"
+                                        <img src="{{ $avatar ? asset($avatar) : asset('backend/images/users/user-dummy-img.jpg') }}"
                                             alt="Profile Picture"
                                             class="avatar-lg rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
                                     </div>
+
                                     <div
                                         class="avatar-xs p-0 rounded-circle profile-photo-edit position-absolute end-0 bottom-0">
                                         <input id="profile_picture_input" type="file"
@@ -156,7 +165,7 @@
                                                         class="form-control @error('phone_number') is-invalid @enderror"
                                                         id="phone_number" name="phone_number"
                                                         placeholder="Enter Your Phone Number"
-                                                        value="{{ Auth::user()->phone_number }}">
+                                                        value="{{ Auth::user()->profile->phone_number }}">
                                                     @error('phone_number')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror

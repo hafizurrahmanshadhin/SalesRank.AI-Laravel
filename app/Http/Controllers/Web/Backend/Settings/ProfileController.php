@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Backend\Settings;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,7 @@ class ProfileController extends Controller {
         $validator = Validator::make($request->all(), [
             'first_name'   => 'required|string|max:200|min:2',
             'last_name'    => 'required|string|max:200|min:2',
-            'phone_number' => 'required|numeric|unique:users,phone_number,' . auth()->user()->id,
+            'phone_number' => 'required|numeric|unique:profiles,phone_number,' . optional(auth()->user()->profile)->id,
             'email'        => 'required|email|unique:users,email,' . auth()->user()->id,
         ]);
 
@@ -43,13 +44,17 @@ class ProfileController extends Controller {
             return redirect()->back()->withErrors($validator)->withInput();
         }
         try {
-            $user               = User::find(auth()->user()->id);
-            $user->first_name   = $request->first_name;
-            $user->last_name    = $request->last_name;
-            $user->phone_number = $request->phone_number;
-            $user->email        = $request->email;
-
+            $user             = User::find(auth()->user()->id);
+            $user->first_name = $request->first_name;
+            $user->last_name  = $request->last_name;
+            $user->email      = $request->email;
             $user->save();
+
+            // Update or create profile
+            $profile               = $user->profile ?? new Profile(['user_id' => $user->id]);
+            $profile->phone_number = $request->phone_number;
+            $profile->save();
+
             return redirect()->back()->with('t-success', 'Profile updated successfully');
         } catch (Exception) {
             return redirect()->back()->with('t-error', 'Something went wrong');
@@ -94,7 +99,7 @@ class ProfileController extends Controller {
      */
     public function UpdateProfilePicture(Request $request) {
         $request->validate([
-            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:20480',
         ]);
 
         try {
@@ -103,8 +108,8 @@ class ProfileController extends Controller {
             $imageName = time() . '.' . $image->getClientOriginalExtension();
 
             //? Check if there's an existing profile picture
-            if ($user->avatar && file_exists(public_path($user->avatar))) {
-                Helper::fileDelete(public_path($user->avatar));
+            if ($user->getRawOriginal('avatar')) {
+                Helper::fileDelete($user->getRawOriginal('avatar'));
             }
 
             //* Use the Helper class to handle the file upload
@@ -120,7 +125,7 @@ class ProfileController extends Controller {
 
             return response()->json([
                 'success'   => true,
-                'image_url' => asset($imagePath),
+                'image_url' => $imagePath,
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -147,8 +152,8 @@ class ProfileController extends Controller {
             $imageName = time() . '.' . $image->getClientOriginalExtension();
 
             //? Check if there's an existing cover photo
-            if ($user->cover_photo && file_exists(public_path($user->cover_photo))) {
-                Helper::fileDelete(public_path($user->cover_photo));
+            if ($user->getRawOriginal('cover_photo')) {
+                Helper::fileDelete($user->getRawOriginal('cover_photo'));
             }
 
             //* Use the Helper class to handle the file upload
@@ -164,7 +169,7 @@ class ProfileController extends Controller {
 
             return response()->json([
                 'success'   => true,
-                'image_url' => asset($imagePath),
+                'image_url' => $imagePath,
             ]);
         } catch (Exception $e) {
             return response()->json([

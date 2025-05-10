@@ -18,14 +18,6 @@ class SocialMediaSeeder extends Seeder {
             ],
             [
                 'id'           => 2,
-                'social_media' => 'instagram',
-                'profile_link' => 'https://www.instagram.com/',
-                'created_at'   => '2025-04-19 00:03:21',
-                'updated_at'   => '2025-05-19 00:03:21',
-                'deleted_at'   => null,
-            ],
-            [
-                'id'           => 3,
                 'social_media' => 'twitter',
                 'profile_link' => 'https://x.com/',
                 'created_at'   => '2025-06-19 00:03:21',
@@ -33,11 +25,19 @@ class SocialMediaSeeder extends Seeder {
                 'deleted_at'   => null,
             ],
             [
-                'id'           => 4,
+                'id'           => 3,
                 'social_media' => 'linkedin',
                 'profile_link' => 'https://www.linkedin.com/',
                 'created_at'   => '2025-08-19 00:03:21',
                 'updated_at'   => '2025-09-19 00:03:21',
+                'deleted_at'   => null,
+            ],
+            [
+                'id'           => 4,
+                'social_media' => 'instagram',
+                'profile_link' => 'https://www.instagram.com/',
+                'created_at'   => '2025-04-19 00:03:21',
+                'updated_at'   => '2025-05-19 00:03:21',
                 'deleted_at'   => null,
             ],
         ]);
