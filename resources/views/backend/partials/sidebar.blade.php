@@ -85,6 +85,46 @@
                     </div>
                 </li>
 
+                {{-- CMS --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->is('admin/cms/*') ? 'active' : '' }}" href="#sidebarCms"
+                        data-bs-toggle="collapse" role="button"
+                        aria-expanded="{{ request()->is('admin/cms/*') ? 'true' : 'false' }}"
+                        aria-controls="sidebarCms">
+                        <i class="ri-settings-3-line"></i>
+                        <span data-key="t-cms">CMS</span>
+                    </a>
+
+                    <div class="collapse menu-dropdown {{ request()->is('admin/cms/*') ? 'show' : '' }}"
+                        id="sidebarCms">
+                        <ul class="nav nav-sm flex-column">
+                            {{-- Home Page --}}
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ request()->is('admin/cms/home-page*') ? 'active' : '' }}"
+                                    href="#sidebarHomePage" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{ request()->is('admin/cms/home-page*') ? 'true' : 'false' }}"
+                                    aria-controls="sidebarHomePage">
+                                    <span data-key="t-home-page">Home Page</span>
+                                </a>
+
+                                <div class="collapse menu-dropdown {{ request()->is('admin/cms/home-page*') ? 'show' : '' }}"
+                                    id="sidebarHomePage">
+                                    <ul class="nav nav-sm flex-column">
+                                        {{-- Hero Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.home-page.hero-section.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.home-page.hero-section.*') ? 'active' : '' }}"
+                                                data-key="t-hero-section">
+                                                Hero Section
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 <hr>
                 {{-- Settings --}}
                 <li class="nav-item">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CollaborationController;
 use App\Http\Controllers\Web\Backend\DashboardController;
 use App\Http\Controllers\Web\Backend\SalesRankController;
@@ -31,5 +32,17 @@ Route::prefix('faq')->group(function () {
         Route::put('/update/{id}', 'update')->name('update');
         Route::get('/status/{id}', 'status')->name('status');
         Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+    });
+});
+
+// CMS
+Route::prefix('cms')->name('cms.')->group(function () {
+    // Home Page
+    Route::prefix('home-page')->name('home-page.')->group(function () {
+        // Hero Section
+        Route::controller(HomePageHeroSectionController::class)->prefix('hero-section')->name('hero-section.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
+        });
     });
 });
