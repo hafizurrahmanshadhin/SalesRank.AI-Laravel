@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\CMS\HomePage\CaseStudyController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageVideoBannerSectionController;
 use App\Http\Controllers\Web\Backend\CollaborationController;
@@ -50,6 +51,17 @@ Route::prefix('cms')->name('cms.')->group(function () {
         Route::controller(HomePageVideoBannerSectionController::class)->prefix('video-banner')->name('video-banner.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'update')->name('update');
+        });
+
+        // Case Studies Section
+        Route::controller(CaseStudyController::class)->prefix('case-studies')->name('case-studies.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::patch('/update/{id}', 'update')->name('update');
+            Route::get('/status/{id}', 'status')->name('status');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
     });
 });

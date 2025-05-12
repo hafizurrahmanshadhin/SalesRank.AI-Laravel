@@ -127,6 +127,15 @@
                                                 Video Banner Section
                                             </a>
                                         </li>
+
+                                        {{-- Case Studies --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.home-page.case-studies.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.home-page.case-studies.*') ? 'active' : '' }}"
+                                                data-key="t-case-studies" style="white-space: nowrap">
+                                                Case Studies Section
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
