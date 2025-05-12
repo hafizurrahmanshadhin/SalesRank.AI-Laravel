@@ -24,6 +24,14 @@
             </div>
             {{-- End page title --}}
 
+            {{-- Alert messages --}}
+            @if (session('t-success'))
+                <div class="alert alert-success">{{ session('t-success') }}</div>
+            @endif
+            @if (session('t-error'))
+                <div class="alert alert-danger">{{ session('t-error') }}</div>
+            @endif
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card shadow-sm">
@@ -35,7 +43,7 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row gy-4">
-                                    {{-- Choose Category --}}
+                                    {{-- Choose or create category --}}
                                     <div class="col-md-6">
                                         <div>
                                             <label class="form-label">Select Existing Category</label>
@@ -72,21 +80,100 @@
                                         @error('images.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
-                                        <small class="text-muted">You can upload multiple images at once.</small>
+                                        <small class="text-muted">You can upload multiple images at once. Scroll down to see
+                                            previews.</small>
+
+                                        {{-- Preview container --}}
+                                        <div id="previewContainer" class="d-flex flex-wrap mt-2" style="gap:10px;"></div>
                                     </div>
 
                                     {{-- Submit Button --}}
                                     <div class="col-12 mt-3">
-                                        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i>
-                                            Submit
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-save"></i> Submit
                                         </button>
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                        </div> {{-- card-body --}}
+                    </div> {{-- card --}}
+                </div> {{-- col-lg-12 --}}
+            </div> {{-- row --}}
+        </div> {{-- container-fluid --}}
+    </div> {{-- page-content --}}
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('images');
+            const previewContainer = document.getElementById('previewContainer');
+
+            // Listen for file selection
+            input.addEventListener('change', function(e) {
+                // Create a fresh DataTransfer to hold the updated file list
+                const dt = new DataTransfer();
+                // Convert FileList to an array to iterate and modify
+                let files = Array.from(input.files);
+
+                // Clear existing previews
+                previewContainer.innerHTML = '';
+
+                files.forEach((file, index) => {
+                    // Add each file to the DataTransfer
+                    dt.items.add(file);
+
+                    // Create a preview element
+                    const previewDiv = document.createElement('div');
+                    previewDiv.style.position = 'relative';
+
+                    // Show image thumbnail
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.style.maxWidth = '120px';
+                    img.style.maxHeight = '120px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '4px';
+                    img.alt = 'preview';
+
+                    // Create a remove button
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = 'x';
+                    removeBtn.style.position = 'absolute';
+                    removeBtn.style.top = '0';
+                    removeBtn.style.right = '0';
+                    removeBtn.style.borderRadius = '50%';
+                    removeBtn.style.border = 'none';
+                    removeBtn.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                    removeBtn.style.color = '#fff';
+                    removeBtn.style.width = '24px';
+                    removeBtn.style.height = '24px';
+                    removeBtn.style.cursor = 'pointer';
+
+                    // When remove button is clicked, remove this file from the preview & DataTransfer
+                    removeBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // Remove from the array
+                        files.splice(index, 1);
+
+                        // Rebuild the DataTransfer with remaining files
+                        const newDt = new DataTransfer();
+                        files.forEach(f => newDt.items.add(f));
+                        input.files = newDt.files;
+
+                        // Remove the preview from the UI
+                        previewDiv.remove();
+                    });
+
+                    // Append elements
+                    previewDiv.appendChild(img);
+                    previewDiv.appendChild(removeBtn);
+                    previewContainer.appendChild(previewDiv);
+                });
+
+                // Finally, update the input.files to match the DataTransfer
+                input.files = dt.files;
+            });
+        });
+    </script>
+@endpush
