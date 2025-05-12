@@ -91,7 +91,7 @@
                         data-bs-toggle="collapse" role="button"
                         aria-expanded="{{ request()->is('admin/cms/*') ? 'true' : 'false' }}"
                         aria-controls="sidebarCms">
-                        <i class="ri-settings-3-line"></i>
+                        <i class="ri-file-list-line"></i>
                         <span data-key="t-cms">CMS</span>
                     </a>
 
@@ -116,6 +116,15 @@
                                                 class="nav-link {{ request()->routeIs('cms.home-page.hero-section.*') ? 'active' : '' }}"
                                                 data-key="t-hero-section">
                                                 Hero Section
+                                            </a>
+                                        </li>
+
+                                        {{-- Video Banner --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.home-page.video-banner.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.home-page.video-banner.*') ? 'active' : '' }}"
+                                                data-key="t-video-banner" style="white-space: nowrap">
+                                                Video Banner Section
                                             </a>
                                         </li>
                                     </ul>

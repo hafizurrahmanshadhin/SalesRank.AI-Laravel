@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
+use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageVideoBannerSectionController;
 use App\Http\Controllers\Web\Backend\CollaborationController;
 use App\Http\Controllers\Web\Backend\DashboardController;
 use App\Http\Controllers\Web\Backend\SalesRankController;
@@ -41,6 +42,12 @@ Route::prefix('cms')->name('cms.')->group(function () {
     Route::prefix('home-page')->name('home-page.')->group(function () {
         // Hero Section
         Route::controller(HomePageHeroSectionController::class)->prefix('hero-section')->name('hero-section.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
+        });
+
+        // Video Banner Section
+        Route::controller(HomePageVideoBannerSectionController::class)->prefix('video-banner')->name('video-banner.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'update')->name('update');
         });

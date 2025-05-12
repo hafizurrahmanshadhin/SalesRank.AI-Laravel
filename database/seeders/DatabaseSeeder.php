@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\DynamicPageSeeder;
 use Database\Seeders\FAQSeeder;
+use Database\Seeders\HomePageHeroSectionSeeder;
+use Database\Seeders\HomePageVideoBannerSectionSeeder;
 use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SocialMediaSeeder;
 use Database\Seeders\SystemSettingSeeder;
@@ -21,6 +23,8 @@ class DatabaseSeeder extends Seeder {
             DynamicPageSeeder::class,
             SocialMediaSeeder::class,
             ContentSeeder::class,
+            HomePageHeroSectionSeeder::class,
+            HomePageVideoBannerSectionSeeder::class,
         ]);
     }
 }
