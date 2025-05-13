@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\CaseStudySeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\DynamicPageSeeder;
 use Database\Seeders\FAQSeeder;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder {
             ContentSeeder::class,
             HomePageHeroSectionSeeder::class,
             HomePageVideoBannerSectionSeeder::class,
+            CaseStudySeeder::class,
         ]);
     }
 }

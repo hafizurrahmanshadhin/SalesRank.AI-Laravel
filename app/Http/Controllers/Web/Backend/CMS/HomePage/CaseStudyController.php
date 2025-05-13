@@ -147,58 +147,82 @@ class CaseStudyController extends Controller {
 
             return redirect()->route('cms.home-page.case-studies.index')->with('t-success', 'Case Study created successfully!');
         } catch (Exception $e) {
-            return redirect()->back()->with('t-error', 'Failed to create');
+            return redirect()->back()->with('t-error', 'Failed to create')->withInput();
         }
     }
 
-    public function edit($id) {
-        $caseStudy  = CaseStudy::findOrFail($id);
-        $categories = CaseStudy::pluck('category');
-        return view('backend.layouts.cms.home-page.case-studies.edit', compact('caseStudy', 'categories'));
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return JsonResponse|View
+     */
+    public function edit(int $id): JsonResponse | View {
+        try {
+            $caseStudy  = CaseStudy::findOrFail($id);
+            $categories = CaseStudy::pluck('category');
+            return view('backend.layouts.cms.home-page.case-studies.edit', compact('caseStudy', 'categories'));
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
-    public function update($id, Request $request) {
-        $caseStudy = CaseStudy::findOrFail($id);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param int $id
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(int $id, Request $request): RedirectResponse {
+        try {
+            $caseStudy = CaseStudy::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'category_name'     => 'nullable|string',
-            'existing_category' => 'nullable|string',
-            'images.*'          => 'nullable|image|max:2048',
-        ]);
+            $validator = Validator::make($request->all(), [
+                'images.*' => 'nullable|image|max:20480',
+            ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        // Use new category name or existing one
-        $categoryName = $request->category_name ?: $request->existing_category;
-        if (empty($categoryName)) {
-            return back()->with('t-error', 'Please enter or select a category.')->withInput();
-        }
-
-        // If category is changed, we need to confirm it's unique
-        if ($caseStudy->category !== $categoryName) {
-            $exists = CaseStudy::where('category', $categoryName)->first();
-            if ($exists) {
-                return back()->with('t-error', 'Category name already in use, please select or create another.')->withInput();
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
             }
-        }
-        // Update category
-        $caseStudy->category = $categoryName;
 
-        // Handle images
-        $storedImages = $caseStudy->images ?: [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $uploadedImage) {
-                $imagePath      = Helper::fileUpload($uploadedImage, 'caseStudiesCategory', null);
-                $storedImages[] = $imagePath;
+            // Ensure $removedPaths is always an array
+            $removedPaths = json_decode($request->input('removed_images', '[]'), true);
+            if (!is_array($removedPaths)) {
+                $removedPaths = [];
             }
-        }
-        $caseStudy->images = $storedImages;
-        $caseStudy->save();
 
-        return redirect()->route('cms.home-page.case-studies.index')
-            ->with('t-success', 'Case Study updated successfully!');
+            // Delete each removed file from storage
+            if (count($removedPaths) > 0) {
+                foreach ($removedPaths as $pathToDelete) {
+                    Helper::fileDelete(public_path($pathToDelete));
+                }
+            }
+
+            // Filter out removed images
+            // If $caseStudy->images is null, use an empty array
+            $storedImages = $caseStudy->images ?: [];
+            $storedImages = array_filter($storedImages, function ($img) use ($removedPaths) {
+                return !in_array($img, $removedPaths);
+            });
+
+            // Add newly uploaded images
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $uploadedImage) {
+                    $imagePath      = Helper::fileUpload($uploadedImage, 'caseStudiesCategory', null);
+                    $storedImages[] = $imagePath;
+                }
+            }
+
+            $caseStudy->images = array_values($storedImages);
+            $caseStudy->save();
+
+            return redirect()->route('cms.home-page.case-studies.index')->with('t-success', 'Case Study updated successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('t-error', 'Failed to update')->withInput();
+        }
     }
 
     /**
