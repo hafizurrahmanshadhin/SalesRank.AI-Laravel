@@ -24,14 +24,6 @@
             </div>
             {{-- End page title --}}
 
-            {{-- Alert messages --}}
-            @if (session('t-success'))
-                <div class="alert alert-success">{{ session('t-success') }}</div>
-            @endif
-            @if (session('t-error'))
-                <div class="alert alert-danger">{{ session('t-error') }}</div>
-            @endif
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card shadow-sm">
@@ -43,21 +35,32 @@
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row gy-4">
-                                    {{-- Choose or create category --}}
+                                    {{-- Choose Category --}}
                                     <div class="col-md-6">
                                         <div>
                                             <label class="form-label">Select Existing Category</label>
-                                            <select name="existing_category" class="form-select">
+                                            <select name="existing_category" id="existing_category"
+                                                class="form-select @error('existing_category') is-invalid @enderror">
                                                 <option value="">-- None --</option>
-                                                @foreach ($categories as $cat)
-                                                    <option value="{{ $cat }}">{{ $cat }}</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category }}"
+                                                        {{ old('existing_category') === $category ? 'selected' : '' }}>
+                                                        {{ $category }}
+                                                    </option>
                                                 @endforeach
                                             </select>
-                                            <small class="text-muted">If you want to use an existing category, select
-                                                here.</small>
+                                            @error('existing_category')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @else
+                                                {{-- Only show the help text if there's no error --}}
+                                                <small class="text-muted">
+                                                    If you want to use an existing category, select here.
+                                                </small>
+                                            @enderror
                                         </div>
                                     </div>
 
+                                    {{-- Create Category --}}
                                     <div class="col-md-6">
                                         <div>
                                             <label for="category_name" class="form-label">Or Create New Category</label>
@@ -67,8 +70,12 @@
                                                 value="{{ old('category_name', '') }}">
                                             @error('category_name')
                                                 <small class="text-danger">{{ $message }}</small>
+                                            @else
+                                                {{-- Only show the help text if there's no error --}}
+                                                <small class="text-muted">
+                                                    If you prefer a new category, type it here.
+                                                </small>
                                             @enderror
-                                            <small class="text-muted">If you prefer a new category, type it here.</small>
                                         </div>
                                     </div>
 
@@ -76,12 +83,23 @@
                                     <div class="col-12">
                                         <label for="images" class="form-label">Upload Images</label>
                                         <input type="file" name="images[]" id="images" multiple
-                                            class="form-control @error('images.*') is-invalid @enderror">
+                                            class="form-control @error('images') is-invalid @enderror @error('images.*') is-invalid @enderror">
+                                        {{-- Show error for the overall "images" field --}}
+                                        @error('images')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+
+                                        {{-- Show first error from any file in "images.*" --}}
                                         @error('images.*')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
-                                        <small class="text-muted">You can upload multiple images at once. Scroll down to see
-                                            previews.</small>
+
+                                        {{-- Only show help text if there's no error on images or images.* --}}
+                                        @if (!$errors->has('images') && !$errors->has('images.*'))
+                                            <small class="text-muted">
+                                                You can upload multiple images at once. Scroll down to see previews.
+                                            </small>
+                                        @endif
 
                                         {{-- Preview container --}}
                                         <div id="previewContainer" class="d-flex flex-wrap mt-2" style="gap:10px;"></div>
@@ -95,39 +113,62 @@
                                     </div>
                                 </div>
                             </form>
-                        </div> {{-- card-body --}}
-                    </div> {{-- card --}}
-                </div> {{-- col-lg-12 --}}
-            </div> {{-- row --}}
-        </div> {{-- container-fluid --}}
-    </div> {{-- page-content --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const input = document.getElementById('images');
+            const existingCategory = document.getElementById('existing_category');
+            const categoryNameInput = document.getElementById('category_name');
+            const imagesInput = document.getElementById('images');
             const previewContainer = document.getElementById('previewContainer');
 
-            // Listen for file selection
-            input.addEventListener('change', function(e) {
-                // Create a fresh DataTransfer to hold the updated file list
-                const dt = new DataTransfer();
-                // Convert FileList to an array to iterate and modify
-                let files = Array.from(input.files);
+            // On page load, set fields based on previous input
+            if (existingCategory.value) {
+                categoryNameInput.disabled = true;
+            }
+            if (categoryNameInput.value.trim()) {
+                existingCategory.disabled = true;
+            }
 
-                // Clear existing previews
+            // If user picks an existing category, disable the new category field
+            existingCategory.addEventListener('change', function() {
+                if (this.value) {
+                    categoryNameInput.value = '';
+                    categoryNameInput.disabled = true;
+                } else {
+                    categoryNameInput.disabled = false;
+                }
+            });
+
+            // If user types a new category, disable the existing category dropdown
+            categoryNameInput.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    existingCategory.selectedIndex = 0;
+                    existingCategory.disabled = true;
+                } else {
+                    existingCategory.disabled = false;
+                }
+            });
+
+            // Multi-file preview & removal
+            imagesInput.addEventListener('change', function() {
+                const dt = new DataTransfer();
+                let files = Array.from(imagesInput.files);
                 previewContainer.innerHTML = '';
 
                 files.forEach((file, index) => {
-                    // Add each file to the DataTransfer
                     dt.items.add(file);
 
-                    // Create a preview element
                     const previewDiv = document.createElement('div');
                     previewDiv.style.position = 'relative';
 
-                    // Show image thumbnail
                     const img = document.createElement('img');
                     img.src = URL.createObjectURL(file);
                     img.style.maxWidth = '120px';
@@ -136,7 +177,6 @@
                     img.style.borderRadius = '4px';
                     img.alt = 'preview';
 
-                    // Create a remove button
                     const removeBtn = document.createElement('button');
                     removeBtn.textContent = 'x';
                     removeBtn.style.position = 'absolute';
@@ -150,30 +190,37 @@
                     removeBtn.style.height = '24px';
                     removeBtn.style.cursor = 'pointer';
 
-                    // When remove button is clicked, remove this file from the preview & DataTransfer
                     removeBtn.addEventListener('click', function(e) {
                         e.preventDefault();
-                        // Remove from the array
                         files.splice(index, 1);
 
-                        // Rebuild the DataTransfer with remaining files
                         const newDt = new DataTransfer();
                         files.forEach(f => newDt.items.add(f));
-                        input.files = newDt.files;
+                        imagesInput.files = newDt.files;
 
-                        // Remove the preview from the UI
                         previewDiv.remove();
                     });
 
-                    // Append elements
                     previewDiv.appendChild(img);
                     previewDiv.appendChild(removeBtn);
                     previewContainer.appendChild(previewDiv);
                 });
 
-                // Finally, update the input.files to match the DataTransfer
-                input.files = dt.files;
+                imagesInput.files = dt.files;
             });
         });
     </script>
 @endpush
+
+{{-- If there's a validation error specifically stating "This category already exists…", enable the dropdown. --}}
+@if ($errors->has('category_name') && Str::contains($errors->first('category_name'), 'already exists'))
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Re-enable the existing category dropdown so that the user
+                // can immediately pick the existing category from the list.
+                document.getElementById('existing_category').disabled = false;
+            });
+        </script>
+    @endpush
+@endif

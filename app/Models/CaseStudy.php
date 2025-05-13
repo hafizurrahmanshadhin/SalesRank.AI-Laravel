@@ -25,4 +25,18 @@ class CaseStudy extends Model {
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+
+    /**
+     * Always store category in lowercase.
+     */
+    public function setCategoryAttribute($value) {
+        $this->attributes['category'] = strtolower($value);
+    }
+
+    /**
+     * Retrieve category with the first letter capitalized.
+     */
+    public function getCategoryAttribute($value) {
+        return ucwords($value);
+    }
 }

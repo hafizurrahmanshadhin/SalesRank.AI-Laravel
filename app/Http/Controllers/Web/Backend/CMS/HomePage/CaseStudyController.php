@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CaseStudy;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -72,52 +73,82 @@ class CaseStudyController extends Controller {
         }
     }
 
-    public function create() {
-        $categories = CaseStudy::pluck('category');
-        return view('backend.layouts.cms.home-page.case-studies.create', compact('categories'));
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return JsonResponse|View
+     * @throws Exception
+     */
+    public function create(): JsonResponse | View {
+        try {
+            $categories = CaseStudy::pluck('category');
+            return view('backend.layouts.cms.home-page.case-studies.create', compact('categories'));
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
-    public function store(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'category_name'     => 'nullable|string',
-            'existing_category' => 'nullable|string',
-            'images.*'          => 'nullable|image|max:2048',
-        ]);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse {
+        try {
+            $validator = Validator::make($request->all(), [
+                'category_name'     => 'required_without:existing_category|nullable|string',
+                'existing_category' => 'required_without:category_name|nullable|string',
+                'images'            => 'required|max:20480', // force user to upload at least one image
+                'images.*'          => 'image|max:20480',
+            ], [
+                'images.required' => 'Please select at least one image to upload.',
+            ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        // Use either new category name or existing one
-        $categoryName = $request->category_name ?: $request->existing_category;
-        if (empty($categoryName)) {
-            return back()->with('t-error', 'Please enter or select a category.')->withInput();
-        }
-
-        // Either retrieve or create the row for this category
-        $caseStudy = CaseStudy::where('category', $categoryName)->first();
-        if (!$caseStudy) {
-            $caseStudy           = new CaseStudy();
-            $caseStudy->category = $categoryName;
-            $caseStudy->images   = [];
-        }
-
-        $storedImages = $caseStudy->images ?: [];
-
-        // If we have new images, upload them
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $uploadedImage) {
-                // Example usage of your Helper::fileUpload
-                $imagePath      = Helper::fileUpload($uploadedImage, 'caseStudiesCategory', null);
-                $storedImages[] = $imagePath;
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
             }
+
+            // If user typed a new category, ensure it doesn't already exist
+            if ($request->filled('category_name')) {
+                $alreadyExists = CaseStudy::where('category', $request->category_name)->exists();
+                if ($alreadyExists) {
+                    return back()->withErrors([
+                        'category_name' => 'This category already exists. Please select it from the dropdown.',
+                    ])->withInput();
+                }
+            }
+
+            // Use either new category name or existing one
+            $categoryName = $request->category_name ?: $request->existing_category;
+
+            // Retrieve or create this category
+            $caseStudy = CaseStudy::where('category', $categoryName)->first();
+            if (!$caseStudy) {
+                $caseStudy           = new CaseStudy();
+                $caseStudy->category = $categoryName;
+                $caseStudy->images   = [];
+            }
+
+            $storedImages = $caseStudy->images ?: [];
+
+            // Store each new uploaded image path
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $uploadedImage) {
+                    $imagePath      = Helper::fileUpload($uploadedImage, 'caseStudiesCategory', null);
+                    $storedImages[] = $imagePath;
+                }
+            }
+
+            $caseStudy->images = $storedImages;
+            $caseStudy->save();
+
+            return redirect()->route('cms.home-page.case-studies.index')->with('t-success', 'Case Study created successfully!');
+        } catch (Exception $e) {
+            return redirect()->back()->with('t-error', 'Failed to create');
         }
-
-        $caseStudy->images = $storedImages;
-        $caseStudy->save();
-
-        return redirect()->route('cms.home-page.case-studies.index')
-            ->with('t-success', 'Case Study created successfully!');
     }
 
     public function edit($id) {
