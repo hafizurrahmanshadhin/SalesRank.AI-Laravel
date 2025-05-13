@@ -5,9 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CaseStudySeeder extends Seeder {
+class FeatureBlockSeeder extends Seeder {
     public function run(): void {
-        DB::table('case_studies')->insert([
+        DB::table('feature_blocks')->insert([
             [
                 'id'         => 1,
                 'category'   => 'top notch seals people',

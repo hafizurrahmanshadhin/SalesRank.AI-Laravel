@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Web\Backend\CMS\HomePage\CaseStudyController;
+use App\Http\Controllers\Web\Backend\CMS\HomePage\FeatureBlockController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageVideoBannerSectionController;
 use App\Http\Controllers\Web\Backend\CollaborationController;
@@ -54,7 +54,7 @@ Route::prefix('cms')->name('cms.')->group(function () {
         });
 
         // Case Studies Section
-        Route::controller(CaseStudyController::class)->prefix('case-studies')->name('case-studies.')->group(function () {
+        Route::controller(FeatureBlockController::class)->prefix('feature-blocks')->name('feature-blocks.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\CaseStudySeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\DynamicPageSeeder;
 use Database\Seeders\FAQSeeder;
+use Database\Seeders\FeatureBlockSeeder;
 use Database\Seeders\HomePageHeroSectionSeeder;
 use Database\Seeders\HomePageVideoBannerSectionSeeder;
 use Database\Seeders\ProfileSeeder;
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder {
             ContentSeeder::class,
             HomePageHeroSectionSeeder::class,
             HomePageVideoBannerSectionSeeder::class,
-            CaseStudySeeder::class,
+            FeatureBlockSeeder::class,
         ]);
     }
 }

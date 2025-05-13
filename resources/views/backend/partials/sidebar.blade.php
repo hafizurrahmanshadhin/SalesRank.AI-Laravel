@@ -128,12 +128,12 @@
                                             </a>
                                         </li>
 
-                                        {{-- Case Studies --}}
+                                        {{-- Feature Blocks --}}
                                         <li class="nav-item">
-                                            <a href="{{ route('cms.home-page.case-studies.index') }}"
-                                                class="nav-link {{ request()->routeIs('cms.home-page.case-studies.*') ? 'active' : '' }}"
-                                                data-key="t-case-studies" style="white-space: nowrap">
-                                                Case Studies Section
+                                            <a href="{{ route('cms.home-page.feature-blocks.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.home-page.feature-blocks.*') ? 'active' : '' }}"
+                                                data-key="t-feature-blocks" style="white-space: nowrap">
+                                                Feature Blocks Section
                                             </a>
                                         </li>
                                     </ul>

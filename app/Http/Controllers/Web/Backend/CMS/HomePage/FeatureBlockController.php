@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Backend\CMS\HomePage;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\CaseStudy;
+use App\Models\FeatureBlock;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
-class CaseStudyController extends Controller {
+class FeatureBlockController extends Controller {
     /**
      * Display a listing of the Case Studies.
      *
@@ -24,7 +24,7 @@ class CaseStudyController extends Controller {
     public function index(Request $request): View | JsonResponse {
         try {
             if ($request->ajax()) {
-                $data = CaseStudy::latest()->get();
+                $data = FeatureBlock::latest()->get();
                 return DataTables::of($data)
                     ->addIndexColumn()
                     ->addColumn('category', function ($row) {
@@ -49,7 +49,7 @@ class CaseStudyController extends Controller {
                         return $status;
                     })
                     ->addColumn('action', function ($row) {
-                        $editUrl = route('cms.home-page.case-studies.edit', $row->id);
+                        $editUrl = route('cms.home-page.feature-blocks.edit', $row->id);
                         return '
                             <div class="d-flex justify-content-center align-items-center">
                                 <a href="' . $editUrl . '" class="btn btn-sm btn-info me-1" title="Edit">
@@ -65,7 +65,7 @@ class CaseStudyController extends Controller {
                     ->rawColumns(['category', 'images', 'status', 'action'])
                     ->make();
             }
-            return view('backend.layouts.cms.home-page.case-studies.index');
+            return view('backend.layouts.cms.home-page.feature-blocks.index');
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -81,8 +81,8 @@ class CaseStudyController extends Controller {
      */
     public function create(): JsonResponse | View {
         try {
-            $categories = CaseStudy::pluck('category');
-            return view('backend.layouts.cms.home-page.case-studies.create', compact('categories'));
+            $categories = FeatureBlock::pluck('category');
+            return view('backend.layouts.cms.home-page.feature-blocks.create', compact('categories'));
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -113,7 +113,7 @@ class CaseStudyController extends Controller {
 
             // If user typed a new category, ensure it doesn't already exist
             if ($request->filled('category_name')) {
-                $alreadyExists = CaseStudy::where('category', $request->category_name)->exists();
+                $alreadyExists = FeatureBlock::where('category', $request->category_name)->exists();
                 if ($alreadyExists) {
                     return back()->withErrors([
                         'category_name' => 'This category already exists. Please select it from the dropdown.',
@@ -125,27 +125,27 @@ class CaseStudyController extends Controller {
             $categoryName = $request->category_name ?: $request->existing_category;
 
             // Retrieve or create this category
-            $caseStudy = CaseStudy::where('category', $categoryName)->first();
-            if (!$caseStudy) {
-                $caseStudy           = new CaseStudy();
-                $caseStudy->category = $categoryName;
-                $caseStudy->images   = [];
+            $featureBlocks = FeatureBlock::where('category', $categoryName)->first();
+            if (!$featureBlocks) {
+                $featureBlocks           = new FeatureBlock();
+                $featureBlocks->category = $categoryName;
+                $featureBlocks->images   = [];
             }
 
-            $storedImages = $caseStudy->images ?: [];
+            $storedImages = $featureBlocks->images ?: [];
 
             // Store each new uploaded image path
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $uploadedImage) {
-                    $imagePath      = Helper::fileUpload($uploadedImage, 'caseStudiesCategory', null);
+                    $imagePath      = Helper::fileUpload($uploadedImage, 'featureBlocksCategory', null);
                     $storedImages[] = $imagePath;
                 }
             }
 
-            $caseStudy->images = $storedImages;
-            $caseStudy->save();
+            $featureBlocks->images = $storedImages;
+            $featureBlocks->save();
 
-            return redirect()->route('cms.home-page.case-studies.index')->with('t-success', 'Case Study created successfully!');
+            return redirect()->route('cms.home-page.feature-blocks.index')->with('t-success', 'Feature blocks created successfully!');
         } catch (Exception $e) {
             return redirect()->back()->with('t-error', 'Failed to create')->withInput();
         }
@@ -159,9 +159,9 @@ class CaseStudyController extends Controller {
      */
     public function edit(int $id): JsonResponse | View {
         try {
-            $caseStudy  = CaseStudy::findOrFail($id);
-            $categories = CaseStudy::pluck('category');
-            return view('backend.layouts.cms.home-page.case-studies.edit', compact('caseStudy', 'categories'));
+            $featureBlocks = FeatureBlock::findOrFail($id);
+            $categories    = FeatureBlock::pluck('category');
+            return view('backend.layouts.cms.home-page.feature-blocks.edit', compact('featureBlocks', 'categories'));
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -178,7 +178,7 @@ class CaseStudyController extends Controller {
      */
     public function update(int $id, Request $request): RedirectResponse {
         try {
-            $caseStudy = CaseStudy::findOrFail($id);
+            $featureBlocks = FeatureBlock::findOrFail($id);
 
             $validator = Validator::make($request->all(), [
                 'images.*' => 'nullable|image|max:20480',
@@ -201,9 +201,7 @@ class CaseStudyController extends Controller {
                 }
             }
 
-            // Filter out removed images
-            // If $caseStudy->images is null, use an empty array
-            $storedImages = $caseStudy->images ?: [];
+            $storedImages = $featureBlocks->images ?: [];
             $storedImages = array_filter($storedImages, function ($img) use ($removedPaths) {
                 return !in_array($img, $removedPaths);
             });
@@ -211,15 +209,15 @@ class CaseStudyController extends Controller {
             // Add newly uploaded images
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $uploadedImage) {
-                    $imagePath      = Helper::fileUpload($uploadedImage, 'caseStudiesCategory', null);
+                    $imagePath      = Helper::fileUpload($uploadedImage, 'featureBlocksCategory', null);
                     $storedImages[] = $imagePath;
                 }
             }
 
-            $caseStudy->images = array_values($storedImages);
-            $caseStudy->save();
+            $featureBlocks->images = array_values($storedImages);
+            $featureBlocks->save();
 
-            return redirect()->route('cms.home-page.case-studies.index')->with('t-success', 'Case Study updated successfully!');
+            return redirect()->route('cms.home-page.feature-blocks.index')->with('t-success', 'Feature blocks updated successfully!');
         } catch (Exception $e) {
             return redirect()->back()->with('t-error', 'Failed to update')->withInput();
         }
@@ -233,24 +231,24 @@ class CaseStudyController extends Controller {
      */
     public function status(int $id): JsonResponse {
         try {
-            $data = CaseStudy::findOrFail($id);
-            if ($data->status == 'active') {
-                $data->status = 'inactive';
-                $data->save();
+            $featureBlocks = FeatureBlock::findOrFail($id);
+            if ($featureBlocks->status == 'active') {
+                $featureBlocks->status = 'inactive';
+                $featureBlocks->save();
 
                 return response()->json([
                     'success' => false,
                     'message' => 'Unpublished Successfully.',
-                    'data'    => $data,
+                    'data'    => $featureBlocks,
                 ]);
             } else {
-                $data->status = 'active';
-                $data->save();
+                $featureBlocks->status = 'active';
+                $featureBlocks->save();
 
                 return response()->json([
                     'success' => true,
                     'message' => 'Published Successfully.',
-                    'data'    => $data,
+                    'data'    => $featureBlocks,
                 ]);
             }
         } catch (Exception $e) {
@@ -268,16 +266,16 @@ class CaseStudyController extends Controller {
      */
     public function destroy(int $id): JsonResponse {
         try {
-            $data = CaseStudy::findOrFail($id);
+            $featureBlocks = FeatureBlock::findOrFail($id);
 
             // Remove images from storage
-            if (is_array($data->images)) {
-                foreach ($data->images as $imagePath) {
+            if (is_array($featureBlocks->images)) {
+                foreach ($featureBlocks->images as $imagePath) {
                     Helper::fileDelete(public_path($imagePath));
                 }
             }
 
-            $data->delete();
+            $featureBlocks->delete();
 
             return response()->json([
                 't-success' => false,

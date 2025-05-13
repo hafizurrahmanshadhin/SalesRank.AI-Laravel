@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Edit Case Study')
+@section('title', 'Edit Feature Blocks')
 
 @push('styles')
     <style>
@@ -53,10 +53,10 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('cms.home-page.case-studies.index') }}">CMS</a>
+                                    <a href="{{ route('cms.home-page.feature-blocks.index') }}">CMS</a>
                                 </li>
                                 <li class="breadcrumb-item active">Home Page</li>
-                                <li class="breadcrumb-item active">Case Studies Section</li>
+                                <li class="breadcrumb-item active">Feature Blocks Section</li>
                                 <li class="breadcrumb-item active">Edit</li>
                             </ol>
                         </div>
@@ -69,18 +69,19 @@
                 <div class="col-lg-12">
                     <div class="card shadow-sm">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Edit Case Study</h5>
+                            <h5 class="card-title mb-0">Edit Feature Blocks</h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('cms.home-page.case-studies.update', $caseStudy->id) }}" method="POST"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('cms.home-page.feature-blocks.update', $featureBlocks->id) }}"
+                                method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
 
                                 {{-- Show category (read-only) --}}
                                 <div class="mb-3">
                                     <label class="form-label">Category</label>
-                                    <input type="text" value="{{ $caseStudy->category }}" class="form-control" disabled>
+                                    <input type="text" value="{{ $featureBlocks->category }}" class="form-control"
+                                        disabled>
                                 </div>
 
                                 {{-- File upload (can handle multiple images) --}}
@@ -101,10 +102,10 @@
                                 <input type="hidden" name="removed_images" id="removed_images" value="">
 
                                 {{-- Existing Images --}}
-                                @if ($caseStudy->images && is_array($caseStudy->images))
+                                @if ($featureBlocks->images && is_array($featureBlocks->images))
                                     <div class="mt-3">
                                         <label class="form-label">Existing Images</label><br>
-                                        @foreach ($caseStudy->images as $img)
+                                        @foreach ($featureBlocks->images as $img)
                                             <div class="image-container">
                                                 <img src="{{ asset($img) }}" alt="img" />
                                                 <button type="button" class="remove-existing-image"

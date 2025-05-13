@@ -9,7 +9,7 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('case_studies', function (Blueprint $table) {
+        Schema::create('feature_blocks', function (Blueprint $table) {
             $table->id();
 
             $table->string('category')->unique();
@@ -26,6 +26,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('case_studies');
+        Schema::dropIfExists('feature_blocks');
     }
 };

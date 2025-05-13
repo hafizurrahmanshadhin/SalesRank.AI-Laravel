@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Case Studies List')
+@section('title', 'Feature Blocks List')
 
 @section('content')
     <div class="page-content">
@@ -12,10 +12,10 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('cms.home-page.case-studies.index') }}">CMS</a>
+                                    <a href="{{ route('cms.home-page.feature-blocks.index') }}">CMS</a>
                                 </li>
                                 <li class="breadcrumb-item active">Home Page</li>
-                                <li class="breadcrumb-item active">Case Studies</li>
+                                <li class="breadcrumb-item active">Feature Blocks</li>
                             </ol>
                         </div>
                     </div>
@@ -27,8 +27,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">List of Case Studies</h5>
-                            <a href="{{ route('cms.home-page.case-studies.create') }}" class="btn btn-primary btn-sm">
+                            <h5 class="card-title mb-0">List of Feature Blocks</h5>
+                            <a href="{{ route('cms.home-page.feature-blocks.create') }}" class="btn btn-primary btn-sm">
                                 <i class="bi bi-plus-circle"></i> Add New
                             </a>
                         </div>
@@ -105,7 +105,7 @@
                     serverSide: true,
                     pagingType: "full_numbers",
                     ajax: {
-                        url: "{{ route('cms.home-page.case-studies.index') }}",
+                        url: "{{ route('cms.home-page.feature-blocks.index') }}",
                         type: "GET",
                     },
                     dom: "<'row table-topbar'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>>" +
@@ -217,7 +217,7 @@
 
         // Status Change
         function statusChange(id) {
-            let url = '{{ route('cms.home-page.case-studies.status', ['id' => ':id']) }}'.replace(':id', id);
+            let url = '{{ route('cms.home-page.feature-blocks.status', ['id' => ':id']) }}'.replace(':id', id);
             $.ajax({
                 type: "GET",
                 url: url.replace(':id', id),
@@ -258,7 +258,7 @@
 
         // Delete Button
         function deleteItem(id) {
-            let url = '{{ route('cms.home-page.case-studies.destroy', ['id' => ':id']) }}'.replace(':id', id);
+            let url = '{{ route('cms.home-page.feature-blocks.destroy', ['id' => ':id']) }}'.replace(':id', id);
             let csrfToken = '{{ csrf_token() }}';
             $.ajax({
                 type: "DELETE",

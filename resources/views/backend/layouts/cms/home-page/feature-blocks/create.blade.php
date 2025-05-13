@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Create New Case Studies')
+@section('title', 'Create New Feature Blocks')
 
 @section('content')
     <div class="page-content">
@@ -12,10 +12,10 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('cms.home-page.case-studies.index') }}">CMS</a>
+                                    <a href="{{ route('cms.home-page.feature-blocks.index') }}">CMS</a>
                                 </li>
                                 <li class="breadcrumb-item active">Home Page</li>
-                                <li class="breadcrumb-item active">Case Studies Section</li>
+                                <li class="breadcrumb-item active">Feature Blocks Section</li>
                                 <li class="breadcrumb-item active">Create</li>
                             </ol>
                         </div>
@@ -28,10 +28,10 @@
                 <div class="col-lg-12">
                     <div class="card shadow-sm">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Create New Case Studies</h5>
+                            <h5 class="card-title mb-0">Create New Feature Blocks</h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('cms.home-page.case-studies.store') }}" method="POST"
+                            <form action="{{ route('cms.home-page.feature-blocks.store') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row gy-4">
