@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Backend;
+namespace App\Http\Controllers\Web\Backend\CMS\FAQ;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
@@ -47,7 +47,7 @@ class SalesRankController extends Controller {
                     ->addColumn('action', function ($data) {
                         return '
                                 <div class="hstack gap-3 fs-base">
-                                    <a href="' . route('sales-rank.edit', ['id' => $data->id]) . '" class="link-primary text-decoration-none" title="Edit">
+                                    <a href="' . route('cms.faq.sales-rank.edit', ['id' => $data->id]) . '" class="link-primary text-decoration-none" title="Edit">
                                         <i class="ri-pencil-line" style="font-size: 24px;"></i>
                                     </a>
 
@@ -64,7 +64,7 @@ class SalesRankController extends Controller {
                     ->rawColumns(['question', 'answer', 'status', 'action'])
                     ->make();
             }
-            return view('backend.layouts.sales-rank.index');
+            return view('backend.layouts.cms.faq.sales-rank.index');
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -96,7 +96,7 @@ class SalesRankController extends Controller {
      */
     public function create(): View | JsonResponse {
         try {
-            return view('backend.layouts.sales-rank.create');
+            return view('backend.layouts.cms.faq.sales-rank.create');
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -128,7 +128,7 @@ class SalesRankController extends Controller {
                 $faq->type     = 'SalesRank';
                 $faq->save();
             }
-            return redirect()->route('sales-rank.index')->with('t-success', 'Create successfully');
+            return redirect()->route('cms.faq.sales-rank.index')->with('t-success', 'Create successfully');
         } catch (Exception) {
             return redirect()->back()->with('t-error', 'Failed to create');
         }
@@ -143,7 +143,7 @@ class SalesRankController extends Controller {
     public function edit(int $id): View | JsonResponse {
         try {
             $faq = FAQ::findOrFail($id);
-            return view('backend.layouts.sales-rank.edit', compact('faq'));
+            return view('backend.layouts.cms.faq.sales-rank.edit', compact('faq'));
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
@@ -174,7 +174,7 @@ class SalesRankController extends Controller {
             $faq->answer   = $request->answer;
             $faq->type     = 'SalesRank';
             $faq->save();
-            return redirect()->route('sales-rank.index')->with('t-success', 'Update successfully');
+            return redirect()->route('cms.faq.sales-rank.index')->with('t-success', 'Update successfully');
         } catch (Exception) {
             return redirect()->back()->with('t-error', 'Failed to update');
         }

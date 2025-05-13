@@ -19,8 +19,9 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">CMS</li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('cms.home-page.hero-section.index') }}">CMS</a>
+                                </li>
                                 <li class="breadcrumb-item">Home Page</li>
                                 <li class="breadcrumb-item active">Hero Section</li>
                             </ol>

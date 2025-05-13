@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Collaboration FAQ Update')
+@section('title', 'SalesRank.AI FAQ Update')
 
 @push('styles')
     <style>
@@ -37,27 +37,30 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-            {{-- start page title --}}
+            {{-- Start page title --}}
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('collaboration.index') }}">Collaboration FAQ</a>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('cms.faq.sales-rank.index') }}">CMS</a>
                                 </li>
+                                <li class="breadcrumb-item active">FAQ</li>
+                                <li class="breadcrumb-item active">SalesRank.AI</li>
                                 <li class="breadcrumb-item active">Edit</li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- end page title --}}
+            {{-- End page title --}}
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('collaboration.update', ['id' => $faq->id]) }}">
+                            <form method="POST" action="{{ route('cms.faq.sales-rank.update', ['id' => $faq->id]) }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="row gy-4" id="faq_fields_container">
@@ -88,7 +91,7 @@
                                 </div>
                                 <div class="mt-3">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <a href="{{ route('collaboration.index') }}" class="btn btn-danger">Cancel</a>
+                                    <a href="{{ route('cms.faq.sales-rank.index') }}" class="btn btn-danger">Cancel</a>
                                 </div>
                             </form>
                         </div>

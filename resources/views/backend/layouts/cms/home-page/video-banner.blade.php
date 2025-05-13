@@ -106,14 +106,6 @@
             box-shadow: 0 4px 8px rgba(13, 110, 253, 0.25);
         }
 
-        /* Breadcrumb styling */
-        .breadcrumb-item+.breadcrumb-item::before {
-            content: "›";
-            font-size: 1.2rem;
-            line-height: 1;
-            vertical-align: middle;
-        }
-
         /* Section spacing */
         .page-title-box {
             margin-bottom: 1.75rem;
@@ -130,22 +122,23 @@
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
-            {{-- start page title --}}
+            {{-- Start page title --}}
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item">CMS</li>
-                                <li class="breadcrumb-item">Home Page</li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('cms.home-page.video-banner.index') }}">CMS</a>
+                                </li>
+                                <li class="breadcrumb-item active">Home Page</li>
                                 <li class="breadcrumb-item active">Video Banner Section</li>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
-            {{-- end page title --}}
+            {{-- End page title --}}
 
             <div class="row">
                 <div class="col-lg-12">
