@@ -163,6 +163,17 @@
                                                 <span data-key="t-feature-blocks">Feature Blocks Section</span>
                                             </a>
                                         </li>
+
+                                        {{-- Blogs Preview --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.home-page.blogs-preview.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.home-page.blogs-preview.*') ? 'active' : '' }}"
+                                                data-key="t-blogs-preview">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-blogs-preview">Blogs Preview Section</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

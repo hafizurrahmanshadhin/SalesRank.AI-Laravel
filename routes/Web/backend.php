@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\Backend\CMS\FAQ\CollaborationController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\SalesRankController;
+use App\Http\Controllers\Web\Backend\CMS\HomePage\BlogsPreviewController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\FeatureBlockController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageVideoBannerSectionController;
@@ -75,6 +76,18 @@ Route::prefix('cms')->name('cms.')->group(function () {
             Route::patch('/update/{id}', 'update')->name('update');
             Route::get('/status/{id}', 'status')->name('status');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+
+        // Blogs Preview Section
+        Route::controller(BlogsPreviewController::class)->prefix('blogs-preview')->name('blogs-preview.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
+
+            // Route::get('/service', 'index')->name('service.index');
+            // Route::post('/service/store', 'store')->name('service.store');
+            // Route::put('/service/update/{id}', 'update')->name('service.update');
+            // Route::get('/service/status/{id}', 'status')->name('service.status');
+            // Route::delete('/service/destroy/{id}', 'destroy')->name('service.destroy');
         });
     });
 });
