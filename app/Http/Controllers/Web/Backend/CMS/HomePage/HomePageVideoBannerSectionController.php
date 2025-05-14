@@ -11,15 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
-class HomePageVideoBannerSectionController extends Controller
-{
+class HomePageVideoBannerSectionController extends Controller {
     /**
      * Display the video banner section.
      *
      * @return RedirectResponse|View
      */
-    public function index(): RedirectResponse|View
-    {
+    public function index(): RedirectResponse | View {
         try {
             $videoBanner = HomePageVideoBannerSection::firstOrNew();
             return view('backend.layouts.cms.home-page.video-banner', compact('videoBanner'));
@@ -34,15 +32,14 @@ class HomePageVideoBannerSectionController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function update(Request $request): RedirectResponse
-    {
+    public function update(Request $request): RedirectResponse {
         try {
             $validator = Validator::make($request->all(), [
-                'title'                => 'required|string',
-                'description'          => 'required|string',
-                'video'                => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
-                'remove_video'         => 'nullable|boolean',
-                'video_thumbnail'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
+                'title'                  => 'required|string',
+                'description'            => 'required|string',
+                'video'                  => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
+                'remove_video'           => 'nullable|boolean',
+                'video_thumbnail'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:20480',
                 'remove_video_thumbnail' => 'nullable|boolean',
             ]);
 

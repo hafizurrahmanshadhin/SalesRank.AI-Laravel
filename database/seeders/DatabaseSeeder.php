@@ -11,6 +11,7 @@ use Database\Seeders\HomePageVideoBannerSectionSeeder;
 use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SocialMediaSeeder;
 use Database\Seeders\SystemSettingSeeder;
+use Database\Seeders\TestimonialSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder {
             HomePageHeroSectionSeeder::class,
             HomePageVideoBannerSectionSeeder::class,
             FeatureBlockSeeder::class,
+            TestimonialSeeder::class,
         ]);
     }
 }

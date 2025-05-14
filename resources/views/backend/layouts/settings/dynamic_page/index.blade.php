@@ -114,38 +114,49 @@
                                 </div>
                             </div>`,
                     },
+                    // Turn off autoWidth so column widths are respected.
+                    autoWidth: false,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
                             orderable: false,
                             searchable: false,
-                            className: 'text-center'
+                            className: 'text-center',
+                            width: '5%'
                         },
                         {
                             data: 'page_title',
                             name: 'page_title',
                             orderable: true,
-                            searchable: true
+                            searchable: true,
+                            width: '15%'
                         },
                         {
                             data: 'page_content',
                             name: 'page_content',
                             orderable: true,
-                            searchable: true
+                            searchable: true,
+                            width: '70%',
+                            render: function(data) {
+                                return '<div style="white-space:normal;word-break:break-word;">' +
+                                    data + '</div>';
+                            }
                         },
                         {
                             data: 'status',
                             name: 'status',
                             orderable: false,
                             searchable: false,
-                            className: 'text-center'
+                            className: 'text-center',
+                            width: '5%'
                         },
                         {
                             data: 'action',
                             name: 'action',
                             orderable: false,
                             searchable: false,
-                            className: 'text-center'
+                            className: 'text-center',
+                            // width: '10%'
                         },
                     ],
                 });

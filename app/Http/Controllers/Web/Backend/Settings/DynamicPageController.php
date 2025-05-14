@@ -30,21 +30,21 @@ class DynamicPageController extends Controller {
                     ->addIndexColumn()
                     ->addColumn('page_content', function ($data) {
                         $page_content       = $data->page_content;
-                        $short_page_content = strlen($page_content) > 40 ? substr($page_content, 0, 40) . '...' : $page_content;
+                        $short_page_content = strlen($page_content) > 150 ? substr($page_content, 0, 150) . '...' : $page_content;
                         return '<p>' . $short_page_content . '</p>';
                     })
-
                     ->addColumn('status', function ($data) {
-                        $status = '<div class="form-check form-switch" style="margin-left: 40px; width: 50px; height: 24px;">';
-                        $status .= '<input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $data->id . '" ' . ($data->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $data->id . ')">';
-                        $status .= '</div>';
-
-                        return $status;
+                        return '
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $data->id . '" ' . ($data->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $data->id . ')">
+                                </div>
+                            </div>
+                        ';
                     })
-
                     ->addColumn('action', function ($data) {
                         return '
-                                <div class="hstack gap-3 fs-base">
+                                <div class="d-flex justify-content-center hstack gap-3 fs-base">
                                     <a href="' . route('settings.dynamic_page.edit', ['id' => $data->id]) . '" class="link-primary text-decoration-none" title="Edit">
                                         <i class="ri-pencil-line" style="font-size: 24px;"></i>
                                     </a>
@@ -59,7 +59,6 @@ class DynamicPageController extends Controller {
                                 </div>
                             ';
                     })
-
                     ->rawColumns(['page_content', 'status', 'action'])
                     ->make();
             }

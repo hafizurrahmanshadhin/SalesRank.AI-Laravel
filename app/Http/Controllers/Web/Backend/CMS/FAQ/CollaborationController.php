@@ -29,24 +29,26 @@ class CollaborationController extends Controller {
                     ->addIndexColumn()
                     ->addColumn('question', function ($data) {
                         $question      = $data->question;
-                        $shortQuestion = strlen($question) > 20 ? substr($question, 0, 20) . '...' : $question;
-                        return '<span class="question-tooltip" style="cursor: pointer;" title="' . $question . '">' . $shortQuestion . '</span>';
+                        $shortQuestion = strlen($question) > 100 ? substr($question, 0, 100) . '...' : $question;
+                        return '<p>' . $shortQuestion . '</p>';
                     })
                     ->addColumn('answer', function ($data) {
                         $answer      = $data->answer;
-                        $shortAnswer = strlen($answer) > 20 ? substr($answer, 0, 20) . '...' : $answer;
-                        return '<span class="question-tooltip" style="cursor: pointer;" title="' . $answer . '">' . $shortAnswer . '</span>';
+                        $shortAnswer = strlen($answer) > 100 ? substr($answer, 0, 100) . '...' : $answer;
+                        return '<p>' . $shortAnswer . '</p>';
                     })
                     ->addColumn('status', function ($data) {
-                        $status = '<div class="form-check form-switch" style="margin-left: 40px; width: 50px; height: 24px;">';
-                        $status .= '<input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $data->id . '" ' . ($data->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $data->id . ')">';
-                        $status .= '</div>';
-
-                        return $status;
+                        return '
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $data->id . '" ' . ($data->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $data->id . ')">
+                                </div>
+                            </div>
+                        ';
                     })
                     ->addColumn('action', function ($data) {
                         return '
-                                <div class="hstack gap-3 fs-base">
+                                <div class="d-flex justify-content-center hstack gap-3 fs-base">
                                     <a href="' . route('cms.faq.collaboration.edit', ['id' => $data->id]) . '" class="link-primary text-decoration-none" title="Edit">
                                         <i class="ri-pencil-line" style="font-size: 24px;"></i>
                                     </a>

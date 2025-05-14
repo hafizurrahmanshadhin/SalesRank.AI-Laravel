@@ -115,38 +115,53 @@
                                 </div>
                             </div>`,
                     },
+                    // Turn off autoWidth so column widths are respected.
+                    autoWidth: false,
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex',
                             orderable: false,
                             searchable: false,
-                            className: 'text-center'
+                            className: 'text-center',
+                            width: '5%'
                         },
                         {
                             data: 'question',
                             name: 'question',
                             orderable: true,
-                            searchable: true
+                            searchable: true,
+                            width: '40%',
+                            render: function(data) {
+                                return '<div style="white-space:normal;word-break:break-word;">' +
+                                    data + '</div>';
+                            }
                         },
                         {
                             data: 'answer',
                             name: 'answer',
                             orderable: true,
-                            searchable: true
+                            searchable: true,
+                            width: '40%',
+                            render: function(data) {
+                                return '<div style="white-space:normal;word-break:break-word;">' +
+                                    data + '</div>';
+                            }
                         },
                         {
                             data: 'status',
                             name: 'status',
                             orderable: false,
                             searchable: false,
-                            className: 'text-center'
+                            className: 'text-center',
+                            width: '5%'
                         },
                         {
                             data: 'action',
                             name: 'action',
                             orderable: false,
                             searchable: false,
-                            className: 'text-center'
+                            className: 'text-center',
+                            // width: '10%'
                         },
                     ],
                 });

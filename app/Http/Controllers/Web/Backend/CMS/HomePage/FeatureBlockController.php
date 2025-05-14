@@ -42,11 +42,13 @@ class FeatureBlockController extends Controller {
                         return $html;
                     })
                     ->addColumn('status', function ($data) {
-                        $status = '<div class="form-check form-switch" style="margin-left: 20px; width: 50px; height: 24px;">';
-                        $status .= '<input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $data->id . '" ' . ($data->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $data->id . ')">';
-                        $status .= '</div>';
-
-                        return $status;
+                        return '
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $data->id . '" ' . ($data->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $data->id . ')">
+                                </div>
+                            </div>
+                        ';
                     })
                     ->addColumn('action', function ($row) {
                         $editUrl = route('cms.home-page.feature-blocks.edit', $row->id);
@@ -55,6 +57,7 @@ class FeatureBlockController extends Controller {
                                 <a href="' . $editUrl . '" class="btn btn-sm btn-info me-1" title="Edit">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
+                                
                                 <a href="javascript:void(0);" onclick="showDeleteConfirm(' . $row->id . ')"
                                    class="btn btn-sm btn-danger" title="Delete">
                                     <i class="bi bi-trash3"></i> Delete

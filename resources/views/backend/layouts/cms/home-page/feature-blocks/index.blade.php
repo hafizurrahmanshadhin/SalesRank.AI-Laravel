@@ -39,11 +39,11 @@
                                     style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Category</th>
-                                            <th>Images</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                            <th class="column-id">#</th>
+                                            <th class="column-content">Category</th>
+                                            <th class="column-content">Images</th>
+                                            <th class="column-status">Status</th>
+                                            <th class="column-action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
