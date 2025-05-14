@@ -17,10 +17,11 @@ Route::prefix('cms')->name('cms.')->group(function () {
     // Testimonials
     Route::controller(TestimonialController::class)->prefix('testimonials')->name('testimonials.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/show/{id}', 'show')->name('show');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{id}', 'edit')->name('edit');
-        Route::put('/update/{id}', 'update')->name('update');
+        Route::patch('/update/{id}', 'update')->name('update');
         Route::get('/status/{id}', 'status')->name('status');
         Route::delete('/destroy/{id}', 'destroy')->name('destroy');
     });

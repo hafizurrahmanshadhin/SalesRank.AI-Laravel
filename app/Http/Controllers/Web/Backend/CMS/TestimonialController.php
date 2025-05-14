@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Backend\CMS;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
 use Exception;
@@ -17,52 +18,99 @@ class TestimonialController extends Controller {
      * Display a listing of the testimonials.
      *
      * @param Request $request
-     * @return View|JsonResponse
+     * @return JsonResponse|View
      * @throws Exception
      */
-    public function index(Request $request): View | JsonResponse {
-        if ($request->ajax()) {
-            $data = Testimonial::latest()->get();
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('description', function ($data) {
-                    $description      = $data->description;
-                    $shortDescription = strlen($description) > 100 ? substr($description, 0, 100) . '...' : $description;
-                    return '<p>' . $shortDescription . '</p>';
-                })
-                ->addColumn('status', function ($clientsFeedback) {
-                    $status = '<div class="form-check form-switch" style="margin-left: 40px; width: 50px; height: 24px;">';
-                    $status .= '<input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $clientsFeedback->id . '" ' . ($clientsFeedback->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $clientsFeedback->id . ')">';
-                    $status .= '</div>';
+    public function index(Request $request): JsonResponse | View {
+        try {
+            if ($request->ajax()) {
+                $data = Testimonial::latest()->get();
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('description', function ($data) {
+                        $description      = $data->description;
+                        $shortDescription = strlen($description) > 100 ? substr($description, 0, 100) . '...' : $description;
+                        return '<p>' . $shortDescription . '</p>';
+                    })
+                    ->addColumn('image', function ($data) {
+                        $defaultImage = asset('backend/images/users/user-dummy-img.jpg');
+                        $url          = $data->image ? asset($data->image) : $defaultImage;
 
-                    return $status;
-                })
-                ->addColumn('action', function ($clientsFeedback) {
-                    return '
-                            <div class="hstack gap-3 fs-base">
-                                <a href="' . route('cms.testimonials.edit', ['id' => $clientsFeedback->id]) . '" class="link-primary text-decoration-none" title="Edit">
+                        return '
+                            <div class="d-flex justify-content-center">
+                                <img src="' . $url . '" alt="Image" width="50" height="50" style="cursor:pointer;"
+                                     data-bs-toggle="modal" data-bs-target="#imagePreviewModal"
+                                     onclick="showImagePreview(\'' . $url . '\');" />
+                            </div>
+                        ';
+                    })
+                    ->addColumn('status', function ($data) {
+                        return '
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $data->id . '" ' . ($data->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $data->id . ')">
+                                </div>
+                            </div>
+                        ';
+                    })
+                    ->addColumn('action', function ($data) {
+                        return '
+                            <div class="d-flex justify-content-center hstack gap-3 fs-base">
+                                <a href="' . route('cms.testimonials.edit', ['id' => $data->id]) . '" class="link-primary text-decoration-none" title="Edit">
                                     <i class="ri-pencil-line" style="font-size: 24px;"></i>
                                 </a>
 
-                                <a href="javascript:void(0);" onclick="showDeleteConfirm(' . $clientsFeedback->id . ')" class="link-danger text-decoration-none" title="Delete">
+                                <a href="javascript:void(0);" onclick="showTestimonialDetails(' . $data->id . ')" class="link-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewTestimonialModal" title="View">
+                                    <i class="ri-eye-line" style="font-size: 24px;"></i>
+                                </a>
+
+                                <a href="javascript:void(0);" onclick="showDeleteConfirm(' . $data->id . ')" class="link-danger text-decoration-none" title="Delete">
                                     <i class="ri-delete-bin-5-line" style="font-size: 24px;"></i>
                                 </a>
                             </div>
                         ';
-                })
-                ->rawColumns(['description', 'status', 'action'])
-                ->make();
+                    })
+                    ->rawColumns(['description', 'image', 'status', 'action'])
+                    ->make();
+            }
+            return view('backend.layouts.cms.testimonials.index');
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred', 500, [
+                'error' => $e->getMessage(),
+            ]);
         }
-        return view('backend.layouts.cms.testimonials.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse {
+        try {
+            $data = Testimonial::findOrFail($id);
+            return Helper::jsonResponse(true, 'Data fetched successfully', 200, $data);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
      * Show the form for creating a new testimonials.
      *
-     * @return View
+     * @return JsonResponse|View
      */
-    public function create(): View {
-        return view('backend.layouts.cms.testimonials.create');
+    public function create(): JsonResponse | View {
+        try {
+            return view('backend.layouts.cms.testimonials.create');
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -70,25 +118,33 @@ class TestimonialController extends Controller {
      *
      * @param Request $request
      * @return RedirectResponse
+     * @throws Exception
      */
     public function store(Request $request): RedirectResponse {
-        $validator = Validator::make($request->all(), [
-            'name'        => 'required|string',
-            'title'       => 'nullable|string',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
-            'description' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
         try {
+            $validator = Validator::make($request->all(), [
+                'name'        => 'required|string',
+                'title'       => 'nullable|string',
+                'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
+                'description' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
             $testimonials              = new Testimonial();
             $testimonials->name        = $request->name;
             $testimonials->title       = $request->title;
-            $testimonials->image       = $request->image;
             $testimonials->description = $request->description;
+
+            // If an image was uploaded, store it
+            if ($request->hasFile('image')) {
+                $uploadPath = Helper::fileUpload($request->file('image'), 'testimonials', $request->name);
+                if ($uploadPath !== null) {
+                    $testimonials->image = $uploadPath;
+                }
+            }
 
             $testimonials->save();
             return redirect()->route('cms.testimonials.index')->with('t-success', 'Testimonials Create Successfully');
@@ -103,9 +159,15 @@ class TestimonialController extends Controller {
      * @param  int  $id
      * @return View
      */
-    public function edit(int $id): View {
-        $clientsFeedback = Testimonial::findOrFail($id);
-        return view('backend.layouts.cms.testimonials.edit', compact('clientsFeedback'));
+    public function edit(int $id): JsonResponse | View {
+        try {
+            $testimonial = Testimonial::findOrFail($id);
+            return view('backend.layouts.cms.testimonials.edit', compact('testimonial'));
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
@@ -114,57 +176,70 @@ class TestimonialController extends Controller {
      * @param Request $request
      * @param  int  $id
      * @return RedirectResponse
+     * @throws Exception
      */
     public function update(Request $request, int $id): RedirectResponse {
-        $validator = Validator::make($request->all(), [
-            'rating'      => 'required|integer',
-            'description' => 'required|string',
-            'name'        => 'required|string',
-            'title'       => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
         try {
-            $clientsFeedback              = Testimonial::findOrFail($id);
-            $clientsFeedback->rating      = $request->rating;
-            $clientsFeedback->description = $request->description;
-            $clientsFeedback->name        = $request->name;
-            $clientsFeedback->title       = $request->title;
+            $validator = Validator::make($request->all(), [
+                'name'        => 'required|string',
+                'title'       => 'nullable|string',
+                'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20480',
+                'description' => 'required|string',
+            ]);
 
-            $clientsFeedback->save();
-            return redirect()->route('cms.testimonials.index')->with('t-success', 'Clients Feedback Update Successfully');
-        } catch (Exception) {
-            return redirect()->back()->with('t-error', 'Failed to update');
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $testimonial              = Testimonial::findOrFail($id);
+            $testimonial->name        = $request->name;
+            $testimonial->title       = $request->title;
+            $testimonial->description = $request->description;
+
+            // If a new image is uploaded, delete the old image and upload the new one.
+            if ($request->hasFile('image')) {
+                if ($testimonial->image) {
+                    Helper::fileDelete(public_path($testimonial->image));
+                }
+                $uploadPath = Helper::fileUpload($request->file('image'), 'testimonials', $request->name);
+                if ($uploadPath !== null) {
+                    $testimonial->image = $uploadPath;
+                }
+            }
+
+            $testimonial->save();
+
+            return redirect()->route('cms.testimonials.index')->with('t-success', 'Testimonials updated successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('t-error', 'Failed to update testimonial')->withInput();
         }
     }
 
     /**
-     * Toggle the status of the specified testimonials.
+     * Change the status of the specified testimonials.
      *
      * @param  int  $id
      * @return JsonResponse
+     * @throws Exception
      */
     public function status(int $id): JsonResponse {
-        $clientsFeedback = Testimonial::findOrFail($id);
+        try {
+            $testimonials = Testimonial::findOrFail($id);
 
-        if ($clientsFeedback->status == 'active') {
-            $clientsFeedback->status = 'inactive';
-            $clientsFeedback->save();
-            return response()->json([
-                'success' => false,
-                'message' => 'Unpublished Successfully.',
-                'data'    => $clientsFeedback,
-            ]);
-        } else {
-            $clientsFeedback->status = 'active';
-            $clientsFeedback->save();
-            return response()->json([
-                'success' => true,
-                'message' => 'Published Successfully.',
-                'data'    => $clientsFeedback,
+            if ($testimonials->status === 'active') {
+                $testimonials->status = 'inactive';
+                $testimonials->save();
+
+                return Helper::jsonResponse(false, 'Unpublished Successfully.', 200, $testimonials);
+            } else {
+                $testimonials->status = 'active';
+                $testimonials->save();
+
+                return Helper::jsonResponse(true, 'Published Successfully.', 200, $testimonials);
+            }
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred', 500, [
+                'error' => $e->getMessage(),
             ]);
         }
     }
@@ -174,14 +249,26 @@ class TestimonialController extends Controller {
      *
      * @param  int  $id
      * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(int $id): JsonResponse {
-        $clientsFeedback = Testimonial::findOrFail($id);
-        $clientsFeedback->delete();
+        try {
+            $testimonials = Testimonial::findOrFail($id);
 
-        return response()->json([
-            't-success' => true,
-            'message'   => 'Deleted successfully.',
-        ]);
+            // If there's an associated image, remove it from storage first
+            if ($testimonials->image) {
+                $imagePath = public_path($testimonials->image);
+                Helper::fileDelete($imagePath);
+            }
+
+            // Delete the record
+            $testimonials->delete();
+
+            return Helper::jsonResponse(true, 'Deleted successfully.', 200, $testimonials);
+        } catch (Exception $e) {
+            return Helper::jsonResponse(false, 'An error occurred while deleting.', 500, [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }
