@@ -81,13 +81,12 @@ Route::prefix('cms')->name('cms.')->group(function () {
         // Blogs Preview Section
         Route::controller(BlogsPreviewController::class)->prefix('blogs-preview')->name('blogs-preview.')->group(function () {
             Route::get('/', 'index')->name('index');
-            Route::patch('/', 'update')->name('update');
-
-            // Route::get('/service', 'index')->name('service.index');
-            // Route::post('/service/store', 'store')->name('service.store');
-            // Route::put('/service/update/{id}', 'update')->name('service.update');
-            // Route::get('/service/status/{id}', 'status')->name('service.status');
-            // Route::delete('/service/destroy/{id}', 'destroy')->name('service.destroy');
+            Route::patch('/', 'updateBlogsPreview')->name('update.blogs.preview');
+            Route::get('/blog/show/{id}', 'showBlog')->name('show.blog');
+            Route::post('/blog/store', 'storeBlog')->name('store.blog');
+            Route::put('/blog/update/{id}', 'updateBlog')->name('update.blog');
+            Route::get('/blog/status/{id}', 'status')->name('status.blog');
+            Route::delete('/blog/destroy/{id}', 'destroy')->name('destroy.blog');
         });
     });
 });

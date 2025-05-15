@@ -5,8 +5,8 @@
 @push('styles')
     <style>
         .ck-editor__editable[role="textbox"] {
-            min-height: 50px !important;
-            max-height: 100px !important;
+            min-height: 100px !important;
+            max-height: 150px !important;
         }
     </style>
 @endpush
@@ -36,7 +36,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('cms.home-page.blogs-preview.update') }}">
+                            <form method="POST" action="{{ route('cms.home-page.blogs-preview.update.blogs.preview') }}">
                                 @csrf
                                 @method('PATCH')
                                 <div class="row gy-4">
@@ -106,39 +106,92 @@
         </div>
     </div>
 
-    {{-- Create Modal --}}
-    <div class="modal fade" id="createServiceModal" tabindex="-1" aria-labelledby="createServiceModalLabel"
-        aria-hidden="true">
+    {{-- Create Modal Start --}}
+    <div class="modal fade" id="createBlogModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="createBlogForm" class="modal-content">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Blog</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control">
+                        <span class="text-danger error-text create_title_error"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+                        <span class="text-danger error-text create_description_error"></span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{-- Create Modal End --}}
+
+    {{-- Edit Modal Start --}}
+    <div class="modal fade" id="editBlogModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="editBlogForm" class="modal-content">
+                @csrf
+                @method('PUT')
+                <input type="hidden" id="edit_blog_id" name="id">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Blog</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" id="edit_title" name="title" class="form-control">
+                        <span class="text-danger error-text edit_title_error"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea id="description" name="description" class="form-control" rows="4"></textarea>
+                        <span class="text-danger error-text edit_description_error"></span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{-- Edit Modal End --}}
+
+    {{-- Modal for viewing blog details start --}}
+    <div class="modal fade" id="viewBlogModal" tabindex="-1" aria-labelledby="BlogModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createServiceModalLabel">Create New Service</h5>
+                    <h5 id="BlogModalLabel" class="modal-title">Blog Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="createServiceForm">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="create_services_name" class="form-label">Services Name:</label>
-                            <input type="text" class="form-control" id="create_services_name" name="services_name"
-                                placeholder="Please Enter Services Name">
-                            <span class="text-danger error-text create_services_name_error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="create_platform_fee" class="form-label">Platform Fee:</label>
-                            <input type="text" class="form-control" id="create_platform_fee" name="platform_fee"
-                                placeholder="Please Enter Platform Fee">
-                            <span class="text-danger error-text create_platform_fee_error"></span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </div>
-                </form>
+                <div class="modal-body">
+                    {{-- Dynamic data filled by JS --}}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
+    {{-- Modal for viewing blog details end --}}
 @endsection
 
 @push('scripts')
@@ -156,117 +209,279 @@
                 },
             });
 
-            var table = $('#datatable').DataTable({
-                responsive: true,
-                order: [],
-                lengthMenu: [
-                    [10, 25, 50, 100, -1],
-                    [10, 25, 50, 100, "All"],
-                ],
-                processing: true,
-                serverSide: true,
-                pagingType: "full_numbers",
-                ajax: {
-                    url: "{{ route('cms.home-page.blogs-preview.index') }}",
-                    type: "GET",
-                },
-                dom: "<'row table-topbar'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>>" +
-                    "<'row'<'col-12'tr>>" +
-                    "<'row table-bottom'<'col-md-5 dataTables_left'i><'col-md-7'p>>",
-                language: {
-                    search: "_INPUT_",
-                    searchPlaceholder: "Search records...",
-                    lengthMenu: "Show _MENU_ entries",
-                    processing: `
+            if (!$.fn.DataTable.isDataTable('#datatable')) {
+                let table = $('#datatable').DataTable({
+                    responsive: true,
+                    order: [],
+                    lengthMenu: [
+                        [10, 25, 50, 100, -1],
+                        [10, 25, 50, 100, "All"],
+                    ],
+                    processing: true,
+                    serverSide: true,
+                    pagingType: "full_numbers",
+                    ajax: {
+                        url: "{{ route('cms.home-page.blogs-preview.index') }}",
+                        type: "GET",
+                    },
+                    dom: "<'row table-topbar'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>>" +
+                        "<'row'<'col-12'tr>>" +
+                        "<'row table-bottom'<'col-md-5 dataTables_left'i><'col-md-7'p>>",
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Search records...",
+                        lengthMenu: "Show _MENU_ entries",
+                        processing: `
                         <div class="text-center">
                             <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>`,
-                },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center'
                     },
-                    {
-                        data: 'services_name',
-                        name: 'services_name',
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: 'platform_fee',
-                        name: 'platform_fee',
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center'
-                    },
-                ],
-                columnDefs: [{
-                    targets: -1,
-                    render: function(data, type, row) {
-                        return `
-                            <div class="hstack gap-3 fs-base">
-                                <a href="javascript:void(0);" class="link-primary text-decoration-none edit-service" data-id="${row.id}" title="Edit">
-                                    <i class="ri-pencil-line" style="font-size: 24px;"></i>
-                                </a>
-                                <a href="javascript:void(0);" onclick="showDeleteConfirm('${row.id}')" class="link-danger text-decoration-none" title="Delete">
-                                    <i class="ri-delete-bin-5-line" style="font-size: 24px;"></i>
-                                </a>
-                            </div>
-                        `;
-                    },
-                }],
-            });
+                    // Turn off autoWidth so column widths are respected.
+                    autoWidth: false,
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            orderable: false,
+                            searchable: false,
+                            className: 'text-center',
+                            width: '5%'
+                        },
+                        {
+                            data: 'title',
+                            name: 'title',
+                            orderable: true,
+                            searchable: true,
+                            width: '20%'
+                        },
+                        {
+                            data: 'description',
+                            name: 'description',
+                            orderable: false,
+                            searchable: false,
+                            width: '60%',
+                            render: function(data) {
+                                return '<div style="white-space:normal;word-break:break-word;">' +
+                                    data + '</div>';
+                            }
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            searchable: false,
+                            className: 'text-center',
+                            width: '5%'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false,
+                            className: 'text-center',
+                            // width: '10%'
+                        },
+                    ],
+                });
 
-            // Show Create Modal
-            $('#addNewService').click(function() {
-                $('#createServiceModal').modal('show');
-                $('#createServiceForm')[0].reset();
-                $('.error-text').text('');
-            });
-
-            // Handle Create Form Submission
-            $('#createServiceForm').submit(function(e) {
-                e.preventDefault();
-                $('.error-text').text('');
-                let formData = $(this).serialize();
-
-                axios.post("{{ route('service.store') }}", formData)
-                    .then(function(response) {
-                        if (response.data.success) {
-                            $('#createServiceModal').modal('hide');
-                            $('#createServiceForm')[0].reset();
-                            table.ajax.reload();
-                            toastr.success(response.data.message);
-                        } else {
-                            $.each(response.data.errors, function(key, value) {
-                                $('.create_' + key + '_error').text(value[0]);
-                            });
-                            toastr.error('Please fix the errors.');
-                        }
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                        toastr.error('An error occurred while creating the service.');
+                $('#datatable').on('draw.dt', function() {
+                    $('td.column-action').each(function() {
+                        let buttonCount = $(this).find('button').length;
+                        let width = 5 + (buttonCount - 1) * 5;
+                        $(this).css('width', width + '%');
                     });
-            });
+                });
+
+                $('#addNewBlog').on('click', () => {
+                    $('#createBlogForm')[0].reset();
+                    $('.error-text').text('');
+                    $('#createBlogModal').modal('show');
+                });
+
+                $('#createBlogForm').submit(e => {
+                    e.preventDefault();
+                    $('.error-text').text('');
+                    axios.post("{{ route('cms.home-page.blogs-preview.store.blog') }}", new FormData(e
+                            .target))
+                        .then(({
+                            data
+                        }) => {
+                            if (data.status) {
+                                $('#createBlogModal').modal('hide');
+                                table.ajax.reload();
+                                toastr.success(data.message);
+                            } else {
+                                for (let [k, v] of Object.entries(data.errors || {})) {
+                                    $(`.create_${k}_error`).text(v[0]);
+                                }
+                                toastr.error(data.message);
+                            }
+                        })
+                        .catch(() => toastr.error('Something went wrong.'));
+                });
+
+                // Show Edit
+                $(document).on('click', '.edit-blog', function() {
+                    let row = table.row($(this).closest('tr')).data();
+                    $('#edit_blog_id').val(row.id);
+                    $('#edit_title').val(row.title);
+                    $('#edit_description').val(row.description);
+                    $('.error-text').text('');
+                    $('#editBlogModal').modal('show');
+                });
+
+                const updateBlogUrlTemplate =
+                    "{{ route('cms.home-page.blogs-preview.update.blog', ['id' => ':id']) }}";
+
+                // Update
+                $('#editBlogForm').submit(e => {
+                    e.preventDefault();
+                    $('.error-text').text('');
+
+                    // get the blog-id and build the real URL
+                    const id = $('#edit_blog_id').val();
+                    const url = updateBlogUrlTemplate.replace(':id', id);
+
+                    // collect form data (includes _method=PUT)
+                    const formData = new FormData(e.target);
+
+                    // post it
+                    axios.post(url, formData)
+                        .then(({
+                            data
+                        }) => {
+                            if (data.status) {
+                                $('#editBlogModal').modal('hide');
+                                table.ajax.reload();
+                                toastr.success(data.message);
+                            } else {
+                                // validation errors
+                                for (let [field, msgs] of Object.entries(data.errors || {})) {
+                                    $(`.edit_${field}_error`).text(msgs[0]);
+                                }
+                                toastr.error(data.message);
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            toastr.error('Something went wrong.');
+                        });
+                });
+
+                dTable.buttons().container().appendTo('#file_exports');
+                new DataTable('#example', {
+                    responsive: true
+                });
+            }
         });
+
+        // Fetch and display blog details in the modal
+        async function showBlogDetails(id) {
+            let url = '{{ route('cms.home-page.blogs-preview.show.blog', ['id' => ':id']) }}';
+            url = url.replace(':id', id);
+
+            try {
+                let response = await axios.get(url);
+                if (response.data && response.data.data) {
+                    let data = response.data.data;
+                    let modalBody = document.querySelector('#viewBlogModal .modal-body');
+                    modalBody.innerHTML = `
+                        <p><strong>Title:</strong> ${data.title}</p>
+                        <p><strong>Description:</strong> ${data.description}</p>
+                    `;
+                } else {
+                    toastr.error('No data returned from the server.');
+                }
+            } catch (error) {
+                console.error(error);
+                toastr.error('Could not fetch blog details.');
+            }
+        }
+
+        // Status Change Confirm Alert
+        function showStatusChangeAlert(id) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You want to update the status?',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    statusChange(id);
+                }
+            });
+        }
+
+        // Status Change
+        function statusChange(id) {
+            let url = '{{ route('cms.home-page.blogs-preview.status.blog', ['id' => ':id']) }}'.replace(':id', id);
+
+            axios.get(url)
+                .then(function(response) {
+                    // console.log(response.data);
+                    // Reload your DataTable
+                    $('#datatable').DataTable().ajax.reload();
+
+                    if (response.data.status === true) {
+                        toastr.success(response.data.message);
+                    } else if (response.data.errors) {
+                        toastr.error(response.data.errors[0]);
+                    } else {
+                        toastr.error(response.data.message);
+                    }
+                })
+                .catch(function(error) {
+                    toastr.error('An error occurred. Please try again.');
+                    console.error(error);
+                });
+        }
+
+        // delete Confirm
+        function showDeleteConfirm(id) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure you want to delete this record?',
+                text: 'If you delete this, it will be gone forever.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteItem(id);
+                }
+            });
+        }
+
+        // Delete Button
+        function deleteItem(id) {
+            const url = '{{ route('cms.home-page.blogs-preview.destroy.blog', ['id' => ':id']) }}'.replace(':id', id);
+
+            axios.delete(url, {
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(function(response) {
+                    $('#datatable').DataTable().ajax.reload();
+                    if (response.data.status === true) {
+                        toastr.success(response.data.message);
+                    } else if (response.data.errors) {
+                        toastr.error(response.data.errors[0]);
+                    } else {
+                        toastr.error(response.data.message);
+                    }
+                })
+                .catch(function(error) {
+                    toastr.error('An error occurred. Please try again.');
+                    console.error(error);
+                });
+        }
     </script>
 @endpush

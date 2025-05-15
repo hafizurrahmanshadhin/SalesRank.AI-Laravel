@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\BlogSeeder;
 use Database\Seeders\BlogsPreviewSeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\DynamicPageSeeder;
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder {
             FeatureBlockSeeder::class,
             TestimonialSeeder::class,
             BlogsPreviewSeeder::class,
+            BlogSeeder::class,
         ]);
     }
 }
