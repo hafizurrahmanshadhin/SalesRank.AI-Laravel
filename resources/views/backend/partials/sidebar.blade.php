@@ -177,6 +177,55 @@
                                     </ul>
                                 </div>
                             </li>
+
+                            {{-- About Page --}}
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ request()->is('admin/cms/about-page*') ? 'active' : '' }}"
+                                    href="#sidebarAboutPage" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{ request()->is('admin/cms/about-page*') ? 'true' : 'false' }}"
+                                    aria-controls="sidebarAboutPage">
+                                    <i class="ri-information-line me-1"></i>
+                                    <span data-key="t-about-page">About Page</span>
+                                </a>
+
+                                <div class="collapse menu-dropdown {{ request()->is('admin/cms/about-page*') ? 'show' : '' }}"
+                                    id="sidebarAboutPage">
+                                    <ul class="nav nav-sm flex-column">
+                                        {{-- Hero Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.about-page.hero-section.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.about-page.hero-section.*') ? 'active' : '' }}"
+                                                data-key="t-hero-section">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-hero-section">Hero Section</span>
+                                            </a>
+                                        </li>
+
+                                        {{-- Mission Statement --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.about-page.mission-statement.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.about-page.mission-statement.*') ? 'active' : '' }}"
+                                                data-key="t-mission-statement">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-mission-statement">Mission Statement</span>
+                                            </a>
+                                        </li>
+
+                                        {{-- Partner Spotlight --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.about-page.partner-spotlight.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.about-page.partner-spotlight.*') ? 'active' : '' }}"
+                                                data-key="t-partner-spotlight">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-partner-spotlight">Partner Spotlight</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>

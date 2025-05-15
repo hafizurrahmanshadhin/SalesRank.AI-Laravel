@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\CMS\AboutPage\AboutPageHeroSectionController;
+use App\Http\Controllers\Web\Backend\CMS\AboutPage\MissionStatementController;
+use App\Http\Controllers\Web\Backend\CMS\AboutPage\PartnerSpotlightController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\CollaborationController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\SalesRankController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\BlogsPreviewController;
@@ -95,6 +98,27 @@ Route::prefix('cms')->name('cms.')->group(function () {
             Route::put('/blog/update/{id}', 'updateBlog')->name('update.blog');
             Route::get('/blog/status/{id}', 'status')->name('status.blog');
             Route::delete('/blog/destroy/{id}', 'destroy')->name('destroy.blog');
+        });
+    });
+
+    // About Page
+    Route::prefix('about-page')->name('about-page.')->group(function () {
+        // Hero Section
+        Route::controller(AboutPageHeroSectionController::class)->prefix('hero-section')->name('hero-section.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
+        });
+
+        // Mission Statement
+        Route::controller(MissionStatementController::class)->prefix('mission-statement')->name('mission-statement.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
+        });
+
+        // Partner Spotlight
+        Route::controller(PartnerSpotlightController::class)->prefix('partner-spotlight')->name('partner-spotlight.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
         });
     });
 });
