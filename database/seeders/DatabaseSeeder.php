@@ -10,6 +10,7 @@ use Database\Seeders\FAQSeeder;
 use Database\Seeders\FeatureBlockSeeder;
 use Database\Seeders\HomePageHeroSectionSeeder;
 use Database\Seeders\HomePageVideoBannerSectionSeeder;
+use Database\Seeders\NewsletterSeeder;
 use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SocialMediaSeeder;
 use Database\Seeders\SystemSettingSeeder;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder {
             TestimonialSeeder::class,
             BlogsPreviewSeeder::class,
             BlogSeeder::class,
+            NewsletterSeeder::class,
         ]);
     }
 }

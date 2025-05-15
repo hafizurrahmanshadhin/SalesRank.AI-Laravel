@@ -23,15 +23,3 @@ php artisan serve
 > **Password:** 12345678
 >
 > ---
-
-Page Builder
- • Home Sections
-  – Hero (Title / Body / Image)
-  – Video Banner (Title / Body / Video URL)
-  – Feature Blocks
-  – Case Studies
-  – Testimonials
-  – FAQ
-  – Blog Preview
-  – Newsletter CTA
-  – Footer Links

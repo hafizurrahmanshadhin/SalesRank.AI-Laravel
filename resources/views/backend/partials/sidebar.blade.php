@@ -181,6 +181,16 @@
                     </div>
                 </li>
 
+                {{-- Newsletter Subscriber --}}
+                <li class="nav-item">
+                    <a href="{{ route('newsletter.index') }}"
+                        class="nav-link menu-link {{ request()->routeIs('newsletter.index') ? 'active' : '' }}"
+                        data-key="t-newsletter-subscriber">
+                        <i class="ri-mail-send-line"></i>
+                        <span data-key="t-newsletter-subscriber">Newsletter Subscriber</span>
+                    </a>
+                </li>
+
                 <hr>
                 {{-- Settings --}}
                 <li class="nav-item">

@@ -8,10 +8,18 @@ use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageVideoBannerSectionController;
 use App\Http\Controllers\Web\Backend\CMS\TestimonialController;
 use App\Http\Controllers\Web\Backend\DashboardController;
+use App\Http\Controllers\Web\Backend\NewsletterController;
 use Illuminate\Support\Facades\Route;
 
 // Route for Admin Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::controller(NewsletterController::class)->prefix('newsletter')->name('newsletter.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/show/{id}', 'show')->name('show');
+    Route::get('/status/{id}', 'status')->name('status');
+    Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+});
 
 // CMS
 Route::prefix('cms')->name('cms.')->group(function () {
