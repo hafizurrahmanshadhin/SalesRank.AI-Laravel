@@ -223,6 +223,17 @@
                                                 <span data-key="t-partner-spotlight">Partner Spotlight</span>
                                             </a>
                                         </li>
+
+                                        {{-- Features --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.about-page.feature.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.about-page.feature.*') ? 'active' : '' }}"
+                                                data-key="t-feature">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-feature">Features Section</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

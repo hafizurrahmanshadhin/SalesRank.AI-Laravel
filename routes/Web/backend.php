@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\AboutPageHeroSectionController;
+use App\Http\Controllers\Web\Backend\CMS\AboutPage\FeatureController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\MissionStatementController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\PartnerSpotlightController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\CollaborationController;
@@ -119,6 +120,17 @@ Route::prefix('cms')->name('cms.')->group(function () {
         Route::controller(PartnerSpotlightController::class)->prefix('partner-spotlight')->name('partner-spotlight.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'update')->name('update');
+        });
+
+        // Feature Section
+        Route::controller(FeatureController::class)->prefix('feature')->name('feature.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'updateAIPrompt')->name('ai.prompt.update');
+            Route::get('/show/{id}', 'showFeature')->name('show');
+            Route::post('/store', 'storeFeature')->name('store');
+            Route::put('/update/{id}', 'updateFeature')->name('update');
+            Route::get('/status/{id}', 'status')->name('status');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
     });
 });

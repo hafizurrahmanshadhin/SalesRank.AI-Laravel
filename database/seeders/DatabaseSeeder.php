@@ -3,12 +3,14 @@
 namespace Database\Seeders;
 
 use Database\Seeders\AboutPageHeroSectionSeeder;
+use Database\Seeders\AIPromptSeeder;
 use Database\Seeders\BlogSeeder;
 use Database\Seeders\BlogsPreviewSeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\DynamicPageSeeder;
 use Database\Seeders\FAQSeeder;
 use Database\Seeders\FeatureBlockSeeder;
+use Database\Seeders\FeatureSeeder;
 use Database\Seeders\HomePageHeroSectionSeeder;
 use Database\Seeders\HomePageVideoBannerSectionSeeder;
 use Database\Seeders\MissionStatementSeeder;
@@ -41,6 +43,8 @@ class DatabaseSeeder extends Seeder {
             AboutPageHeroSectionSeeder::class,
             MissionStatementSeeder::class,
             PartnerSpotlightSeeder::class,
+            AIPromptSeeder::class,
+            FeatureSeeder::class,
         ]);
     }
 }
