@@ -19,6 +19,7 @@ use Database\Seeders\PartnerSpotlightSeeder;
 use Database\Seeders\PricePageHeroSectionSeeder;
 use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SocialMediaSeeder;
+use Database\Seeders\SubscriptionPlanSeeder;
 use Database\Seeders\SystemSettingSeeder;
 use Database\Seeders\TestimonialSeeder;
 use Database\Seeders\UserSeeder;
@@ -47,6 +48,7 @@ class DatabaseSeeder extends Seeder {
             AIPromptSeeder::class,
             FeatureSeeder::class,
             PricePageHeroSectionSeeder::class,
+            SubscriptionPlanSeeder::class,
         ]);
     }
 }

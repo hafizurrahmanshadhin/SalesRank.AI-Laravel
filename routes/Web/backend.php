@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Backend\CMS\HomePage\FeatureBlockController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageVideoBannerSectionController;
 use App\Http\Controllers\Web\Backend\CMS\PricingPage\PricingPageHeroSectionController;
+use App\Http\Controllers\Web\Backend\CMS\PricingPage\SubscriptionPlanController;
 use App\Http\Controllers\Web\Backend\CMS\TestimonialController;
 use App\Http\Controllers\Web\Backend\DashboardController;
 use App\Http\Controllers\Web\Backend\NewsletterController;
@@ -141,6 +142,14 @@ Route::prefix('cms')->name('cms.')->group(function () {
         Route::controller(PricingPageHeroSectionController::class)->prefix('hero-section')->name('hero-section.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'update')->name('update');
+        });
+
+        // Subscription Plan
+        Route::controller(SubscriptionPlanController::class)->prefix('subscription-plan')->name('subscription-plan.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/update/{id}', 'update')->name('edit');
+            // new toggle-status route
+            Route::patch('/{subscription_plan}/toggle-status', 'toggleStatus')->name('toggle-status');
         });
     });
 });

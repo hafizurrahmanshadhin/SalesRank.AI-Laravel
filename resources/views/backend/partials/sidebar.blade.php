@@ -244,7 +244,7 @@
                                     href="#sidebarPricingPage" data-bs-toggle="collapse" role="button"
                                     aria-expanded="{{ request()->is('admin/cms/pricing-page*') ? 'true' : 'false' }}"
                                     aria-controls="sidebarPricingPage">
-                                    <i class="ri-information-line me-1"></i>
+                                    <i class="ri-price-tag-3-line me-1"></i>
                                     <span data-key="t-pricing-page">Pricing Page</span>
                                 </a>
 
@@ -259,6 +259,18 @@
                                                 <i class="ri-checkbox-blank-circle-fill"
                                                     style="font-size:0.6rem; margin-right:-0.6rem;"></i>
                                                 <span data-key="t-hero-section">Hero Section</span>
+                                            </a>
+                                        </li>
+
+                                        {{-- Subscription Plan --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.pricing-page.subscription-plan.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.pricing-page.subscription-plan.*') ? 'active' : '' }}"
+                                                data-key="t-subscription-plan">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-subscription-plan"
+                                                    style="white-space: nowrap;">Subscription Plan</span>
                                             </a>
                                         </li>
                                     </ul>
