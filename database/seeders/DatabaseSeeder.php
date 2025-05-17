@@ -16,6 +16,7 @@ use Database\Seeders\HomePageVideoBannerSectionSeeder;
 use Database\Seeders\MissionStatementSeeder;
 use Database\Seeders\NewsletterSeeder;
 use Database\Seeders\PartnerSpotlightSeeder;
+use Database\Seeders\PricePageHeroSectionSeeder;
 use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SocialMediaSeeder;
 use Database\Seeders\SystemSettingSeeder;
@@ -45,6 +46,7 @@ class DatabaseSeeder extends Seeder {
             PartnerSpotlightSeeder::class,
             AIPromptSeeder::class,
             FeatureSeeder::class,
+            PricePageHeroSectionSeeder::class,
         ]);
     }
 }

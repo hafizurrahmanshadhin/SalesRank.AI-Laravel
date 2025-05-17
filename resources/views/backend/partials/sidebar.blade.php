@@ -237,6 +237,33 @@
                                     </ul>
                                 </div>
                             </li>
+
+                            {{-- Pricing Page --}}
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ request()->is('admin/cms/pricing-page*') ? 'active' : '' }}"
+                                    href="#sidebarPricingPage" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{ request()->is('admin/cms/pricing-page*') ? 'true' : 'false' }}"
+                                    aria-controls="sidebarPricingPage">
+                                    <i class="ri-information-line me-1"></i>
+                                    <span data-key="t-pricing-page">Pricing Page</span>
+                                </a>
+
+                                <div class="collapse menu-dropdown {{ request()->is('admin/cms/pricing-page*') ? 'show' : '' }}"
+                                    id="sidebarPricingPage">
+                                    <ul class="nav nav-sm flex-column">
+                                        {{-- Hero Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.pricing-page.hero-section.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.pricing-page.hero-section.*') ? 'active' : '' }}"
+                                                data-key="t-hero-section">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-hero-section">Hero Section</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>

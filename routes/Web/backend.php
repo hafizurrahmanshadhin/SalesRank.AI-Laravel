@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\Backend\CMS\HomePage\BlogsPreviewController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\FeatureBlockController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\HomePageVideoBannerSectionController;
+use App\Http\Controllers\Web\Backend\CMS\PricingPage\PricingPageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\TestimonialController;
 use App\Http\Controllers\Web\Backend\DashboardController;
 use App\Http\Controllers\Web\Backend\NewsletterController;
@@ -131,6 +132,15 @@ Route::prefix('cms')->name('cms.')->group(function () {
             Route::put('/update/{id}', 'updateFeature')->name('update');
             Route::get('/status/{id}', 'status')->name('status');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+    });
+
+    // Pricing Page
+    Route::prefix('pricing-page')->name('pricing-page.')->group(function () {
+        // Hero Section
+        Route::controller(PricingPageHeroSectionController::class)->prefix('hero-section')->name('hero-section.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
         });
     });
 });
