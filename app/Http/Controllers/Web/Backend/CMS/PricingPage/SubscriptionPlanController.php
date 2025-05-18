@@ -12,10 +12,20 @@ class SubscriptionPlanController extends Controller {
     }
 
     public function toggleStatus(SubscriptionPlan $subscription_plan) {
-        $subscription_plan->status = $subscription_plan->status === 'active' ? 'inactive' : 'active';
+        // Flip status
+        $newStatus                 = $subscription_plan->status === 'active' ? 'inactive' : 'active';
+        $subscription_plan->status = $newStatus;
+
+        // If we're deactivating this plan, strip out any recommendation flag
+        if ($newStatus === 'inactive' && $subscription_plan->is_recommended) {
+            $subscription_plan->is_recommended = false;
+        }
+
         $subscription_plan->save();
 
-        return redirect()->route('cms.pricing-page.subscription-plan.index')->with('t-success', 'Plan status updated.');
+        return redirect()
+            ->route('cms.pricing-page.subscription-plan.index')
+            ->with('t-success', 'Plan status and recommendation updated.');
     }
 
     public function toggleRecommended(SubscriptionPlan $subscription_plan) {

@@ -158,6 +158,11 @@
     margin-top: auto;
 }
 
+.btn-toggle-recommended[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Buttons styling */
 .btn-toggle-status, .btn-toggle-recommended {
     border-radius: 8px;

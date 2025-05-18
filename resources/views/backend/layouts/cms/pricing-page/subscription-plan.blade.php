@@ -102,11 +102,13 @@
                                             method="POST">
                                             @csrf @method('PATCH')
                                             <button type="submit"
-                                                class="btn btn-toggle-recommended {{ $plan->is_recommended ? 'recommended' : 'not-recommended' }} w-100">
+                                                class="btn btn-toggle-recommended {{ $plan->is_recommended ? 'recommended' : 'not-recommended' }} w-100"
+                                                {{ $plan->status !== 'active' ? 'disabled' : '' }}>
                                                 {{ $plan->is_recommended ? 'Unrecommend' : 'Recommend' }}
                                             </button>
                                         </form>
                                     </div>
+
                                 </div>
 
                                 {{-- Edit Button --}}
