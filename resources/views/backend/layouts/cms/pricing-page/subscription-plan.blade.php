@@ -9,14 +9,16 @@
 @section('content')
     <div class="page-content py-4">
         <div class="container-fluid">
+
             {{-- start page title --}}
             <div class="d-flex flex-wrap justify-content-between align-items-center page-title-wrapper">
                 <div>
                     <h1 class="page-title">Subscription Plans</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb bg-transparent p-0 mb-0">
-                            <li class="breadcrumb-item"><a
-                                    href="{{ route('cms.pricing-page.subscription-plan.index') }}">CMS</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('cms.pricing-page.subscription-plan.index') }}">CMS</a>
+                            </li>
                             <li class="breadcrumb-item active">Pricing Page</li>
                             <li class="breadcrumb-item">Subscription Plans</li>
                         </ol>
@@ -87,7 +89,8 @@
                                         <form
                                             action="{{ route('cms.pricing-page.subscription-plan.toggle-status', $plan) }}"
                                             method="POST">
-                                            @csrf @method('PATCH')
+                                            @csrf
+                                            @method('PATCH')
                                             <button type="submit"
                                                 class="btn btn-toggle-status {{ $plan->status === 'active' ? 'active' : 'inactive' }} w-100">
                                                 {{ $plan->status === 'active' ? 'Deactivate' : 'Activate' }}
@@ -100,7 +103,8 @@
                                         <form
                                             action="{{ route('cms.pricing-page.subscription-plan.toggle-recommended', $plan) }}"
                                             method="POST">
-                                            @csrf @method('PATCH')
+                                            @csrf
+                                            @method('PATCH')
                                             <button type="submit"
                                                 class="btn btn-toggle-recommended {{ $plan->is_recommended ? 'recommended' : 'not-recommended' }} w-100"
                                                 {{ $plan->status !== 'active' ? 'disabled' : '' }}>
@@ -108,14 +112,108 @@
                                             </button>
                                         </form>
                                     </div>
-
                                 </div>
 
                                 {{-- Edit Button --}}
-                                <a href="{{ route('cms.pricing-page.subscription-plan.edit', $plan) }}"
-                                    class="btn btn-edit">
+                                <a href="javascript:void(0)" class="btn btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editModal{{ $plan->id }}">
                                     <i class="ri-pencil-line me-1"></i> Edit Plan
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Modal for editing this plan --}}
+                    <div class="modal fade" id="editModal{{ $plan->id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <form method="POST"
+                                    action="{{ route('cms.pricing-page.subscription-plan.edit', $plan->id) }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit {{ $plan->name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        {{-- Name --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="name{{ $plan->id }}">Plan Name</label>
+                                            <input type="text" name="name" id="name{{ $plan->id }}"
+                                                class="form-control" value="{{ $plan->name }}" required>
+                                        </div>
+
+                                        {{-- Billing Interval --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="billing_interval{{ $plan->id }}">Billing
+                                                Interval</label>
+                                            <select name="billing_interval" id="billing_interval{{ $plan->id }}"
+                                                class="form-select" required>
+                                                <option value="month" @selected($plan->billing_interval === 'month')>Month</option>
+                                                <option value="year" @selected($plan->billing_interval === 'year')>Year</option>
+                                            </select>
+                                        </div>
+
+                                        {{-- Price --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="price{{ $plan->id }}">Price</label>
+                                            <input type="number" step="0.01" name="price"
+                                                id="price{{ $plan->id }}" class="form-control"
+                                                value="{{ $plan->price }}" required>
+                                        </div>
+
+                                        {{-- Currency --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="currency{{ $plan->id }}">Currency</label>
+                                            <input type="text" name="currency" id="currency{{ $plan->id }}"
+                                                class="form-control" value="{{ $plan->currency }}" required>
+                                        </div>
+
+                                        {{-- Description --}}
+                                        <div class="mb-3">
+                                            <label class="form-label"
+                                                for="description{{ $plan->id }}">Description</label>
+                                            <textarea name="description" id="description{{ $plan->id }}" class="form-control" rows="3">{{ $plan->description }}</textarea>
+                                        </div>
+
+                                        {{-- Status --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="status{{ $plan->id }}">Status</label>
+                                            <select name="status" id="status{{ $plan->id }}" class="form-select"
+                                                required>
+                                                <option value="active" @selected($plan->status === 'active')>Active</option>
+                                                <option value="inactive" @selected($plan->status === 'inactive')>Inactive</option>
+                                            </select>
+                                        </div>
+
+                                        {{-- Is Recommended --}}
+                                        <div class="mb-3 form-check">
+                                            <input class="form-check-input" type="checkbox" name="is_recommended"
+                                                id="is_recommended{{ $plan->id }}" value="1"
+                                                @checked($plan->is_recommended)>
+                                            <label class="form-check-label" for="is_recommended{{ $plan->id }}">
+                                                Recommended?
+                                            </label>
+                                        </div>
+
+                                        {{-- Features (comma-separated) --}}
+                                        <div class="mb-3">
+                                            <label class="form-label" for="features{{ $plan->id }}">Features
+                                                (comma-separated)</label>
+                                            <input type="text" name="features[]" class="form-control"
+                                                id="features{{ $plan->id }}"
+                                                value="{{ implode(',', $plan->features ?? []) }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Update Plan</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
