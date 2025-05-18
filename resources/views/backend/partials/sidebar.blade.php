@@ -276,6 +276,55 @@
                                     </ul>
                                 </div>
                             </li>
+
+                            {{-- Consulting Page --}}
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ request()->is('admin/cms/consulting-page*') ? 'active' : '' }}"
+                                    href="#sidebarConsultingPage" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{ request()->is('admin/cms/consulting-page*') ? 'true' : 'false' }}"
+                                    aria-controls="sidebarConsultingPage">
+                                    <i class="ri-discuss-line me-1"></i>
+                                    <span data-key="t-consulting-page">Consulting Page</span>
+                                </a>
+
+                                <div class="collapse menu-dropdown {{ request()->is('admin/cms/consulting-page*') ? 'show' : '' }}"
+                                    id="sidebarConsultingPage">
+                                    <ul class="nav nav-sm flex-column">
+                                        {{-- Hero Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.consulting-page.hero-section.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.consulting-page.hero-section.*') ? 'active' : '' }}"
+                                                data-key="t-hero-section">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-hero-section">Hero Section</span>
+                                            </a>
+                                        </li>
+
+                                        {{-- AI Powered Insights Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.consulting-page.ai-powered-insights.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.consulting-page.ai-powered-insights.*') ? 'active' : '' }}"
+                                                data-key="t-hero-section">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-hero-section">AI Powered Insights Section</span>
+                                            </a>
+                                        </li>
+
+                                        {{-- Growth Story Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.consulting-page.growth-story.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.consulting-page.growth-story.*') ? 'active' : '' }}"
+                                                data-key="t-growth-story">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-growth-story">Growth Story Section</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>

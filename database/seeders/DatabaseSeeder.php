@@ -3,9 +3,11 @@
 namespace Database\Seeders;
 
 use Database\Seeders\AboutPageHeroSectionSeeder;
+use Database\Seeders\AIPoweredInsightsSeeder;
 use Database\Seeders\AIPromptSeeder;
 use Database\Seeders\BlogSeeder;
 use Database\Seeders\BlogsPreviewSeeder;
+use Database\Seeders\ConsultingPageHeroSectionSeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\DynamicPageSeeder;
 use Database\Seeders\FAQSeeder;
@@ -49,6 +51,8 @@ class DatabaseSeeder extends Seeder {
             FeatureSeeder::class,
             PricePageHeroSectionSeeder::class,
             SubscriptionPlanSeeder::class,
+            ConsultingPageHeroSectionSeeder::class,
+            AIPoweredInsightsSeeder::class,
         ]);
     }
 }

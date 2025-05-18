@@ -4,6 +4,9 @@ use App\Http\Controllers\Web\Backend\CMS\AboutPage\AboutPageHeroSectionControlle
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\FeatureController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\MissionStatementController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\PartnerSpotlightController;
+use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\AIPoweredInsightsController;
+use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\ConsultingPageHeroSectionController;
+use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\GrowthStoryController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\CollaborationController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\SalesRankController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\BlogsPreviewController;
@@ -150,6 +153,36 @@ Route::prefix('cms')->name('cms.')->group(function () {
             Route::patch('/update/{id}', 'update')->name('edit');
             Route::patch('/{subscription_plan}/toggle-status', 'toggleStatus')->name('toggle-status');
             Route::patch('/{subscription_plan}/toggle-recommended', 'toggleRecommended')->name('toggle-recommended');
+        });
+    });
+
+    // Consulting Page
+    Route::prefix('consulting-page')->name('consulting-page.')->group(function () {
+        // Hero Section
+        Route::controller(ConsultingPageHeroSectionController::class)->prefix('hero-section')->name('hero-section.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
+        });
+
+        // AI Powered Insights Section
+        Route::controller(AIPoweredInsightsController::class)->prefix('ai-powered-insights')->name('ai-powered-insights.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/show/{id}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{id}', 'update')->name('update');
+            Route::get('/status/{id}', 'status')->name('status');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+
+        // Growth Story Section
+        Route::controller(GrowthStoryController::class)->prefix('growth-story')->name('growth-story.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'updateGrowthStory')->name('banner.update');
+            Route::get('/show/{id}', 'show')->name('show');
+            Route::post('/store', 'store')->name('store');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::get('/status/{id}', 'status')->name('status');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
     });
 });
