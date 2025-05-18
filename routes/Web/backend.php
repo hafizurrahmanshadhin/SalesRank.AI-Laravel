@@ -149,6 +149,7 @@ Route::prefix('cms')->name('cms.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/update/{id}', 'update')->name('edit');
             Route::patch('/{subscription_plan}/toggle-status', 'toggleStatus')->name('toggle-status');
+            Route::patch('/{subscription_plan}/toggle-recommended', 'toggleRecommended')->name('toggle-recommended');
         });
     });
 });
