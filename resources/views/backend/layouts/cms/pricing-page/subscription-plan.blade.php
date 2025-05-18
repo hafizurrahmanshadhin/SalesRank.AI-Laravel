@@ -106,6 +106,12 @@
         }
 
         /* Recommended badge styling */
+        .recommended-badge-wrapper {
+            display: flex;
+            justify-content: end;
+            width: 100%;
+        }
+
         .recommended-badge {
             display: inline-block;
             background: #3b82f6;
@@ -256,8 +262,10 @@
 
                                 {{-- Recommended Badge --}}
                                 @if ($plan->is_recommended)
-                                    <div class="recommended-badge">
-                                        <i class="ri-award-fill me-1"></i> Recommended
+                                    <div class="recommended-badge-wrapper">
+                                        <div class="recommended-badge">
+                                            <i class="ri-award-fill me-1"></i> Recommended
+                                        </div>
                                     </div>
                                 @endif
                             </div>
@@ -294,7 +302,6 @@
                     </div>
                 @endforeach
             </div>
-
         </div>
     </div>
 @endsection

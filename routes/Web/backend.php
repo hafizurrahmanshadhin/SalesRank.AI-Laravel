@@ -148,7 +148,6 @@ Route::prefix('cms')->name('cms.')->group(function () {
         Route::controller(SubscriptionPlanController::class)->prefix('subscription-plan')->name('subscription-plan.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/update/{id}', 'update')->name('edit');
-            // new toggle-status route
             Route::patch('/{subscription_plan}/toggle-status', 'toggleStatus')->name('toggle-status');
         });
     });

@@ -10,53 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SubscriptionPlanController extends Controller {
-    /**
-     * Display a listing of the resource of subscription plans.
-     *
-     * @param Request $request
-     * @return View|JsonResponse
-     */
-    // public function index(Request $request): View | JsonResponse {
-    //     try {
-    //         if ($request->ajax()) {
-    //             $data = SubscriptionPlan::get();
-    //             return DataTables::of($data)
-    //                 ->addIndexColumn()
-    //                 ->addColumn('status', function ($subscriptionPlan) {
-    //                     $status = '<div class="form-check form-switch" style="margin-left: 40px; width: 50px; height: 24px;">';
-    //                     $status .= '<input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck' . $subscriptionPlan->id . '" ' . ($subscriptionPlan->status == 'active' ? 'checked' : '') . ' onclick="showStatusChangeAlert(' . $subscriptionPlan->id . ')">';
-    //                     $status .= '</div>';
-    //                     return $status;
-    //                 })
-    //                 ->addColumn('action', function ($subscriptionPlan) {
-    //                     return '
-    //                         <div class="hstack gap-3 fs-base">
-    //                             <a href="javascript:void(0);" class="link-primary text-decoration-none edit-service" data-id="' . $subscriptionPlan->id . '" title="Edit">
-    //                                 <i class="ri-pencil-line" style="font-size:24px;"></i>
-    //                             </a>
-    //                         </div>';
-    //                 })
-    //                 ->rawColumns(['touch_points', 'status', 'action'])
-    //                 ->make();
-    //         }
-    //         return view('backend.layouts.cms.pricing-page.subscription-plan');
-    //     } catch (Exception $e) {
-    //         return Helper::jsonResponse(false, 'An error occurred', 500, [
-    //             'error' => $e->getMessage(),
-    //         ]);
-    //     }
-    // }
-
-    // public function index(): View
-    // {
-    //     // we know there are exactly 3 plans
-    //     $plans = SubscriptionPlan::orderBy('is_recommended', 'desc')
-    //                              ->orderBy('price')
-    //                              ->get();
-
-    //     return view('backend.layouts.cms.pricing-page.subscription-plan', compact('plans'));
-    // }
-
     public function index(): View {
         $plans = SubscriptionPlan::get();
         return view('backend.layouts.cms.pricing-page.subscription-plan', compact('plans'));
