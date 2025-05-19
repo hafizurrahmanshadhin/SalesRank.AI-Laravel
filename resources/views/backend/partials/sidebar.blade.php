@@ -372,6 +372,17 @@
                                                     Section</span>
                                             </a>
                                         </li>
+
+                                        {{-- Course Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.ai-coach-page.course.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.ai-coach-page.course.*') ? 'active' : '' }}"
+                                                data-key="t-course">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-course">Course Section</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Web\Backend\CMS\AboutPage\FeatureController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\MissionStatementController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\PartnerSpotlightController;
 use App\Http\Controllers\Web\Backend\CMS\AICoachPage\AICoachPageHeroSectionController;
+use App\Http\Controllers\Web\Backend\CMS\AICoachPage\CourseController;
 use App\Http\Controllers\Web\Backend\CMS\AICoachPage\DocumentController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\AIPoweredInsightsController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\ConsultingPageHeroSectionController;
@@ -211,6 +212,19 @@ Route::prefix('cms')->name('cms.')->group(function () {
         Route::controller(DocumentController::class)->prefix('documents')->name('documents.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'update')->name('update');
+        });
+
+        // Course Section
+        Route::controller(CourseController::class)->prefix('course')->name('course.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'updateCoursePreview')->name('preview.update');
+            Route::get('/show/{id}', 'show')->name('show');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::patch('/update/{id}', 'update')->name('update');
+            Route::get('/status/{id}', 'status')->name('status');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
     });
 });
