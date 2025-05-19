@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\AboutPageHeroSectionSeeder;
+use Database\Seeders\AICoachPageHeroSectionSeeder;
 use Database\Seeders\AIPoweredInsightsSeeder;
 use Database\Seeders\AIPromptSeeder;
 use Database\Seeders\BlogSeeder;
@@ -61,6 +62,7 @@ class DatabaseSeeder extends Seeder {
             GrowthStorySeeder::class,
             SalesEvaluationBannerSeeder::class,
             SalesEvaluationSeeder::class,
+            AICoachPageHeroSectionSeeder::class,
         ]);
     }
 }

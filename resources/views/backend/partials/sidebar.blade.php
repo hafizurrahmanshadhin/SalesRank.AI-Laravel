@@ -336,6 +336,33 @@
                                     </ul>
                                 </div>
                             </li>
+
+                            {{-- AI Coach Page --}}
+                            <li class="nav-item">
+                                <a class="nav-link menu-link {{ request()->is('admin/cms/ai-coach-page*') ? 'active' : '' }}"
+                                    href="#sidebarAICoachPage" data-bs-toggle="collapse" role="button"
+                                    aria-expanded="{{ request()->is('admin/cms/ai-coach-page*') ? 'true' : 'false' }}"
+                                    aria-controls="sidebarAICoachPage">
+                                    <i class="ri-robot-line me-1"></i>
+                                    <span data-key="t-ai-coach-page">AI Coach Page</span>
+                                </a>
+
+                                <div class="collapse menu-dropdown {{ request()->is('admin/cms/ai-coach-page*') ? 'show' : '' }}"
+                                    id="sidebarAICoachPage">
+                                    <ul class="nav nav-sm flex-column">
+                                        {{-- Hero Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.ai-coach-page.hero-section.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.ai-coach-page.hero-section.*') ? 'active' : '' }}"
+                                                data-key="t-hero-section">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-hero-section">Hero Section</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>
