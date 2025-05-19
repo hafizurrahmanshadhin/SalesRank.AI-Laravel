@@ -5,6 +5,7 @@ use App\Http\Controllers\Web\Backend\CMS\AboutPage\FeatureController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\MissionStatementController;
 use App\Http\Controllers\Web\Backend\CMS\AboutPage\PartnerSpotlightController;
 use App\Http\Controllers\Web\Backend\CMS\AICoachPage\AICoachPageHeroSectionController;
+use App\Http\Controllers\Web\Backend\CMS\AICoachPage\DocumentController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\AIPoweredInsightsController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\ConsultingPageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\GrowthStoryController;
@@ -202,6 +203,12 @@ Route::prefix('cms')->name('cms.')->group(function () {
     Route::prefix('ai-coach-page')->name('ai-coach-page.')->group(function () {
         // Hero Section
         Route::controller(AICoachPageHeroSectionController::class)->prefix('hero-section')->name('hero-section.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'update')->name('update');
+        });
+
+        // Documents Section
+        Route::controller(DocumentController::class)->prefix('documents')->name('documents.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'update')->name('update');
         });

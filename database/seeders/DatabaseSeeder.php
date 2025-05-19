@@ -10,6 +10,7 @@ use Database\Seeders\BlogSeeder;
 use Database\Seeders\BlogsPreviewSeeder;
 use Database\Seeders\ConsultingPageHeroSectionSeeder;
 use Database\Seeders\ContentSeeder;
+use Database\Seeders\DocumentSeeder;
 use Database\Seeders\DynamicPageSeeder;
 use Database\Seeders\FAQSeeder;
 use Database\Seeders\FeatureBlockSeeder;
@@ -63,6 +64,7 @@ class DatabaseSeeder extends Seeder {
             SalesEvaluationBannerSeeder::class,
             SalesEvaluationSeeder::class,
             AICoachPageHeroSectionSeeder::class,
+            DocumentSeeder::class,
         ]);
     }
 }

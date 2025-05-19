@@ -360,6 +360,18 @@
                                                 <span data-key="t-hero-section">Hero Section</span>
                                             </a>
                                         </li>
+
+                                        {{-- Documents Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.ai-coach-page.documents.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.ai-coach-page.documents.*') ? 'active' : '' }}"
+                                                data-key="t-documents">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-documents" style="white-space: nowrap;">Documents
+                                                    Section</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
