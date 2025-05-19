@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\Backend\CMS\AboutPage\PartnerSpotlightController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\AIPoweredInsightsController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\ConsultingPageHeroSectionController;
 use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\GrowthStoryController;
+use App\Http\Controllers\Web\Backend\CMS\ConsultingPage\SalesEvaluationController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\CollaborationController;
 use App\Http\Controllers\Web\Backend\CMS\FAQ\SalesRankController;
 use App\Http\Controllers\Web\Backend\CMS\HomePage\BlogsPreviewController;
@@ -178,6 +179,17 @@ Route::prefix('cms')->name('cms.')->group(function () {
         Route::controller(GrowthStoryController::class)->prefix('growth-story')->name('growth-story.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'updateGrowthStory')->name('banner.update');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{id}', 'update')->name('update');
+            Route::get('/status/{id}', 'status')->name('status');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+
+        // Sales Evaluation Section
+        Route::controller(SalesEvaluationController::class)->prefix('sales-evaluation')->name('sales-evaluation.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::patch('/', 'updateSalesEvaluationBanner')->name('banner.update');
+            Route::get('/show/{id}', 'show')->name('show');
             Route::post('/store', 'store')->name('store');
             Route::patch('/update/{id}', 'update')->name('update');
             Route::get('/status/{id}', 'status')->name('status');

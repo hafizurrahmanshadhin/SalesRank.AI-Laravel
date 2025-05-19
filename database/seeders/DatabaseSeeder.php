@@ -22,6 +22,8 @@ use Database\Seeders\NewsletterSeeder;
 use Database\Seeders\PartnerSpotlightSeeder;
 use Database\Seeders\PricePageHeroSectionSeeder;
 use Database\Seeders\ProfileSeeder;
+use Database\Seeders\SalesEvaluationBannerSeeder;
+use Database\Seeders\SalesEvaluationSeeder;
 use Database\Seeders\SocialMediaSeeder;
 use Database\Seeders\SubscriptionPlanSeeder;
 use Database\Seeders\SystemSettingSeeder;
@@ -57,6 +59,8 @@ class DatabaseSeeder extends Seeder {
             AIPoweredInsightsSeeder::class,
             GrowthStoryBannerSeeder::class,
             GrowthStorySeeder::class,
+            SalesEvaluationBannerSeeder::class,
+            SalesEvaluationSeeder::class,
         ]);
     }
 }

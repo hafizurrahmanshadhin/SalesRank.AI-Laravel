@@ -322,6 +322,17 @@
                                                 <span data-key="t-growth-story">Growth Story Section</span>
                                             </a>
                                         </li>
+
+                                        {{-- Sales Evaluation Section --}}
+                                        <li class="nav-item">
+                                            <a href="{{ route('cms.consulting-page.sales-evaluation.index') }}"
+                                                class="nav-link {{ request()->routeIs('cms.consulting-page.sales-evaluation.*') ? 'active' : '' }}"
+                                                data-key="t-sales-evaluation">
+                                                <i class="ri-checkbox-blank-circle-fill"
+                                                    style="font-size:0.6rem; margin-right:-0.6rem;"></i>
+                                                <span data-key="t-sales-evaluation">Sales Evaluation Section</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
