@@ -23,8 +23,8 @@
                                 <li class="breadcrumb-item">
                                     <a href="{{ route('cms.home-page.blogs-preview.index') }}">CMS</a>
                                 </li>
-                                <li class="breadcrumb-item">Home Page</li>
-                                <li class="breadcrumb-item active">Blogs Preview Section</li>
+                                <li class="breadcrumb-item active">Home Page</li>
+                                <li class="breadcrumb-item">Blogs Preview Section</li>
                             </ol>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                                     {{-- Banner Description --}}
                                     <div class="col-md-12">
                                         <label for="description" class="form-label">Description:</label>
-                                        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
+                                        <textarea class="form-control @error('description') is-invalid @enderror" id="main_description" name="description"
                                             placeholder="About System...">{{ old('description', $blogsPreview->description ?? '') }}</textarea>
                                         @error('description')
                                             <span class="text-danger">{{ $message }}</span>
@@ -119,13 +119,15 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control">
+                        <input type="text" name="title" class="form-control" placeholder="Please Enter Title"
+                            id="create_title">
                         <span class="text-danger error-text create_title_error"></span>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Description</label>
-                        <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+                        <textarea name="description" id="create_description" class="form-control" rows="4"
+                            placeholder="Please Enter Description"></textarea>
                         <span class="text-danger error-text create_description_error"></span>
                     </div>
                 </div>
@@ -160,7 +162,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Description</label>
-                        <textarea id="description" name="description" class="form-control" rows="4"></textarea>
+                        <textarea id="edit_description" name="description" class="form-control" rows="4"></textarea>
                         <span class="text-danger error-text edit_description_error"></span>
                     </div>
                 </div>
@@ -196,11 +198,23 @@
 
 @push('scripts')
     <script>
-        ClassicEditor
-            .create(document.querySelector('#description'))
-            .catch(error => {
-                console.error(error);
-            });
+        // Keep references to each CKEditor instance
+        let mainEditor, createEditor, editEditor;
+
+        // Main form CKEditor
+        ClassicEditor.create(document.querySelector('#main_description'))
+            .then(editor => mainEditor = editor)
+            .catch(error => console.error(error));
+
+        // Create-modal CKEditor
+        ClassicEditor.create(document.querySelector('#create_description'))
+            .then(editor => createEditor = editor)
+            .catch(error => console.error(error));
+
+        // Edit-modal CKEditor
+        ClassicEditor.create(document.querySelector('#edit_description'))
+            .then(editor => editEditor = editor)
+            .catch(error => console.error(error));
 
         $(document).ready(function() {
             $.ajaxSetup({
@@ -260,7 +274,7 @@
                             name: 'description',
                             orderable: false,
                             searchable: false,
-                            width: '60%',
+                            width: '65%',
                             render: function(data) {
                                 return '<div style="white-space:normal;word-break:break-word;">' +
                                     data + '</div>';
@@ -280,22 +294,17 @@
                             orderable: false,
                             searchable: false,
                             className: 'text-center',
-                            // width: '10%'
+                            width: '5%'
                         },
                     ],
                 });
 
-                $('#datatable').on('draw.dt', function() {
-                    $('td.column-action').each(function() {
-                        let buttonCount = $(this).find('button').length;
-                        let width = 5 + (buttonCount - 1) * 5;
-                        $(this).css('width', width + '%');
-                    });
-                });
-
+                // "Add New Blog" button
                 $('#addNewBlog').on('click', () => {
                     $('#createBlogForm')[0].reset();
                     $('.error-text').text('');
+                    // Reset CKEditor data for create
+                    if (createEditor) createEditor.setData('');
                     $('#createBlogModal').modal('show');
                 });
 
@@ -326,7 +335,14 @@
                     let row = table.row($(this).closest('tr')).data();
                     $('#edit_blog_id').val(row.id);
                     $('#edit_title').val(row.title);
-                    $('#edit_description').val(row.description);
+
+                    // Set CKEditor data for edit
+                    if (editEditor) {
+                        editEditor.setData(row.description || '');
+                    } else {
+                        $('#edit_description').val(row.description || '');
+                    }
+
                     $('.error-text').text('');
                     $('#editBlogModal').modal('show');
                 });

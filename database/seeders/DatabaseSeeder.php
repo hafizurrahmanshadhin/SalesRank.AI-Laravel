@@ -13,6 +13,8 @@ use Database\Seeders\DynamicPageSeeder;
 use Database\Seeders\FAQSeeder;
 use Database\Seeders\FeatureBlockSeeder;
 use Database\Seeders\FeatureSeeder;
+use Database\Seeders\GrowthStoryBannerSeeder;
+use Database\Seeders\GrowthStorySeeder;
 use Database\Seeders\HomePageHeroSectionSeeder;
 use Database\Seeders\HomePageVideoBannerSectionSeeder;
 use Database\Seeders\MissionStatementSeeder;
@@ -53,6 +55,8 @@ class DatabaseSeeder extends Seeder {
             SubscriptionPlanSeeder::class,
             ConsultingPageHeroSectionSeeder::class,
             AIPoweredInsightsSeeder::class,
+            GrowthStoryBannerSeeder::class,
+            GrowthStorySeeder::class,
         ]);
     }
 }

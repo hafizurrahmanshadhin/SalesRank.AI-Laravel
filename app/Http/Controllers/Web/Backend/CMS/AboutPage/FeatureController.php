@@ -40,6 +40,10 @@ class FeatureController extends Controller {
                             </div>
                         ';
                     })
+                    ->addColumn('image_url', function ($data) {
+                        $defaultImage = asset('backend/images/users/user-dummy-img.jpg');
+                        return $data->image ? asset($data->image) : $defaultImage;
+                    })
                     ->addColumn('description', function ($data) {
                         $description      = $data->description;
                         $shortDescription = strlen($description) > 150 ? substr($description, 0, 150) . '...' : $description;
@@ -71,7 +75,7 @@ class FeatureController extends Controller {
                             </div>
                         ';
                     })
-                    ->rawColumns(['image', 'description', 'status', 'action'])
+                    ->rawColumns(['image', 'image_url', 'description', 'status', 'action'])
                     ->make();
             }
             $AIPrompt = AIPrompt::firstOrNew();

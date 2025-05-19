@@ -178,9 +178,8 @@ Route::prefix('cms')->name('cms.')->group(function () {
         Route::controller(GrowthStoryController::class)->prefix('growth-story')->name('growth-story.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::patch('/', 'updateGrowthStory')->name('banner.update');
-            Route::get('/show/{id}', 'show')->name('show');
             Route::post('/store', 'store')->name('store');
-            Route::put('/update/{id}', 'update')->name('update');
+            Route::patch('/update/{id}', 'update')->name('update');
             Route::get('/status/{id}', 'status')->name('status');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
