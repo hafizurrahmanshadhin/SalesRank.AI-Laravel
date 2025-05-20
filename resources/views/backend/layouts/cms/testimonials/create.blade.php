@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Testimonials Create')
+@section('title', 'Create Testimonials')
 
 @push('styles')
     <style>
@@ -23,7 +23,7 @@
                                     <a href="{{ route('cms.testimonials.index') }}">CMS</a>
                                 </li>
                                 <li class="breadcrumb-item active">Testimonials</li>
-                                <li class="breadcrumb-item active">Create</li>
+                                <li class="breadcrumb-item">Create</li>
                             </ol>
                         </div>
                     </div>

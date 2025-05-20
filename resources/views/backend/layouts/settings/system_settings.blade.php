@@ -121,7 +121,7 @@
                                             <input type="hidden" name="remove_logo" value="0">
                                             <input class="form-control dropify @error('logo') is-invalid @enderror"
                                                 type="file" name="logo" id="logo"
-                                                data-default-file="@isset($setting){{ asset($setting->logo) }}@endisset">
+                                                data-default-file="{{ $setting->logo ? asset($setting->logo) : '' }}">
                                             @error('logo')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -134,7 +134,7 @@
                                             <input type="hidden" name="remove_favicon" value="0">
                                             <input class="form-control dropify @error('favicon') is-invalid @enderror"
                                                 type="file" name="favicon" id="favicon"
-                                                data-default-file="@isset($setting){{ asset($setting->favicon) }}@endisset">
+                                                data-default-file="{{ $setting->favicon ? asset($setting->favicon) : '' }}">
                                             @error('favicon')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror

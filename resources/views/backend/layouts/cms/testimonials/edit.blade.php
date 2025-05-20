@@ -23,7 +23,7 @@
                                     <a href="{{ route('cms.testimonials.index') }}">CMS</a>
                                 </li>
                                 <li class="breadcrumb-item active">Testimonials</li>
-                                <li class="breadcrumb-item active">Edit</li>
+                                <li class="breadcrumb-item">Edit</li>
                             </ol>
                         </div>
                     </div>
@@ -35,7 +35,6 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-
                             <form action="{{ route('cms.testimonials.update', ['id' => $testimonial->id]) }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -88,7 +87,6 @@
                                         @enderror
                                     </div>
 
-                                    {{-- Submit & Cancel Buttons --}}
                                     <div class="mt-3">
                                         <button type="submit" class="btn btn-primary">Update</button>
                                         <a href="{{ route('cms.testimonials.index') }}" class="btn btn-danger">Cancel</a>

@@ -75,8 +75,8 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="card-title mb-0">List of Testimonials</h5>
-                            <a href="{{ route('cms.testimonials.create') }}" class="btn btn-primary btn-sm">
+                            <h5 class="card-title mb-0">List of Courses</h5>
+                            <a href="{{ route('cms.ai-coach-page.course.create') }}" class="btn btn-primary btn-sm">
                                 <i class="bi bi-plus-circle"></i> Add New
                             </a>
                         </div>
@@ -88,8 +88,10 @@
                                     <thead>
                                         <tr>
                                             <th class="column-id">#</th>
-                                            <th class="column-content">Name</th>
                                             <th class="column-content">Title</th>
+                                            <th class="column-content">Instructor</th>
+                                            <th class="column-content">Level</th>
+                                            <th class="column-content">Duration</th>
                                             <th class="column-content">Image</th>
                                             <th class="column-content">Description</th>
                                             <th class="column-status">Status</th>
@@ -108,13 +110,12 @@
         </div>
     </div>
 
-    {{-- Modal for viewing testimonial details start --}}
-    <div class="modal fade" id="viewTestimonialModal" tabindex="-1" aria-labelledby="TestimonialModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
+    {{-- Modal for viewing course details start --}}
+    <div class="modal fade" id="viewCourseModal" tabindex="-1" aria-labelledby="CourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 id="TestimonialModalLabel" class="modal-title">Testimonial Details</h5>
+                    <h5 id="CourseModalLabel" class="modal-title">Course Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -126,7 +127,7 @@
             </div>
         </div>
     </div>
-    {{-- Modal for viewing testimonial details end --}}
+    {{-- Modal for viewing course details end --}}
 
     {{-- Modal for image preview start --}}
     <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-labelledby="imagePreviewModalLabel"
@@ -175,7 +176,7 @@
                     serverSide: true,
                     pagingType: "full_numbers",
                     ajax: {
-                        url: "{{ route('cms.testimonials.index') }}",
+                        url: "{{ route('cms.ai-coach-page.course.index') }}",
                         type: "GET",
                     },
                     dom: "<'row table-topbar'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>>" +
@@ -200,21 +201,45 @@
                             orderable: false,
                             searchable: false,
                             className: 'text-center',
-                            width: '5%'
-                        },
-                        {
-                            data: 'name',
-                            name: 'name',
-                            orderable: true,
-                            searchable: true,
-                            width: '15%'
+                            width: '3%'
                         },
                         {
                             data: 'title',
                             name: 'title',
                             orderable: true,
                             searchable: true,
-                            width: '15%'
+                            width: '20%',
+                            render: function(data) {
+                                return '<div style="white-space:normal;word-break:break-word;">' +
+                                    data + '</div>';
+                            }
+                        },
+                        {
+                            data: 'conduct_by',
+                            name: 'conduct_by',
+                            orderable: true,
+                            searchable: true,
+                            width: '19%',
+                            render: function(data) {
+                                return '<div style="white-space:normal;word-break:break-word;">' +
+                                    data + '</div>';
+                            }
+                        },
+                        {
+                            data: 'course_level',
+                            name: 'course_level',
+                            orderable: true,
+                            searchable: true,
+                            className: 'text-center',
+                            width: '5%'
+                        },
+                        {
+                            data: 'course_duration',
+                            name: 'course_duration',
+                            orderable: true,
+                            searchable: true,
+                            className: 'text-center',
+                            width: '3%'
                         },
                         {
                             data: 'image',
@@ -229,7 +254,7 @@
                             name: 'description',
                             orderable: false,
                             searchable: false,
-                            width: '45%',
+                            width: '40%',
                             render: function(data) {
                                 return '<div style="white-space:normal;word-break:break-word;">' +
                                     data + '</div>';
@@ -241,7 +266,7 @@
                             orderable: false,
                             searchable: false,
                             className: 'text-center',
-                            width: '5%'
+                            width: '2%'
                         },
                         {
                             data: 'action',
@@ -249,7 +274,7 @@
                             orderable: false,
                             searchable: false,
                             className: 'text-center',
-                            width: '10%'
+                            width: '3%'
                         },
                     ],
                 });
@@ -261,9 +286,9 @@
             }
         });
 
-        // Fetch and display testimonial details in the modal (including image)
-        async function showTestimonialDetails(id) {
-            let url = '{{ route('cms.testimonials.show', ['id' => ':id']) }}';
+        // Fetch and display course details in the modal (including image)
+        async function showCourseDetails(id) {
+            let url = '{{ route('cms.ai-coach-page.course.show', ['id' => ':id']) }}';
             url = url.replace(':id', id);
 
             // Fallback image path
@@ -275,21 +300,23 @@
                     let data = response.data.data;
                     // If 'image' is null, use the default fallback
                     let imgPath = data.image ? `{{ url('/') }}/${data.image}` : defaultImage;
-                    let modalBody = document.querySelector('#viewTestimonialModal .modal-body');
+                    let modalBody = document.querySelector('#viewCourseModal .modal-body');
                     modalBody.innerHTML = `
-                        <div class="text-center mb-3">
-                            <img src="${imgPath}" alt="Image" width="100" height="100" class="rounded">
-                        </div>
-                        <p><strong>Name:</strong> ${data.name}</p>
-                        <p><strong>Title:</strong> ${data.title}</p>
-                        <p><strong>Description:</strong> ${data.description}</p>
-                    `;
+                    <div class="text-center mb-3">
+                        <img src="${imgPath}" alt="Image" width="100" height="100" class="rounded">
+                    </div>
+                    <p><strong>Course Title:</strong> ${data.title}</p>
+                    <p><strong>Instructor Name:</strong> ${data.conduct_by}</p>
+                    <p><strong>Course Level:</strong> ${data.course_level}</p>
+                    <p><strong>Course Duration:</strong> ${data.course_duration} Weeks</p>
+                    <p><strong>Description:</strong> ${data.description}</p>
+                `;
                 } else {
                     toastr.error('No data returned from the server.');
                 }
             } catch (error) {
                 console.error(error);
-                toastr.error('Could not fetch testimonial details.');
+                toastr.error('Could not fetch course details.');
             }
         }
 
@@ -323,12 +350,12 @@
 
         // Status Change
         function statusChange(id) {
-            let url = '{{ route('cms.testimonials.status', ['id' => ':id']) }}'.replace(':id', id);
+            let url = '{{ route('cms.ai-coach-page.course.status', ['id' => ':id']) }}'.replace(':id', id);
 
             axios.get(url)
                 .then(function(response) {
                     // console.log(response.data);
-                    // Reload your DataTable
+                    // Reload DataTable
                     $('#datatable').DataTable().ajax.reload();
 
                     if (response.data.status === true) {
@@ -365,7 +392,7 @@
 
         // Delete Button
         function deleteItem(id) {
-            const url = '{{ route('cms.testimonials.destroy', ['id' => ':id']) }}'.replace(':id', id);
+            const url = '{{ route('cms.ai-coach-page.course.destroy', ['id' => ':id']) }}'.replace(':id', id);
 
             axios.delete(url, {
                     headers: {
