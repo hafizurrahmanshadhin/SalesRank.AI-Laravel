@@ -32,6 +32,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('api')
                 ->group(base_path('routes/Api/auth.php'));
 
+            Route::middleware(['api'])
+                ->prefix('api/cms')
+                ->group(base_path('routes/Api/cms.php'));
+
             Route::middleware(['api', 'auth.jwt'])
                 ->prefix('api')
                 ->group(base_path('routes/Api/chat.php'));

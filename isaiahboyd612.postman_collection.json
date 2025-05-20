@@ -355,7 +355,7 @@
 					"response": []
 				},
 				{
-					"name": "forgot-password",
+					"name": "Forgot_Password",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -426,7 +426,7 @@
 							"formdata": [
 								{
 									"key": "token",
-									"value": "nMXLLj3LBGFzlf61cuVbCdWqhWQQlMRVmhhgeHsh7ENP4XrbovKj4GU644Ao",
+									"value": "HY5ksXb4D1anTseaV8JyZK9wrAeQgJCh3c2qFPVTryMCQ5Ub6xZy1Iamtijf",
 									"type": "text"
 								},
 								{
@@ -456,7 +456,7 @@
 					"response": []
 				},
 				{
-					"name": "socialite-login",
+					"name": "Socialite_Login",
 					"event": [
 						{
 							"listen": "test",
@@ -549,7 +549,7 @@
 							"formdata": [
 								{
 									"key": "token",
-									"value": "ya29.a0AW4XtxhM1j0G87stGqzBa3yOSlHHVfmpHOePgNxj09-oMHfA40ig_6GAq1e4XrFYFhMnW3fZ_ulq_v5GSIRRagygBBTZwaVzdEc8QhLoNXzHXyEMf4EWxwJwMQAQRwCoJfn_vUDbfe7z3g3VtFcyXTufYMBRNiJL-BNIEYh5aCgYKAaASARISFQHGX2MimOYjlZMwlDwgz5-jTrO-4g0175",
+									"value": "ya29.a0AW4XtxgS4P5U6T93TzpnYC_pKlPD2KB3yR6s2CGMV-z2Ffef3fBT3Iz8UFZW9-9hwEP2aFn9gMrj1QV9-dkPrOJJFxbJ-WmswVAQYY9MVdqmcZVnlfMllV7vVaw2-QowZbn-izYyq7r7jeDFvo_xpWdsnqoL99Rfb0D5ANbFaCgYKAQoSARISFQHGX2MiSyNL86yG8vl96CkTS735PA0175",
 									"description": "Google Token Needed and it is Required",
 									"type": "text"
 								},
@@ -648,7 +648,7 @@
 			"name": "Message",
 			"item": [
 				{
-					"name": "send_message",
+					"name": "Send_Message",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -697,7 +697,7 @@
 					"response": []
 				},
 				{
-					"name": "receive_message",
+					"name": "Receive_Message",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -736,7 +736,7 @@
 					"response": []
 				},
 				{
-					"name": "getUsersWithLastMessage",
+					"name": "Get_Users_With_Last_Message",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -840,6 +840,265 @@
 						}
 					},
 					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Newsletters",
+			"item": [
+				{
+					"name": "Store_Newsletter",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const names = [\"John\", \"Jane\", \"Michael\", \"Emily\", \"David\", \"Sarah\", \"Robert\", \"Jessica\", \"Daniel\", \"Laura\"];\r",
+									"const name = names[Math.floor(Math.random() * names.length)];\r",
+									"\r",
+									"const domains = [\"example.com\", \"test.com\", \"email.com\", \"demo.com\", \"gmail.com\", \"yahoo.com\", \"hotmail.com\", \"outlook.com\"];\r",
+									"const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
+									"const randomNum = Math.floor(Math.random() * 10000);\r",
+									"const email = `${name.toLowerCase()}${randomNum}@${randomDomain}`;\r",
+									"\r",
+									"const sampleTexts = [\r",
+									"    \"This random text message has been extended to surpass the limit of one hundred characters, ensuring it meets the requirement for newsletter submission forms.\",\r",
+									"    \"Just testing the newsletter submission with a much longer text that definitely goes beyond one hundred characters so it can pass any length validation rules.\",\r",
+									"    \"Hello! I'd like to subscribe, but also ensuring this particular text block contains more than one hundred characters, fulfilling the necessary constraints.\",\r",
+									"    \"Fourth extended random text. This example elaborates more thoroughly, surpassing one hundred characters, and demonstrating correct data length requirements.\",\r",
+									"    \"Fifth randomly chosen text to confirm that we exceed the set character limit for newsletter content, ensuring proper validation and illustrating realistic sample data.\",\r",
+									"    \"Sixth message carefully crafted to exceed the necessary threshold of one hundred characters, providing consistency in sample content for testing.\",\r",
+									"    \"Seventh piece of text here, which is deliberately verbose in order to meet the mandatory length requirement, going well beyond one hundred characters.\",\r",
+									"    \"An eighth extra-length text snippet that intentionally continues for additional words, guaranteeing that we satisfy the established limit of over one hundred characters.\",\r",
+									"    \"Ninth item in our array, also describing a scenario with sufficient wording to validate that we surpass the specified length threshold in a sample newsletter post.\",\r",
+									"    \"Tenth and final chunk of text that thoroughly continues until it is well over one hundred characters long, fulfilling the constraints set forth in our testing environment.\"\r",
+									"];\r",
+									"\r",
+									"// Randomly pick one of the 10 text entries\r",
+									"const text = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];\r",
+									"\r",
+									"// Set Postman globals\r",
+									"pm.globals.set(\"name\", name);\r",
+									"pm.globals.set(\"email\", email);\r",
+									"pm.globals.set(\"text\", text);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"description": "name is required",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{email}}",
+									"description": "email is required",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "{{text}}",
+									"description": "text is nullable",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/newsletters/store",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"newsletters",
+								"store"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "CMS",
+			"item": [
+				{
+					"name": "Home_Page",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/cms/page/home",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"cms",
+										"page",
+										"home"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "Top Notch Seals People",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FAQList",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/cms/page/home/faq/list",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"cms",
+										"page",
+										"home",
+										"faq",
+										"list"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
 				}
 			],
 			"auth": {
