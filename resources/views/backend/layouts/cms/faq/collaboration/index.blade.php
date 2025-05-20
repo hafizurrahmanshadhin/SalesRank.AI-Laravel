@@ -2,6 +2,15 @@
 
 @section('title', 'Collaboration')
 
+@push('styles')
+    <style>
+        .ck-editor__editable[role="textbox"] {
+            min-height: 100px !important;
+            max-height: 150px !important;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -22,6 +31,45 @@
                 </div>
             </div>
             {{-- End page title --}}
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('cms.faq.collaboration.preview.update') }}">
+                                @csrf
+                                @method('PATCH')
+                                <div class="row gy-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <label for="title" class="form-label">Title:</label>
+                                            <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                                name="title" id="title" placeholder="Please Enter Title"
+                                                value="{{ old('title', $collaboration->title ?? '') }}">
+                                            @error('title')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="description" class="form-label">Description:</label>
+                                        <textarea class="form-control @error('description') is-invalid @enderror" id="main_description" name="description"
+                                            placeholder="About System...">{{ old('description', $collaboration->description ?? '') }}</textarea>
+                                        @error('description')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -79,6 +127,14 @@
 
 @push('scripts')
     <script>
+        // Keep references to each CKEditor instance
+        let mainEditor;
+
+        // Main form CKEditor
+        ClassicEditor.create(document.querySelector('#main_description'))
+            .then(editor => mainEditor = editor)
+            .catch(error => console.error(error));
+
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {

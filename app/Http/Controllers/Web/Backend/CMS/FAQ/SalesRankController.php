@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Backend\CMS\FAQ;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\FAQ;
+use App\Models\SalesRankAI;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -18,10 +19,10 @@ class SalesRankController extends Controller {
      * Display the listing of faqs.
      *
      * @param Request $request
-     * @return View|JsonResponse
+     * @return JsonResponse | RedirectResponse | View
      * @throws Exception
      */
-    public function index(Request $request): View | JsonResponse {
+    public function index(Request $request): JsonResponse | RedirectResponse | View {
         try {
             if ($request->ajax()) {
                 $data = FAQ::where('type', 'SalesRank')->latest()->get();
@@ -66,11 +67,39 @@ class SalesRankController extends Controller {
                     ->rawColumns(['question', 'answer', 'status', 'action'])
                     ->make();
             }
-            return view('backend.layouts.cms.faq.sales-rank.index');
+            $salesRankAI = SalesRankAI::firstOrNew();
+            return view('backend.layouts.cms.faq.sales-rank.index', compact('salesRankAI'));
         } catch (Exception $e) {
-            return Helper::jsonResponse(false, 'An error occurred', 500, [
-                'error' => $e->getMessage(),
+            return back()->with('t-error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Update or create sales rank ai preview.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function updateSalesRankPreview(Request $request): RedirectResponse {
+        try {
+            $validator = Validator::make($request->all(), [
+                'title'       => 'required|string',
+                'description' => 'required|string',
             ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $salesRankAI              = SalesRankAI::firstOrNew();
+            $salesRankAI->title       = $request->title;
+            $salesRankAI->description = $request->description;
+            $salesRankAI->save();
+
+            return redirect()->route('cms.faq.sales-rank.index')->with('t-success', 'SalesRankAI preview updated successfully.');
+        } catch (Exception $e) {
+            return back()->with('t-error', $e->getMessage());
         }
     }
 

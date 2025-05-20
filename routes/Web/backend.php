@@ -52,6 +52,7 @@ Route::prefix('cms')->name('cms.')->group(function () {
         // SalesRank.AI FAQ
         Route::controller(SalesRankController::class)->prefix('sales-rank')->name('sales-rank.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::patch('/', 'updateSalesRankPreview')->name('preview.update');
             Route::get('/show/{id}', 'show')->name('show');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
@@ -64,6 +65,7 @@ Route::prefix('cms')->name('cms.')->group(function () {
         // Collaboration FAQ
         Route::controller(CollaborationController::class)->prefix('collaboration')->name('collaboration.')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::patch('/', 'updateCollaborationPreview')->name('preview.update');
             Route::get('/show/{id}', 'show')->name('show');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');

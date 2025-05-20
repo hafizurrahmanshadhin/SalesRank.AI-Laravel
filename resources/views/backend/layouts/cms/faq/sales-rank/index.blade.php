@@ -2,6 +2,15 @@
 
 @section('title', 'SalesRank')
 
+@push('styles')
+    <style>
+        .ck-editor__editable[role="textbox"] {
+            min-height: 100px !important;
+            max-height: 150px !important;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="page-content">
         <div class="container-fluid">
@@ -22,6 +31,45 @@
                 </div>
             </div>
             {{-- End page title --}}
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('cms.faq.sales-rank.preview.update') }}">
+                                @csrf
+                                @method('PATCH')
+                                <div class="row gy-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <label for="title" class="form-label">Title:</label>
+                                            <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                                name="title" id="title" placeholder="Please Enter Title"
+                                                value="{{ old('title', $salesRankAI->title ?? '') }}">
+                                            @error('title')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="description" class="form-label">Description:</label>
+                                        <textarea class="form-control @error('description') is-invalid @enderror" id="main_description" name="description"
+                                            placeholder="About System...">{{ old('description', $salesRankAI->description ?? '') }}</textarea>
+                                        @error('description')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -79,6 +127,14 @@
 
 @push('scripts')
     <script>
+        // Keep references to each CKEditor instance
+        let mainEditor;
+
+        // Main form CKEditor
+        ClassicEditor.create(document.querySelector('#main_description'))
+            .then(editor => mainEditor = editor)
+            .catch(error => console.error(error));
+
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -141,7 +197,7 @@
                             name: 'answer',
                             orderable: true,
                             searchable: true,
-                            width: '40%',
+                            width: '45%',
                             render: function(data) {
                                 return '<div style="white-space:normal;word-break:break-word;">' +
                                     data + '</div>';
@@ -161,17 +217,9 @@
                             orderable: false,
                             searchable: false,
                             className: 'text-center',
-                            // width: '10%'
+                            width: '5%'
                         },
                     ],
-                });
-
-                $('#datatable').on('draw.dt', function() {
-                    $('td.column-action').each(function() {
-                        let buttonCount = $(this).find('button').length;
-                        let width = 5 + (buttonCount - 1) * 5;
-                        $(this).css('width', width + '%');
-                    });
                 });
 
                 dTable.buttons().container().appendTo('#file_exports');

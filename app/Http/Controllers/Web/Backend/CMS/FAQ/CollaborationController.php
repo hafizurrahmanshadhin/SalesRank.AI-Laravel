@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Backend\CMS\FAQ;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Collaboration;
 use App\Models\FAQ;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -66,11 +67,41 @@ class CollaborationController extends Controller {
                     ->rawColumns(['question', 'answer', 'status', 'action'])
                     ->make();
             }
-            return view('backend.layouts.cms.faq.collaboration.index');
+            $collaboration = Collaboration::firstOrNew();
+            return view('backend.layouts.cms.faq.collaboration.index', compact('collaboration'));
         } catch (Exception $e) {
             return Helper::jsonResponse(false, 'An error occurred', 500, [
                 'error' => $e->getMessage(),
             ]);
+        }
+    }
+
+    /**
+     * Update or create collaboration preview.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function updateCollaborationPreview(Request $request): RedirectResponse {
+        try {
+            $validator = Validator::make($request->all(), [
+                'title'       => 'required|string',
+                'description' => 'required|string',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $collaboration              = Collaboration::firstOrNew();
+            $collaboration->title       = $request->title;
+            $collaboration->description = $request->description;
+            $collaboration->save();
+
+            return redirect()->route('cms.faq.collaboration.index')->with('t-success', 'Collaboration preview updated successfully.');
+        } catch (Exception $e) {
+            return back()->with('t-error', $e->getMessage());
         }
     }
 

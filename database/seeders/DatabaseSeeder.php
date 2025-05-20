@@ -8,6 +8,7 @@ use Database\Seeders\AIPoweredInsightsSeeder;
 use Database\Seeders\AIPromptSeeder;
 use Database\Seeders\BlogSeeder;
 use Database\Seeders\BlogsPreviewSeeder;
+use Database\Seeders\CollaborationSeeder;
 use Database\Seeders\ConsultingPageHeroSectionSeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\CoursePreviewSeeder;
@@ -28,6 +29,7 @@ use Database\Seeders\PricePageHeroSectionSeeder;
 use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SalesEvaluationBannerSeeder;
 use Database\Seeders\SalesEvaluationSeeder;
+use Database\Seeders\SalesRankAISeeder;
 use Database\Seeders\SocialMediaSeeder;
 use Database\Seeders\SubscriptionPlanSeeder;
 use Database\Seeders\SystemSettingSeeder;
@@ -69,6 +71,8 @@ class DatabaseSeeder extends Seeder {
             DocumentSeeder::class,
             CoursePreviewSeeder::class,
             CourseSeeder::class,
+            SalesRankAISeeder::class,
+            CollaborationSeeder::class,
         ]);
     }
 }
