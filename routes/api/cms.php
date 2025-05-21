@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CMS\AboutPageController;
+use App\Http\Controllers\Api\CMS\ConsultingPageController;
 use App\Http\Controllers\Api\CMS\HeaderAndFooterController;
 use App\Http\Controllers\Api\CMS\HomePageController;
 use App\Http\Controllers\Api\CMS\PricingPageController;
@@ -16,3 +17,5 @@ Route::get('/header-footer', HeaderAndFooterController::class);
 Route::get('/page/about', [AboutPageController::class, 'index']);
 
 Route::get('/page/pricing', PricingPageController::class);
+
+Route::get('/page/consulting', [ConsultingPageController::class, 'index']);
