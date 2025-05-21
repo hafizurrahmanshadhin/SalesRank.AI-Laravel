@@ -11,34 +11,34 @@ use Tymon\JWTAuth\Http\Middleware\Authenticate;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__ . '/../routes/Web/web.php',
-        api: __DIR__ . '/../routes/Api/api.php',
+        web: __DIR__ . '/../routes/web/web.php',
+        api: __DIR__ . '/../routes/api/api.php',
         commands: __DIR__ . '/../routes/console.php',
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
         then: function () {
             Route::middleware(['web'])
-                ->group(base_path('routes/Web/auth.php'));
+                ->group(base_path('routes/web/auth.php'));
 
             Route::middleware(['web', 'auth', 'admin'])
                 ->prefix('admin')
-                ->group(base_path('routes/Web/backend.php'));
+                ->group(base_path('routes/web/backend.php'));
 
             Route::middleware(['web', 'auth', 'admin'])
                 ->prefix('admin/settings')
-                ->group(base_path('routes/Web/settings.php'));
+                ->group(base_path('routes/web/settings.php'));
 
             Route::middleware(['api'])
                 ->prefix('api')
-                ->group(base_path('routes/Api/auth.php'));
+                ->group(base_path('routes/api/auth.php'));
 
             Route::middleware(['api'])
                 ->prefix('api/cms')
-                ->group(base_path('routes/Api/cms.php'));
+                ->group(base_path('routes/api/cms.php'));
 
             Route::middleware(['api', 'auth.jwt'])
                 ->prefix('api')
-                ->group(base_path('routes/Api/chat.php'));
+                ->group(base_path('routes/api/chat.php'));
         },
     )
     ->withBroadcasting(
