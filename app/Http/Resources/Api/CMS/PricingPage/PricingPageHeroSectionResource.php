@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api\CMS;
+namespace App\Http\Resources\Api\CMS\PricingPage;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TestimonialResource extends JsonResource {
+class PricingPageHeroSectionResource extends JsonResource {
     /**
      * Transform the resource into an array.
      *
@@ -14,9 +14,9 @@ class TestimonialResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id'          => $this->id,
-            'name'        => $this->name,
             'title'       => $this->title,
-            'image'       => $this->image ? url($this->image) : asset('backend/images/default_images/user_1.jpg'),
+            'sub_title'   => $this->sub_title,
+            'image'       => $this->image ? url($this->image) : null,
             'description' => $this->description,
         ];
     }

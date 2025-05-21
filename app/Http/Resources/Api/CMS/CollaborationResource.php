@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources\Api\CMS;
 
+use App\Http\Resources\Api\CMS\FAQResource;
+use App\Models\FAQ;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TestimonialResource extends JsonResource {
+class CollaborationResource extends JsonResource {
     /**
      * Transform the resource into an array.
      *
@@ -14,10 +16,9 @@ class TestimonialResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id'          => $this->id,
-            'name'        => $this->name,
             'title'       => $this->title,
-            'image'       => $this->image ? url($this->image) : asset('backend/images/default_images/user_1.jpg'),
             'description' => $this->description,
+            'faqs'        => FAQResource::collection(FAQ::where('type', 'Collaboration')->where('status', 'active')->get()),
         ];
     }
 }
