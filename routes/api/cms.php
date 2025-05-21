@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CMS\HeaderAndFooterController;
 use App\Http\Controllers\Api\CMS\HomePageController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,3 +8,5 @@ Route::controller(HomePageController::class)->prefix('page/home')->group(functio
     Route::get('/', 'index');
     Route::get('/faq/list', 'FAQList');
 });
+
+Route::get('/header-footer', HeaderAndFooterController::class);

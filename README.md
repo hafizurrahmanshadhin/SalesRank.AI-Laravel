@@ -1,6 +1,6 @@
 # isaiahboyd612
 
-```PHP
+```shell
 php artisan serve
 ```
 
