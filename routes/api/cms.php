@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CMS\AboutPageController;
+use App\Http\Controllers\Api\CMS\AICoachPageController;
 use App\Http\Controllers\Api\CMS\ConsultingPageController;
 use App\Http\Controllers\Api\CMS\HeaderAndFooterController;
 use App\Http\Controllers\Api\CMS\HomePageController;
@@ -19,3 +20,8 @@ Route::get('/page/about', [AboutPageController::class, 'index']);
 Route::get('/page/pricing', PricingPageController::class);
 
 Route::get('/page/consulting', [ConsultingPageController::class, 'index']);
+
+Route::controller(AICoachPageController::class)->prefix('page/ai-coach')->group(function () {
+    Route::get('/', 'index');
+    Route::get('/documents/download', 'download');
+});
