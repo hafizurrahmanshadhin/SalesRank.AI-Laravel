@@ -25,6 +25,7 @@ use Database\Seeders\HomePageVideoBannerSectionSeeder;
 use Database\Seeders\MissionStatementSeeder;
 use Database\Seeders\NewsletterSeeder;
 use Database\Seeders\PartnerSpotlightSeeder;
+use Database\Seeders\PortfolioSeeder;
 use Database\Seeders\PricePageHeroSectionSeeder;
 use Database\Seeders\ProfileSeeder;
 use Database\Seeders\SalesEvaluationBannerSeeder;
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder {
         $this->call([
             UserSeeder::class,
             ProfileSeeder::class,
+            PortfolioSeeder::class,
             SystemSettingSeeder::class,
             FAQSeeder::class,
             DynamicPageSeeder::class,

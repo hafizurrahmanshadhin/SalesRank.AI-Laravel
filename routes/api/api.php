@@ -12,6 +12,9 @@ Route::get('contents', [ContentController::class, 'index'])->middleware(['thrott
 Route::post('/newsletters/store', [NewsletterController::class, 'store']);
 
 Route::controller(UserController::class)->middleware(['auth.jwt', 'throttle:10,1'])->prefix('user')->group(function () {
-    Route::patch('/update-password', 'updatePassword');
     Route::get('/profile', 'getAuthenticatedUser');
+    Route::post('/update-profile', 'updateProfile');
+    Route::post('/portfolio/project/upload', 'uploadPortfolioProject');
+    Route::delete('/portfolio/project/delete/{id}', 'deletePortfolioProject');
+    Route::patch('/update-password', 'updatePassword');
 });

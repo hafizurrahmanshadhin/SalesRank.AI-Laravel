@@ -14,7 +14,8 @@ class PortfolioResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id'           => $this->id,
-            'project_path' => $this->project_path,
+            'user_id'      => $this->user_id,
+            'project_path' => $this->project_path ? url($this->project_path) : null,
         ];
     }
 }
