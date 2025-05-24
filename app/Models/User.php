@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Consultant;
 use App\Models\Portfolio;
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -103,5 +104,9 @@ class User extends Authenticatable implements JWTSubject {
 
     public function portfolios(): HasMany {
         return $this->hasMany(Portfolio::class);
+    }
+
+    public function consultant(): HasOne {
+        return $this->hasOne(Consultant::class);
     }
 }

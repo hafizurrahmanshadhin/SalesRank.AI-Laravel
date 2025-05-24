@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AI\ConsultantController;
 use App\Http\Controllers\Api\ContentController;
 use App\Http\Controllers\Api\NewsletterController;
 use App\Http\Controllers\Api\UserController;
@@ -17,4 +18,8 @@ Route::controller(UserController::class)->middleware(['auth.jwt', 'throttle:10,1
     Route::post('/portfolio/project/upload', 'uploadPortfolioProject');
     Route::delete('/portfolio/project/delete/{id}', 'deletePortfolioProject');
     Route::patch('/update-password', 'updatePassword');
+});
+
+Route::middleware('auth.jwt')->group(function () {
+    Route::get('/consultants', [ConsultantController::class, 'index']);
 });

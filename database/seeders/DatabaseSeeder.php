@@ -9,6 +9,7 @@ use Database\Seeders\AIPromptSeeder;
 use Database\Seeders\BlogSeeder;
 use Database\Seeders\BlogsPreviewSeeder;
 use Database\Seeders\CollaborationSeeder;
+use Database\Seeders\ConsultantSeeder;
 use Database\Seeders\ConsultingPageHeroSectionSeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\CoursePreviewSeeder;
@@ -75,6 +76,7 @@ class DatabaseSeeder extends Seeder {
             CourseSeeder::class,
             SalesRankAISeeder::class,
             CollaborationSeeder::class,
+            ConsultantSeeder::class,
         ]);
     }
 }
