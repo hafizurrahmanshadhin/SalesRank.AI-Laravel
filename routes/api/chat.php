@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Chat\ChatBotController;
 use App\Http\Controllers\Api\Chat\MessageController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +10,5 @@ Route::controller(MessageController::class)->group(function () {
     Route::post('/messages/{user}', 'SendMessage');
     Route::get('/users-with-last-message', 'GetUsersWithLastMessage');
 });
+
+Route::post('/chat/bot', ChatBotController::class)->withoutMiddleware('auth.jwt');
