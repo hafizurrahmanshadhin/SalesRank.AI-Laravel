@@ -143,21 +143,21 @@
                             orderable: false,
                             searchable: false,
                             className: 'text-center',
-                            width: '5%'
+                            width: '4%'
                         },
                         {
                             data: 'name',
                             name: 'name',
                             orderable: true,
                             searchable: true,
-                            width: '15%'
+                            width: '18%'
                         },
                         {
                             data: 'title',
                             name: 'title',
                             orderable: true,
                             searchable: true,
-                            width: '15%'
+                            width: '18%'
                         },
                         {
                             data: 'image',
@@ -192,7 +192,7 @@
                             orderable: false,
                             searchable: false,
                             className: 'text-center',
-                            width: '10%'
+                            width: '5%'
                         },
                     ],
                 });

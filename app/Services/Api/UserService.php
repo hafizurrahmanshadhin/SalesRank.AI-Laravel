@@ -8,6 +8,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -176,6 +177,8 @@ class UserService {
             if (!Hash::check($currentPassword, $user->password)) {
                 throw new Exception('Current password does not match.', 400);
             }
+
+            Auth::logoutOtherDevices($currentPassword);
 
             // Update to new password
             $user->password = Hash::make($newPassword);

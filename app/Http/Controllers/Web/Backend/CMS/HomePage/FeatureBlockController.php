@@ -53,14 +53,14 @@ class FeatureBlockController extends Controller {
                     ->addColumn('action', function ($row) {
                         $editUrl = route('cms.home-page.feature-blocks.edit', $row->id);
                         return '
-                            <div class="d-flex justify-content-center align-items-center">
-                                <a href="' . $editUrl . '" class="btn btn-sm btn-info me-1" title="Edit">
-                                    <i class="bi bi-pencil-square"></i> Edit
+                            <div class="d-flex justify-content-center hstack gap-3 fs-base">
+                                <a href="' . $editUrl . '" class="link-primary text-decoration-none" title="Edit">
+                                    <i class="ri-pencil-line" style="font-size: 24px;"></i>
                                 </a>
-                                
+
                                 <a href="javascript:void(0);" onclick="showDeleteConfirm(' . $row->id . ')"
-                                   class="btn btn-sm btn-danger" title="Delete">
-                                    <i class="bi bi-trash3"></i> Delete
+                                    class="link-danger text-decoration-none" title="Delete">
+                                    <i class="ri-delete-bin-5-line" style="font-size: 24px;"></i>
                                 </a>
                             </div>
                         ';

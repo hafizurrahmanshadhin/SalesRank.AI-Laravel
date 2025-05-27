@@ -113,7 +113,7 @@
 							"formdata": [
 								{
 									"key": "role",
-									"value": "hiring_company",
+									"value": "sales_professional",
 									"description": "Accept only 'sales_professional' or 'hiring_company'",
 									"type": "text"
 								},
@@ -255,13 +255,13 @@
 								{
 									"key": "email",
 									"value": "sales@professional.com",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "email",
 									"value": "hiring@company.com",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								},
 								{
 									"key": "password",
@@ -645,6 +645,320 @@
 			]
 		},
 		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Settings",
+					"item": [
+						{
+							"name": "Get_User_Details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/user/profile",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "/C:/Users/HP/Pictures/Screenshots/Screenshot (31).png"
+										},
+										{
+											"key": "first_name",
+											"value": "Updated First",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "Name",
+											"type": "text"
+										},
+										{
+											"key": "working_role",
+											"value": "Product Designer",
+											"type": "text"
+										},
+										{
+											"key": "country",
+											"value": "United States",
+											"type": "text"
+										},
+										{
+											"key": "bio",
+											"value": "Demo Bio...........",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/user/update-profile",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"update-profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload_Portfolio_Project",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "project_file",
+											"type": "file",
+											"src": "/C:/Users/HP/Documents/api_sample.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/user/portfolio/project/upload",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"portfolio",
+										"project",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete_Portfolio_Project Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/user/portfolio/project/delete/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"portfolio",
+										"project",
+										"delete",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update_Password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current_password\": \"12345678\",\r\n    \"new_password\": \"123456789\",\r\n    \"new_password_confirmation\": \"123456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/user/update-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user",
+										"update-password"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "Message",
 			"item": [
 				{
@@ -801,200 +1115,194 @@
 			]
 		},
 		{
-			"name": "T&C_And_Privacy_Policy",
+			"name": "CMS",
 			"item": [
 				{
-					"name": "Index",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/contents?type=termsAndConditions",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"contents"
-							],
-							"query": [
+					"name": "Newsletters",
+					"item": [
+						{
+							"name": "Store_Newsletter",
+							"event": [
 								{
-									"key": "type",
-									"value": "termsAndConditions",
-									"description": "Accept only 'termsAndConditions' or 'privacyPolicy'"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const names = [\"John\", \"Jane\", \"Michael\", \"Emily\", \"David\", \"Sarah\", \"Robert\", \"Jessica\", \"Daniel\", \"Laura\"];\r",
+											"const name = names[Math.floor(Math.random() * names.length)];\r",
+											"\r",
+											"const domains = [\"example.com\", \"test.com\", \"email.com\", \"demo.com\", \"gmail.com\", \"yahoo.com\", \"hotmail.com\", \"outlook.com\"];\r",
+											"const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
+											"const randomNum = Math.floor(Math.random() * 10000);\r",
+											"const email = `${name.toLowerCase()}${randomNum}@${randomDomain}`;\r",
+											"\r",
+											"const sampleTexts = [\r",
+											"    \"This random text message has been extended to surpass the limit of one hundred characters, ensuring it meets the requirement for newsletter submission forms.\",\r",
+											"    \"Just testing the newsletter submission with a much longer text that definitely goes beyond one hundred characters so it can pass any length validation rules.\",\r",
+											"    \"Hello! I'd like to subscribe, but also ensuring this particular text block contains more than one hundred characters, fulfilling the necessary constraints.\",\r",
+											"    \"Fourth extended random text. This example elaborates more thoroughly, surpassing one hundred characters, and demonstrating correct data length requirements.\",\r",
+											"    \"Fifth randomly chosen text to confirm that we exceed the set character limit for newsletter content, ensuring proper validation and illustrating realistic sample data.\",\r",
+											"    \"Sixth message carefully crafted to exceed the necessary threshold of one hundred characters, providing consistency in sample content for testing.\",\r",
+											"    \"Seventh piece of text here, which is deliberately verbose in order to meet the mandatory length requirement, going well beyond one hundred characters.\",\r",
+											"    \"An eighth extra-length text snippet that intentionally continues for additional words, guaranteeing that we satisfy the established limit of over one hundred characters.\",\r",
+											"    \"Ninth item in our array, also describing a scenario with sufficient wording to validate that we surpass the specified length threshold in a sample newsletter post.\",\r",
+											"    \"Tenth and final chunk of text that thoroughly continues until it is well over one hundred characters long, fulfilling the constraints set forth in our testing environment.\"\r",
+											"];\r",
+											"\r",
+											"// Randomly pick one of the 10 text entries\r",
+											"const text = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];\r",
+											"\r",
+											"// Set Postman globals\r",
+											"pm.globals.set(\"name\", name);\r",
+											"pm.globals.set(\"email\", email);\r",
+											"pm.globals.set(\"text\", text);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
-							]
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "{{name}}",
+											"description": "name is required",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "{{email}}",
+											"description": "email is required",
+											"type": "text"
+										},
+										{
+											"key": "text",
+											"value": "{{text}}",
+											"description": "text is nullable",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/newsletters/store",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"newsletters",
+										"store"
+									]
+								}
+							},
+							"response": []
 						}
+					],
+					"auth": {
+						"type": "noauth"
 					},
-					"response": []
-				}
-			],
-			"auth": {
-				"type": "noauth"
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Newsletters",
-			"item": [
-				{
-					"name": "Store_Newsletter",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [
-									"const names = [\"John\", \"Jane\", \"Michael\", \"Emily\", \"David\", \"Sarah\", \"Robert\", \"Jessica\", \"Daniel\", \"Laura\"];\r",
-									"const name = names[Math.floor(Math.random() * names.length)];\r",
-									"\r",
-									"const domains = [\"example.com\", \"test.com\", \"email.com\", \"demo.com\", \"gmail.com\", \"yahoo.com\", \"hotmail.com\", \"outlook.com\"];\r",
-									"const randomDomain = domains[Math.floor(Math.random() * domains.length)];\r",
-									"const randomNum = Math.floor(Math.random() * 10000);\r",
-									"const email = `${name.toLowerCase()}${randomNum}@${randomDomain}`;\r",
-									"\r",
-									"const sampleTexts = [\r",
-									"    \"This random text message has been extended to surpass the limit of one hundred characters, ensuring it meets the requirement for newsletter submission forms.\",\r",
-									"    \"Just testing the newsletter submission with a much longer text that definitely goes beyond one hundred characters so it can pass any length validation rules.\",\r",
-									"    \"Hello! I'd like to subscribe, but also ensuring this particular text block contains more than one hundred characters, fulfilling the necessary constraints.\",\r",
-									"    \"Fourth extended random text. This example elaborates more thoroughly, surpassing one hundred characters, and demonstrating correct data length requirements.\",\r",
-									"    \"Fifth randomly chosen text to confirm that we exceed the set character limit for newsletter content, ensuring proper validation and illustrating realistic sample data.\",\r",
-									"    \"Sixth message carefully crafted to exceed the necessary threshold of one hundred characters, providing consistency in sample content for testing.\",\r",
-									"    \"Seventh piece of text here, which is deliberately verbose in order to meet the mandatory length requirement, going well beyond one hundred characters.\",\r",
-									"    \"An eighth extra-length text snippet that intentionally continues for additional words, guaranteeing that we satisfy the established limit of over one hundred characters.\",\r",
-									"    \"Ninth item in our array, also describing a scenario with sufficient wording to validate that we surpass the specified length threshold in a sample newsletter post.\",\r",
-									"    \"Tenth and final chunk of text that thoroughly continues until it is well over one hundred characters long, fulfilling the constraints set forth in our testing environment.\"\r",
-									"];\r",
-									"\r",
-									"// Randomly pick one of the 10 text entries\r",
-									"const text = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];\r",
-									"\r",
-									"// Set Postman globals\r",
-									"pm.globals.set(\"name\", name);\r",
-									"pm.globals.set(\"email\", email);\r",
-									"pm.globals.set(\"text\", text);"
-								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
 							}
 						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "{{name}}",
-									"description": "name is required",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "{{email}}",
-									"description": "email is required",
-									"type": "text"
-								},
-								{
-									"key": "text",
-									"value": "{{text}}",
-									"description": "text is nullable",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/newsletters/store",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"newsletters",
-								"store"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"auth": {
-				"type": "noauth"
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							""
-						]
-					}
+					]
 				},
 				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "CMS",
-			"item": [
+					"name": "Header_and_Footer",
+					"item": [
+						{
+							"name": "index",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/cms/header-footer",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"cms",
+										"header-footer"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
 				{
 					"name": "Home_Page",
 					"item": [
@@ -1068,68 +1376,6 @@
 										"home",
 										"faq",
 										"list"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"auth": {
-						"type": "noauth"
-					},
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"packages": {},
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"packages": {},
-								"exec": [
-									""
-								]
-							}
-						}
-					]
-				},
-				{
-					"name": "Header_and_Footer",
-					"item": [
-						{
-							"name": "index",
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{base_url}}/cms/header-footer",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"cms",
-										"header-footer"
 									]
 								}
 							},
@@ -1455,6 +1701,182 @@
 							}
 						}
 					]
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "T&C_And_Privacy_Policy",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/contents?type=termsAndConditions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"contents"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "termsAndConditions",
+									"description": "Accept only 'termsAndConditions' or 'privacyPolicy'"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "AI",
+			"item": [
+				{
+					"name": "rank",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/consultants/1/rank",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"consultants",
+								"1",
+								"rank"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "consultant_list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/consultants",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"consultants"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
