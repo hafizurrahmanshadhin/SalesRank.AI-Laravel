@@ -20,6 +20,6 @@ Route::controller(UserController::class)->middleware(['auth.jwt', 'throttle:10,1
     Route::patch('/update-password', 'updatePassword');
 });
 
-Route::middleware('auth.jwt')->group(function () {
-    Route::get('/consultants', [ConsultantController::class, 'index']);
+Route::controller(ConsultantController::class)->middleware('auth.jwt')->prefix('company/dashboard')->group(function () {
+    Route::get('/candidates', 'index');
 });

@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder {
             CourseSeeder::class,
             SalesRankAISeeder::class,
             CollaborationSeeder::class,
-            // ConsultantSeeder::class,
+            ConsultantSeeder::class,
         ]);
     }
 }
