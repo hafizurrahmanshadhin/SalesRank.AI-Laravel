@@ -1086,6 +1086,52 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Chat_Bot",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "X-AI-Secret",
+								"value": "&9S+xQ#GXEn$4w@",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"Hello ChatGPT, tell me about Bangladesh in bangla\",\r\n    \"conversation_history\": [\r\n        //\r\n    ]\r\n}\r\n// {\r\n//     \"message\": \"What's my favorite color?\",\r\n//     \"conversation_history\": [\r\n//         {\r\n//             \"role\": \"user\",\r\n//             \"content\": \"Hi, I'm testing the API. My favorite color is white.\"\r\n//         },\r\n//         {\r\n//             \"role\": \"assistant\",\r\n//             \"content\": \"[Previous AI response]\"\r\n//         }\r\n//     ]\r\n// }\r\n// {\r\n//     \"message\": \"No you just tell me in details about my favourite color, what does it means? and everything\",\r\n//     \"conversation_history\": [\r\n//         {\r\n//             \"role\": \"user\",\r\n//             \"content\": \"Hi, I'm testing the API. My favorite color is white.\"\r\n//         },\r\n//         {\r\n//             \"role\": \"assistant\",\r\n//             \"content\": \"[Previous AI response]\"\r\n//         },\r\n//         {\r\n//             \"role\": \"user\",\r\n//             \"content\": \"What's my favorite color?\"\r\n//         },\r\n//         {\r\n//             \"role\": \"assistant\",\r\n//             \"content\": \"Your favorite color is white.\",\r\n//             \"refusal\": null,\r\n//             \"annotations\": []\r\n//         },\r\n//         {\r\n//             \"role\": \"user\",\r\n//             \"content\": \"Tell me about my favorite color in bangla?\"\r\n//         },\r\n//         {\r\n//             \"role\": \"assistant\",\r\n//             \"content\": \"আপনার প্রিয় রং সাদা।\",\r\n//             \"refusal\": null,\r\n//             \"annotations\": []\r\n//         }\r\n//     ]\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/chat/bot",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"chat",
+								"bot"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
@@ -1801,47 +1847,7 @@
 			"name": "AI",
 			"item": [
 				{
-					"name": "rank",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{base_url}}/consultants/1/rank",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"consultants",
-								"1",
-								"rank"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "consultant_list",
+					"name": "candidate_list",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1867,12 +1873,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/consultants",
+							"raw": "{{base_url}}/company/dashboard/candidates",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"consultants"
+								"company",
+								"dashboard",
+								"candidates"
 							]
 						}
 					},

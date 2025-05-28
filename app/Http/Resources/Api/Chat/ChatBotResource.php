@@ -12,12 +12,26 @@ class ChatBotResource extends JsonResource {
      * @param  Request  $request
      * @return array
      */
+    // public function toArray($request): array {
+    //     return [
+    //         'response'             => $this->resource['response'] ?? null,
+    //         'conversation_history' => $this->resource['conversation_history'] ?? [],
+    //     ];
+    // }
+
     public function toArray(Request $request): array {
+        $response = $this->resource['response'] ?? [];
+
         return [
-            'success'              => $this['success'],
-            'message'              => $this['message'],
-            'response'             => $this['response'], // raw OpenAI payload
-            'conversation_history' => $this['conversation_history'], // full history
+            'content'              => $response['choices'][0]['message']['content'] ?? '',
+            'conversation_history' => $this->resource['conversation_history'] ?? [],
+            // 'usage'                => [
+            //     'prompt_tokens'     => $response['usage']['prompt_tokens'] ?? 0,
+            //     'completion_tokens' => $response['usage']['completion_tokens'] ?? 0,
+            //     'total_tokens'      => $response['usage']['total_tokens'] ?? 0,
+            // ],
+            // 'model'                => $response['model'] ?? null,
+            // 'created_at'           => isset($response['created']) ? date('Y-m-d H:i:s', $response['created']) : null,
         ];
     }
 }

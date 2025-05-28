@@ -27,4 +27,9 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect'      => env('GOOGLE_REDIRECT_URI'),
     ],
+
+    'chat_gpt' => [
+        'key'          => env('OPENAI_API_KEY'),
+        'secret_token' => env('CUSTOM_AI_SECRET_TOKEN'),
+    ],
 ];
