@@ -22,4 +22,6 @@ Route::controller(UserController::class)->middleware(['auth.jwt', 'throttle:10,1
 
 Route::controller(ConsultantController::class)->middleware('auth.jwt')->prefix('company/dashboard')->group(function () {
     Route::get('/candidates', 'index');
+    Route::get('/candidates/search', 'searchByName');
+    Route::get('/candidate/{id}', 'show');
 });
