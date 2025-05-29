@@ -41,7 +41,7 @@ class MessageController extends Controller {
                         ->where('receiver_id', $authUserId);
                 })
                 ->with([
-                    'sender:id,name,avatar',
+                    'sender:id,first_name,last_name,avatar',
                     //! 'receiver:id,name,avatar',
                 ])
                 ->orderByDesc('id')
@@ -76,7 +76,7 @@ class MessageController extends Controller {
             ]);
 
             //* Load the sender's information
-            $message->load('sender:id,name,avatar');
+            $message->load('sender:id,first_name,last_name,avatar');
 
             broadcast(new MessageSent($message))->toOthers();
 

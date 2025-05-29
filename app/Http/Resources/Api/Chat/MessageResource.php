@@ -19,9 +19,10 @@ class MessageResource extends JsonResource {
             'receiver_id' => $this->receiver_id,
             'text'        => $this->text,
             'sender'      => [
-                'id'     => $this->sender->id,
-                'name'   => $this->sender->name,
-                'avatar' => $this->sender->avatar,
+                'id'         => $this->sender->id,
+                'first_name' => $this->sender->first_name,
+                'last_name'  => $this->sender->last_name,
+                'avatar'     => $this->sender->avatar,
             ],
             'created_at'  => $this->created_at,
         ];

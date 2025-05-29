@@ -688,14 +688,37 @@
 @push('scripts')
     @vite(['resources/js/app.js'])
     <script>
-        $(document).ready(function() {
-            Echo.private('chat.' + 1).listen('MessageSent', (e) => {
-                console.log(e);
-            })
-            Echo.private('chat.' + 2).listen('MessageSent', (e) => {
-                console.log(e);
-            })
-        });
+        // $(document).ready(function() {
+        //     Echo.private('chat.' + 1).listen('MessageSent', (e) => {
+        //         console.log(e);
+        //     })
+        //     Echo.private('chat.' + 3).listen('MessageSent', (e) => {
+        //         console.log(e);
+        //     })
+        // });
+
+        $(document).ready(function(){
+            Echo.private('chat.' + {{ auth()->id() }})
+                .listen('MessageSent', (e) => {
+                    console.log(e);
+                    // You can add your custom logic here to handle the event
+                });
+            Echo.private('chat.' + {{ auth()->id() }})
+                .listen('UserOnline', (e) => {
+                    console.log('User is online:', e.user);
+                    // Update UI or perform actions based on user online status
+                });
+            Echo.private('chat.' + {{ auth()->id() }})
+                .listen('UserOffline', (e) => {
+                    console.log('User is offline:', e.user);
+                    // Update UI or perform actions based on user offline status
+                });
+            Echo.private('chat.' + {{ auth()->id() }})
+                .listen('UserTyping', (e) => {
+                    console.log('User is typing:', e.user);
+                    // Update UI to show typing indicator
+                });
+        })
     </script>
 
     <!-- Chart.js -->

@@ -45,6 +45,12 @@ class ConsultantController extends Controller {
                 $query->where('location', 'like', '%' . $request->location . '%');
             }
 
+            // Sort by AI score (asc or desc)
+            if ($request->filled('ai_score')) {
+                $direction = strtolower($request->ai_score) === 'asc' ? 'asc' : 'desc';
+                $query->orderBy('ai_score', $direction);
+            }
+
             $data = $query->latest()->get();
 
             return Helper::jsonResponse(true, 'Data fetched successfully', 200, ConsultantResource::collection($data));
@@ -87,6 +93,13 @@ class ConsultantController extends Controller {
         }
     }
 
+    /**
+     * Show the details of a specific consultant.
+     *
+     * @param int $id
+     * @return JsonResponse
+     * @throws Exception
+     */
     public function show($id): JsonResponse {
         try {
             $consultant = Consultant::with('user.profile', 'user.portfolios')->findOrFail($id);
