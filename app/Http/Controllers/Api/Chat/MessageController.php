@@ -113,7 +113,7 @@ class MessageController extends Controller {
                 ->joinSub($subQuery, 'latest_messages', function ($join) {
                     $join->on('messages.id', '=', 'latest_messages.last_message_id');
                 })
-                ->with('sender:id,name,avatar')
+                ->with('sender:id,first_name,last_name,avatar')
                 ->orderByDesc('messages.id')
                 ->get();
 
