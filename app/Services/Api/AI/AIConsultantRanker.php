@@ -17,15 +17,16 @@ class AIConsultantRanker {
                     ],
                     [
                         'role'    => 'user',
-                        'content' => "Name: {$consultant->full_name}
-Job Title: {$consultant->job_title}
-Experience: {$consultant->total_experience} years
-Tenure: {$consultant->tenure} years
-Performance Keywords: " . ($consultant->performance_keywords ? 'Yes' : 'No') . "
-Achievements: {$consultant->achievements}
-Revenue Closed: {$consultant->revenue_closed}
-Education: " . ($consultant->college_degree ? 'Yes' : 'No') . "
-",
+                        'content' => "
+                            Name: {$consultant->full_name}
+                            Job Title: {$consultant->job_title}
+                            Experience: {$consultant->total_experience} years
+                            Tenure: {$consultant->tenure} years
+                            Performance Keywords: " . ($consultant->performance_keywords ? 'Yes' : 'No') . "
+                            Achievements: {$consultant->achievements}
+                            Revenue Closed: {$consultant->revenue_closed}
+                            Education: " . ($consultant->college_degree ? 'Yes' : 'No') . "
+                        ",
                     ],
                 ],
             ]);
