@@ -6,6 +6,7 @@ use App\Models\Consultant;
 use App\Models\User;
 use App\Services\Api\AI\AIConsultantRanker;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -71,8 +72,15 @@ class RegisterService {
                     // ai_score + ranking_level left null until ranker runs
                 ]);
 
-                // fire off the AI scoring
-                app(AIConsultantRanker::class)->score($consultant);
+                // Wrap AI scoring in its own try/catch so that
+                // if it fails (missing "choices" etc.), registration still succeeds.
+                try {
+                    app(AIConsultantRanker::class)->score($consultant);
+                } catch (Exception $e) {
+                    // Log and move on—don’t abort registration just because AI scoring failed
+                    Log::warning('[AIConsultantRanker] scoring failed for consultant '
+                        . $consultant->id . ': ' . $e->getMessage());
+                }
             }
 
         } catch (Exception $e) {

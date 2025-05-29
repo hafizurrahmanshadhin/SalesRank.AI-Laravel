@@ -43,4 +43,56 @@ class AIConsultantRanker {
 
         return $consultant;
     }
+
+    // public function score(Consultant $consultant): void {
+    //     // 1) Build your prompt or payload however you need...
+    //     $payload = [
+    //         'model'    => 'gpt-3.5-turbo', // or 'gpt-4' if you have access
+    //         'messages' => [
+    //             [
+    //                 'role'    => 'system',
+    //                 'content' => 'You are an AI that ranks sales professionals...',
+    //             ],
+    //             [
+    //                 'role'    => 'user',
+    //                 'content' => "Evaluate {$consultant->full_name}...",
+    //             ],
+    //         ],
+    //     ];
+
+    //     // 2) Send to OpenAI (use your configured API key)
+    //     $response = Http::withToken(config('services.chat_gpt.key'))
+    //         ->timeout(10)
+    //         ->post('https://api.openai.com/v1/chat/completions', $payload);
+
+    //     $body = $response->json();
+
+    //     // 3) Defensive check: do we actually have a choices[0].message.content?
+    //     if (!isset($body['choices'][0]['message']['content'])) {
+    //         // Log the entire response so you can debug later
+    //         Log::error('[AIConsultantRanker] unexpected OpenAI response', [
+    //             'status'   => $response->status(),
+    //             'body_raw' => $response->body(),
+    //         ]);
+
+    //         throw new Exception('OpenAI did not return any choices.');
+    //     }
+
+    //     $aiReply = $body['choices'][0]['message']['content'];
+
+    //     // 4) Parse your AI reply to extract the score & ranking
+    //     //    (example assumes the model returns JSON with { "score": xx, "level": "Good" })
+    //     $parsed = json_decode($aiReply, true);
+    //     if (json_last_error() !== JSON_ERROR_NONE || !isset($parsed['score'], $parsed['level'])) {
+    //         Log::error('[AIConsultantRanker] malformed AI reply', [
+    //             'reply' => $aiReply,
+    //         ]);
+    //         throw new Exception('Could not parse AI response.');
+    //     }
+
+    //     // 5) Save back onto the consultant
+    //     $consultant->ai_score      = $parsed['score'];
+    //     $consultant->ranking_level = $parsed['level'];
+    //     $consultant->save();
+    // }
 }
