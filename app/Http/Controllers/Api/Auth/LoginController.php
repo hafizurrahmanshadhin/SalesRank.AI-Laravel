@@ -9,7 +9,6 @@ use App\Http\Resources\Api\Auth\LoginResource;
 use App\Services\Api\Auth\LoginService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller {
     private LoginService $loginService;

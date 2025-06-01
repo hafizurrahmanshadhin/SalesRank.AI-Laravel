@@ -12,7 +12,6 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller {
     /**
@@ -49,7 +48,6 @@ class MessageController extends Controller {
 
             return Helper::jsonResponse(true, 'Messages retrieved successfully', 200, MessageResource::collection($messages));
         } catch (Exception $e) {
-            Log::error('Error retrieving messages: ' . $e->getMessage(), ['exception' => $e]);
             return Helper::jsonResponse(false, 'An error occurred while retrieving messages: ' . $e->getMessage(), 500);
         }
     }
@@ -82,7 +80,6 @@ class MessageController extends Controller {
 
             return Helper::jsonResponse(true, 'Message sent successfully', 200, new MessageResource($message));
         } catch (Exception $e) {
-            Log::error('Error sending message: ' . $e->getMessage(), ['exception' => $e]);
             return Helper::jsonResponse(false, 'An error occurred while sending the message: ' . $e->getMessage(), 500);
         }
     }
@@ -119,7 +116,6 @@ class MessageController extends Controller {
 
             return Helper::jsonResponse(true, 'Users with last message retrieved successfully', 200, MessageResource::collection($messages));
         } catch (Exception $e) {
-            Log::error('Error retrieving users with last message: ' . $e->getMessage(), ['exception' => $e]);
             return Helper::jsonResponse(false, 'An error occurred while retrieving users with last message: ' . $e->getMessage(), 500);
         }
     }

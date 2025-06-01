@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Helper;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,6 @@ class AdminMiddleware {
             return $next($request);
         }
 
-        return redirect()->route('user-dashboard');
+        return Helper::jsonResponse(false, 'Unauthorized Access.', 403);
     }
 }

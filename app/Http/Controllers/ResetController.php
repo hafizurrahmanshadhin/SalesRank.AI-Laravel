@@ -16,13 +16,11 @@ class ResetController extends Controller {
      */
     public function Reset(): JsonResponse {
         try {
-            // Run destructive migrations in production:
             Artisan::call('migrate:fresh', [
                 '--seed'  => true,
                 '--force' => true,
             ]);
 
-            // Clear all cached files (config, route, view, etc.)
             Artisan::call('optimize:clear');
 
             return Helper::jsonResponse(true, 'System Reset Successfully', 200);

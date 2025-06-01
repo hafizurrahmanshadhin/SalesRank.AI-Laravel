@@ -32,7 +32,6 @@ class RegisterController extends Controller {
             $data   = $request->validated();
             $result = $this->registerService->register($data);
 
-            // eager-load profile on the user so the resource can include it
             $result['user']->load('profile');
 
             return response()->json([
