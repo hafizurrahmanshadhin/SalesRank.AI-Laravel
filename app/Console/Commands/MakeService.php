@@ -33,7 +33,7 @@ class MakeService extends Command {
     public function handle() {
         $name         = $this->argument('name');
         $namespace    = str_replace('/', '\\', dirname($name));
-        $className    = basename($name); // Get the class name (e.g., 'SocialLoginService')
+        $className    = basename($name);
         $serviceClass = $this->generateServiceClass($name);
 
         // Define the full path to the services directory
