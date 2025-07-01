@@ -32,7 +32,7 @@ class MakeService extends Command {
      */
     public function handle() {
         $name         = $this->argument('name');
-        $namespace    = str_replace('/', '\\', dirname($name)); // Get the namespace without the class name
+        $namespace    = str_replace('/', '\\', dirname($name));
         $className    = basename($name); // Get the class name (e.g., 'SocialLoginService')
         $serviceClass = $this->generateServiceClass($name);
 
